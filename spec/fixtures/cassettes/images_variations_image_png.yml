@@ -1,0 +1,87 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/images/variations
+    body:
+      encoding: UTF-8
+      base64_string: |
+        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1PZHhHUEJORUZZZVA2WWpNDQpD
+        b250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImltYWdlIjsg
+        ZmlsZW5hbWU9ImltYWdlLnBuZyINCkNvbnRlbnQtVHlwZTogaW1hZ2UvcG5n
+        DQoNColQTkcNChoKAAAADUlIRFIAAABEAAAARAgGAAAAOBOTsgAAAAlwSFlz
+        AAALEwAACxMBAJqcGAAAAAFzUkdCAK7OHOkAAAAEZ0FNQQAAsY8L/GEFAAAA
+        jklEQVR4Ae3QQQ3AIAAAMTZxmEQs/Eg4Da2EfnPtPbj+wUNICAkhISSEhJAQ
+        EkJCSAgJISEkhISQEBJCQkgICSEhJISEkBASQkJICAkhISSEhJAQEkJCSAgJ
+        ISEkhISQEBJCQkgICSEhJISEkBASQkJICAkhISSEhJAQEkJCSAgJISEkhISQ
+        EBJCQkgIiQPDaANnb9mKTgAAAABJRU5ErkJggg0KLS0tLS0tLS0tLS0tLS0t
+        LS0tLS0tLS0tLS1PZHhHUEJORUZZZVA2WWpNDQpDb250ZW50LURpc3Bvc2l0
+        aW9uOiBmb3JtLWRhdGE7IG5hbWU9Im4iDQoNCjINCi0tLS0tLS0tLS0tLS0t
+        LS0tLS0tLS0tLS0tT2R4R1BCTkVGWWVQNllqTQ0KQ29udGVudC1EaXNwb3Np
+        dGlvbjogZm9ybS1kYXRhOyBuYW1lPSJzaXplIg0KDQoyNTZ4MjU2DQotLS0t
+        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLU9keEdQQk5FRlllUDZZak0tLQ0K
+    headers:
+      Content-Type:
+      - multipart/form-data; boundary=------------------------OdxGPBNEFYeP6YjM
+      Authorization:
+      - Bearer <OPENAI_ACCESS_TOKEN>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 06 Jan 2023 19:51:33 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1052'
+      Connection:
+      - keep-alive
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - 88522cf62fe847d8accbd090edf43928
+      Openai-Processing-Ms:
+      - '13564'
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      base64_string: |
+        ewogICJjcmVhdGVkIjogMTY3MzAzNDY5MywKICAiZGF0YSI6IFsKICAgIHsK
+        ICAgICAgInVybCI6ICJodHRwczovL29haWRhbGxlYXBpcHJvZHNjdXMuYmxv
+        Yi5jb3JlLndpbmRvd3MubmV0L3ByaXZhdGUvb3JnLWNCTjB5OWdMMnY2alVj
+        aVNEczIzU25Xcy91c2VyLXY3UmlPWTZDSmtndGF0YlowMHluWEluWS9pbWct
+        S2gyR056cUtKdjRzRndHNkQ3VDVNbUxYLnBuZz9zdD0yMDIzLTAxLTA2VDE4
+        JTNBNTElM0EzM1omc2U9MjAyMy0wMS0wNlQyMCUzQTUxJTNBMzNaJnNwPXIm
+        c3Y9MjAyMS0wOC0wNiZzcj1iJnJzY2Q9aW5saW5lJnJzY3Q9aW1hZ2UvcG5n
+        JnNrb2lkPTZhYWFkZWRlLTRmYjMtNDY5OC1hOGY2LTY4NGQ3Nzg2YjA2NyZz
+        a3RpZD1hNDhjY2E1Ni1lNmRhLTQ4NGUtYTgxNC05Yzg0OTY1MmJjYjMmc2t0
+        PTIwMjMtMDEtMDZUMTclM0EzMSUzQTA3WiZza2U9MjAyMy0wMS0wN1QxNyUz
+        QTMxJTNBMDdaJnNrcz1iJnNrdj0yMDIxLTA4LTA2JnNpZz1qdVhwMlhwbzRC
+        MFFiTk9keDZFOW1uWGY2MnNGcGNSeld2MHZjNEt1azRZJTNEIgogICAgfSwK
+        ICAgIHsKICAgICAgInVybCI6ICJodHRwczovL29haWRhbGxlYXBpcHJvZHNj
+        dXMuYmxvYi5jb3JlLndpbmRvd3MubmV0L3ByaXZhdGUvb3JnLWNCTjB5OWdM
+        MnY2alVjaVNEczIzU25Xcy91c2VyLXY3UmlPWTZDSmtndGF0YlowMHluWElu
+        WS9pbWctN0NlM1ZPUDN0MjVCVXdCaUJzanFLSllrLnBuZz9zdD0yMDIzLTAx
+        LTA2VDE4JTNBNTElM0EzM1omc2U9MjAyMy0wMS0wNlQyMCUzQTUxJTNBMzNa
+        JnNwPXImc3Y9MjAyMS0wOC0wNiZzcj1iJnJzY2Q9aW5saW5lJnJzY3Q9aW1h
+        Z2UvcG5nJnNrb2lkPTZhYWFkZWRlLTRmYjMtNDY5OC1hOGY2LTY4NGQ3Nzg2
+        YjA2NyZza3RpZD1hNDhjY2E1Ni1lNmRhLTQ4NGUtYTgxNC05Yzg0OTY1MmJj
+        YjMmc2t0PTIwMjMtMDEtMDZUMTclM0EzMSUzQTA3WiZza2U9MjAyMy0wMS0w
+        N1QxNyUzQTMxJTNBMDdaJnNrcz1iJnNrdj0yMDIxLTA4LTA2JnNpZz1IZU5v
+        aCUyQktaL3UlMkJOJTJCbUFpUlo5Q2dsdnRXaWlxVEJvbWpwMUtBZkoydlg4
+        JTNEIgogICAgfQogIF0KfQo=
+  recorded_at: Fri, 06 Jan 2023 19:51:33 GMT
+recorded_with: VCR 6.1.0

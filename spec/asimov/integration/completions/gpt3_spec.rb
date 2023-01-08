@@ -1,0 +1,60 @@
+require_relative "../../../spec_helper"
+
+RSpec.describe "Completions API using GPT3 models", type: :request do
+  context "with a prompt and max_tokens", :vcr do
+    let(:prompt) { "Once upon a time" }
+    let(:max_tokens) { 5 }
+
+    let(:response) do
+      Asimov::Client.new.completions.create(
+        parameters: {
+          model: model,
+          prompt: prompt,
+          max_tokens: max_tokens
+        }
+      )
+    end
+    let(:text) { JSON.parse(response.body)["choices"][0]["text"] }
+    let(:cassette) { "#{model} completions #{prompt}".downcase }
+
+    context "with model: text-ada-001" do
+      let(:model) { "text-ada-001" }
+
+      it "succeeds" do
+        VCR.use_cassette(cassette) do
+          expect(text.split.empty?).to be(false)
+        end
+      end
+    end
+
+    context "with model: text-babbage-001" do
+      let(:model) { "text-babbage-001" }
+
+      it "succeeds" do
+        VCR.use_cassette(cassette) do
+          expect(text.split.empty?).to be(false)
+        end
+      end
+    end
+
+    context "with model: text-curie-001" do
+      let(:model) { "text-curie-001" }
+
+      it "succeeds" do
+        VCR.use_cassette(cassette) do
+          expect(text.split.empty?).to be(false)
+        end
+      end
+    end
+
+    context "with model: text-davinci-001" do
+      let(:model) { "text-davinci-001" }
+
+      it "succeeds" do
+        VCR.use_cassette(cassette) do
+          expect(text.split.empty?).to be(false)
+        end
+      end
+    end
+  end
+end
