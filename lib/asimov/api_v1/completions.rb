@@ -4,7 +4,7 @@ module Asimov
       def create(parameters:)
         raise MissingRequiredParameterError.new(:model) unless parameters[:model]
 
-        json_post(path: "/v1/completions", parameters: parameters)
+        json_post(path: "/completions", parameters: parameters)
       end
     end
   end

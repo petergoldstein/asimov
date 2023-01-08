@@ -3,12 +3,15 @@ require_relative "../../spec_helper"
 RSpec.describe Asimov::ApiV1::Images do
   subject(:images) { described_class.new(client: client) }
 
-  let(:client) { instance_double(Asimov::Client) }
+  let(:access_token) { SecureRandom.hex(4) }
+  let(:client) { Asimov::Client.new(access_token: access_token) }
   let(:ret_val) { SecureRandom.hex(4) }
   let(:parameters) { { SecureRandom.hex(4).to_sym => SecureRandom.hex(4) } }
 
+  it_behaves_like "sends requests to the v1 API"
+
   describe "#generate" do
-    let(:path_string) { "/v1/images/generations" }
+    let(:path_string) { "/images/generations" }
 
     context "when the required prompt parameter is present" do
       let(:parameters) do
@@ -16,10 +19,10 @@ RSpec.describe Asimov::ApiV1::Images do
       end
 
       it "calls json_post on the client with the expected arguments" do
-        allow(client).to receive(:json_post).with(path: path_string,
+        allow(images).to receive(:json_post).with(path: path_string,
                                                   parameters: parameters).and_return(ret_val)
         expect(images.generate(parameters: parameters)).to eq(ret_val)
-        expect(client).to have_received(:json_post).with(path: path_string,
+        expect(images).to have_received(:json_post).with(path: path_string,
                                                          parameters: parameters)
       end
     end
@@ -34,7 +37,7 @@ RSpec.describe Asimov::ApiV1::Images do
   end
 
   describe "#edit" do
-    let(:path_string) { "/v1/images/edits" }
+    let(:path_string) { "/images/edits" }
 
     context "when the required prompt parameter is present" do
       let(:parameters) do
@@ -65,11 +68,11 @@ RSpec.describe Asimov::ApiV1::Images do
             end
 
             it "calls multipart_post on the client with the expected arguments" do
-              allow(client).to receive(:multipart_post).with(path: path_string,
+              allow(images).to receive(:multipart_post).with(path: path_string,
                                                              parameters: merged_parameters)
                                                        .and_return(ret_val)
               expect(images.edit(parameters: parameters)).to eq(ret_val)
-              expect(client).to have_received(:multipart_post).with(path: path_string,
+              expect(images).to have_received(:multipart_post).with(path: path_string,
                                                                     parameters: merged_parameters)
             end
           end
@@ -96,11 +99,11 @@ RSpec.describe Asimov::ApiV1::Images do
               end
 
               it "calls multipart_post on the client with the expected arguments" do
-                allow(client).to receive(:multipart_post).with(path: path_string,
+                allow(images).to receive(:multipart_post).with(path: path_string,
                                                                parameters: merged_parameters)
                                                          .and_return(ret_val)
                 expect(images.edit(parameters: parameters)).to eq(ret_val)
-                expect(client).to have_received(:multipart_post).with(path: path_string,
+                expect(images).to have_received(:multipart_post).with(path: path_string,
                                                                       parameters: merged_parameters)
               end
             end
@@ -159,7 +162,7 @@ RSpec.describe Asimov::ApiV1::Images do
   end
 
   describe "#variations" do
-    let(:path_string) { "/v1/images/variations" }
+    let(:path_string) { "/images/variations" }
 
     context "when the required image parameter is present" do
       let(:image_filename) { SecureRandom.hex(4) }
@@ -185,11 +188,11 @@ RSpec.describe Asimov::ApiV1::Images do
           end
 
           it "calls multipart_post on the client with the expected arguments" do
-            allow(client).to receive(:multipart_post).with(path: path_string,
+            allow(images).to receive(:multipart_post).with(path: path_string,
                                                            parameters: merged_parameters)
                                                      .and_return(ret_val)
             expect(images.variations(parameters: parameters)).to eq(ret_val)
-            expect(client).to have_received(:multipart_post).with(path: path_string,
+            expect(images).to have_received(:multipart_post).with(path: path_string,
                                                                   parameters: merged_parameters)
           end
         end
@@ -216,11 +219,11 @@ RSpec.describe Asimov::ApiV1::Images do
             end
 
             it "calls multipart_post on the client with the expected arguments" do
-              allow(client).to receive(:multipart_post).with(path: path_string,
+              allow(images).to receive(:multipart_post).with(path: path_string,
                                                              parameters: merged_parameters)
                                                        .and_return(ret_val)
               expect(images.variations(parameters: parameters)).to eq(ret_val)
-              expect(client).to have_received(:multipart_post).with(path: path_string,
+              expect(images).to have_received(:multipart_post).with(path: path_string,
                                                                     parameters: merged_parameters)
             end
           end

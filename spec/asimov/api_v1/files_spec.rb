@@ -3,17 +3,20 @@ require_relative "../../spec_helper"
 RSpec.describe Asimov::ApiV1::Files do
   subject(:files) { described_class.new(client: client) }
 
-  let(:client) { instance_double(Asimov::Client) }
+  let(:access_token) { SecureRandom.hex(4) }
+  let(:client) { Asimov::Client.new(access_token: access_token) }
   let(:ret_val) { SecureRandom.hex(4) }
   let(:parameters) { { SecureRandom.hex(4).to_sym => SecureRandom.hex(4) } }
 
+  it_behaves_like "sends requests to the v1 API"
+
   describe "#list" do
-    let(:path_string) { "/v1/files" }
+    let(:path_string) { "/files" }
 
     it "calls get on the client with the expected arguments" do
-      allow(client).to receive(:http_get).with(path: path_string).and_return(ret_val)
+      allow(files).to receive(:http_get).with(path: path_string).and_return(ret_val)
       expect(files.list).to eq(ret_val)
-      expect(client).to have_received(:http_get).with(path: path_string)
+      expect(files).to have_received(:http_get).with(path: path_string)
     end
   end
 
@@ -37,8 +40,8 @@ RSpec.describe Asimov::ApiV1::Files do
 
           before do
             allow(File).to receive(:open).with(filename).and_return(file_instance1, file_instance2)
-            allow(client).to receive(:multipart_post)
-              .with(path: "/v1/files",
+            allow(files).to receive(:multipart_post)
+              .with(path: "/files",
                     parameters: merged_parameters)
               .and_return(ret_val)
           end
@@ -55,8 +58,8 @@ RSpec.describe Asimov::ApiV1::Files do
               expect(val).to eq(ret_val)
               expect(Asimov::Utils::JsonlValidator).to have_received(:validate)
                 .with(file_instance1)
-              expect(client).to have_received(:multipart_post).with(path: "/v1/files",
-                                                                    parameters: merged_parameters)
+              expect(files).to have_received(:multipart_post).with(path: "/files",
+                                                                   parameters: merged_parameters)
             end
           end
 
@@ -73,7 +76,7 @@ RSpec.describe Asimov::ApiV1::Files do
               end.to raise_error(Asimov::JsonlFileCannotBeParsedError)
               expect(Asimov::Utils::JsonlValidator).to have_received(:validate)
                 .with(file_instance1)
-              expect(client).not_to have_received(:multipart_post).with(anything)
+              expect(files).not_to have_received(:multipart_post).with(anything)
             end
           end
         end
@@ -126,34 +129,34 @@ RSpec.describe Asimov::ApiV1::Files do
 
   describe "#retrieve" do
     let(:file_id) { SecureRandom.hex(4) }
-    let(:path_string) { "/v1/files/#{file_id}" }
+    let(:path_string) { "/files/#{file_id}" }
 
     it "calls get on the client with the expected arguments" do
-      allow(client).to receive(:http_get).with(path: path_string).and_return(ret_val)
+      allow(files).to receive(:http_get).with(path: path_string).and_return(ret_val)
       expect(files.retrieve(file_id: file_id)).to eq(ret_val)
-      expect(client).to have_received(:http_get).with(path: path_string)
+      expect(files).to have_received(:http_get).with(path: path_string)
     end
   end
 
   describe "#content" do
     let(:file_id) { SecureRandom.hex(4) }
-    let(:path_string) { "/v1/files/#{file_id}/content" }
+    let(:path_string) { "/files/#{file_id}/content" }
 
     it "calls get on the client with the expected arguments" do
-      allow(client).to receive(:http_get).with(path: path_string).and_return(ret_val)
+      allow(files).to receive(:http_get).with(path: path_string).and_return(ret_val)
       expect(files.content(file_id: file_id)).to eq(ret_val)
-      expect(client).to have_received(:http_get).with(path: path_string)
+      expect(files).to have_received(:http_get).with(path: path_string)
     end
   end
 
   describe "#delete" do
     let(:file_id) { SecureRandom.hex(4) }
-    let(:path_string) { "/v1/files/#{file_id}" }
+    let(:path_string) { "/files/#{file_id}" }
 
     it "calls get on the client with the expected arguments" do
-      allow(client).to receive(:http_delete).with(path: path_string).and_return(ret_val)
+      allow(files).to receive(:http_delete).with(path: path_string).and_return(ret_val)
       expect(files.delete(file_id: file_id)).to eq(ret_val)
-      expect(client).to have_received(:http_delete).with(path: path_string)
+      expect(files).to have_received(:http_delete).with(path: path_string)
     end
   end
 end

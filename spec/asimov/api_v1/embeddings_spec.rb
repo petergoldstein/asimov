@@ -3,9 +3,12 @@ require_relative "../../spec_helper"
 RSpec.describe Asimov::ApiV1::Embeddings do
   subject(:embeddings) { described_class.new(client: client) }
 
-  let(:client) { instance_double(Asimov::Client) }
+  let(:access_token) { SecureRandom.hex(4) }
+  let(:client) { Asimov::Client.new(access_token: access_token) }
   let(:ret_val) { SecureRandom.hex(4) }
   let(:parameters) { { SecureRandom.hex(4).to_sym => SecureRandom.hex(4) } }
+
+  it_behaves_like "sends requests to the v1 API"
 
   describe "#create" do
     context "when the required model and input parameters are present" do
@@ -16,11 +19,11 @@ RSpec.describe Asimov::ApiV1::Embeddings do
       end
 
       it "calls json_post on the client with the expected arguments" do
-        allow(client).to receive(:json_post).with(path: "/v1/embeddings",
-                                                  parameters: parameters).and_return(ret_val)
+        allow(embeddings).to receive(:json_post).with(path: "/embeddings",
+                                                      parameters: parameters).and_return(ret_val)
         expect(embeddings.create(parameters: parameters)).to eq(ret_val)
-        expect(client).to have_received(:json_post).with(path: "/v1/embeddings",
-                                                         parameters: parameters)
+        expect(embeddings).to have_received(:json_post).with(path: "/embeddings",
+                                                             parameters: parameters)
       end
     end
 

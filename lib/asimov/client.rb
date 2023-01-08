@@ -56,41 +56,5 @@ module Asimov
     def moderations
       @moderations ||= Asimov::ApiV1::Moderations.new(client: self)
     end
-
-    def http_delete(path:)
-      HTTParty.delete(
-        uri(path: path),
-        headers: headers
-      )
-    end
-
-    def http_get(path:)
-      HTTParty.get(
-        uri(path: path),
-        headers: headers
-      )
-    end
-
-    def json_post(path:, parameters:)
-      HTTParty.post(
-        uri(path: path),
-        headers: headers,
-        body: parameters&.to_json
-      )
-    end
-
-    def multipart_post(path:, parameters: nil)
-      HTTParty.post(
-        uri(path: path),
-        headers: headers("multipart/form-data"),
-        body: parameters
-      )
-    end
-
-    private
-
-    def uri(path:)
-      URI_BASE + path
-    end
   end
 end

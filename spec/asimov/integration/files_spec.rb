@@ -15,30 +15,26 @@ RSpec.describe "Files API", type: :request do
     it "runs through a basic upload, list, retrieve, and delete" do
       VCR.use_cassette("successful file upload and delete") do
         # Upload a file
-        response = client.files.upload(parameters: { file: file, purpose: purpose })
-        r = JSON.parse(response.body)
+        r = client.files.upload(parameters: { file: file, purpose: purpose })
         expect(r["filename"]).to eq(filename)
 
         # Capture the uploaded file.
         file_id = r["id"]
 
         # List files and check the uploaded file is included
-        response = client.files.list
-        r = JSON.parse(response.body)
+        r = client.files.list
         expect(r["data"].size).not_to eq(0)
         expect(r["data"].map { |e| e["filename"] }).to include(filename)
 
         # Retrieve the file that was uploaded
-        response = client.files.retrieve(file_id: file_id)
-        r = JSON.parse(response.body)
+        r = client.files.retrieve(file_id: file_id)
         expect(r["filename"]).to eq(filename)
 
         # Give the file time to process if running against the real API
         sleep 2 if ENV["RUN_LIVE"]
 
         # Delete the file that was uploaded
-        response = client.files.delete(file_id: file_id)
-        r = JSON.parse(response.body)
+        r = client.files.delete(file_id: file_id)
         expect(r["id"]).to eq(file_id)
         expect(r["deleted"]).to be(true)
       end

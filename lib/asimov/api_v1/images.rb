@@ -3,7 +3,7 @@ require_relative "../utils/file_manager"
 module Asimov
   module ApiV1
     class Images < Base
-      URI_PREFIX = "/v1/images".freeze
+      URI_PREFIX = "/images".freeze
 
       def generate(parameters:)
         raise MissingRequiredParameterError.new(:prompt) unless parameters[:prompt]

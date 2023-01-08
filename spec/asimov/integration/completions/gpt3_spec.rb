@@ -14,7 +14,7 @@ RSpec.describe "Completions API using GPT3 models", type: :request do
         }
       )
     end
-    let(:text) { JSON.parse(response.body)["choices"][0]["text"] }
+    let(:text) { response["choices"][0]["text"] }
     let(:cassette) { "#{model} completions #{prompt}".downcase }
 
     context "with model: text-ada-001" do

@@ -3,9 +3,12 @@ require_relative "../../spec_helper"
 RSpec.describe Asimov::ApiV1::Moderations do
   subject(:moderations) { described_class.new(client: client) }
 
-  let(:client) { instance_double(Asimov::Client) }
+  let(:access_token) { SecureRandom.hex(4) }
+  let(:client) { Asimov::Client.new(access_token: access_token) }
   let(:ret_val) { SecureRandom.hex(4) }
   let(:parameters) { { SecureRandom.hex(4).to_sym => SecureRandom.hex(4) } }
+
+  it_behaves_like "sends requests to the v1 API"
 
   describe "#create" do
     context "when the required input parameter is present" do
@@ -14,11 +17,11 @@ RSpec.describe Asimov::ApiV1::Moderations do
       end
 
       it "calls json_post on the client with the expected arguments" do
-        allow(client).to receive(:json_post).with(path: "/v1/moderations",
-                                                  parameters: parameters).and_return(ret_val)
+        allow(moderations).to receive(:json_post).with(path: "/moderations",
+                                                       parameters: parameters).and_return(ret_val)
         expect(moderations.create(parameters: parameters)).to eq(ret_val)
-        expect(client).to have_received(:json_post).with(path: "/v1/moderations",
-                                                         parameters: parameters)
+        expect(moderations).to have_received(:json_post).with(path: "/moderations",
+                                                              parameters: parameters)
       end
     end
 

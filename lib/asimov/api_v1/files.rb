@@ -4,7 +4,7 @@ require_relative "../utils/jsonl_validator"
 module Asimov
   module ApiV1
     class Files < Base
-      URI_PREFIX = "/v1/files".freeze
+      URI_PREFIX = "/files".freeze
 
       def list
         http_get(path: URI_PREFIX)
@@ -30,7 +30,7 @@ module Asimov
         http_delete(path: "#{URI_PREFIX}/#{file_id}")
       end
 
-      def content(file_id:)
+      def content(file_id:, _download_options: {})
         http_get(path: "#{URI_PREFIX}/#{file_id}/content")
       end
 

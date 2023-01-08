@@ -1,7 +1,7 @@
 module Asimov
   module ApiV1
     class Finetunes < Base
-      URI_PREFIX = "/v1/fine-tunes".freeze
+      URI_PREFIX = "/fine-tunes".freeze
 
       def list
         http_get(path: URI_PREFIX)

@@ -1,269 +1,26 @@
-# OpenAI
+# Asimov
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/petergoldstein/asimov/blob/main/LICENSE.txt)
-[![CircleCI Build Status](https://circleci.com/gh/petergoldstein/asimov.svg?style=shield)](https://circleci.com/gh/petergoldstein/asimov)
+[![Tests](https://github.com/petergoldstein/asimov/actions/workflows/ci.yml/badge.svg)](https://github.com/petergoldstein/asimov/actions/workflows/ci.yml)
 
-Use the [OpenAI API](https://openai.com/blog/openai-api/) with Ruby! 🤖❤️
+Asimov is a gem that enables the use of OpenAI's ML capabilities within SaaS applications.  With that in mind it includes:
 
-Generate text with GPT-3, create images with DALL·E, or write code with Codex...
+* The ability to use multiple OpenAI configurations (access tokens and organization ids) within a single application.
+* Support for configuring connections with timeouts and proxies to make applications robust against failure and to support complex network environments.
+* Methods for all non-streaming endpoints in the [OpenAI API](https://openai.com/blog/openai-api/).  (Streaming support is under consideration).
 
-## Installation
 
-### Bundler
+You can use this gem to write applications that generate text with GPT-3, create images with DALL·E, or write code with Codex.
 
-Add this line to your application's Gemfile:
+The name Asimov is a tribute to Isaac Asimov, a 20th century author whose work referenced AI extensively, most famously with his "Three Laws of Robotics". Asimov's stories explored the ethical and philosophical implications of using artificial intelligence and robots in society, and he is often credited with helping to popularize the concept of AI in science fiction. His work has had a lasting impact on the genre and has influenced many other writers and thinkers.
 
-```ruby
-    gem "asimov"
-```
 
-And then execute:
+## Documentation and Information
 
-$ bundle install
-
-### Gem install
-
-Or install with:
-
-$ gem install asimov
-
-and require with:
-
-```ruby
-    require "asimov"
-```
-
-## Usage
-
-- Get your API key from [https://beta.openai.com/account/api-keys](https://beta.openai.com/account/api-keys)
-- If you belong to multiple organizations, you can get your Organization ID from [https://beta.openai.com/account/org-settings](https://beta.openai.com/account/org-settings)
-
-### Quickstart
-
-### Configuration
-
-#### Per-client Configuration
-
-For a quick test you can pass your token directly to a new client:
-
-```ruby
-    client = Asimov::Client.new(access_token: "access_token_goes_here")
-```
-
-#### Application-wide Configuration
-
-For a more robust setup, you can configure the gem with your API keys, for example in an `openai.rb` initializer file. Never hardcode secrets into your codebase - instead use something like [dotenv](https://github.com/motdotla/dotenv) to pass the keys safely into your environments.
-
-```ruby
-    Asimov.configure do |config|
-        config.access_token = ENV.fetch('OPENAI_ACCESS_TOKEN')
-        config.organization_id = ENV.fetch('OPENAI_ORGANIZATION_ID') # Optional.
-    end
-```
-
-Then you can create a client like this:
-
-```ruby
-    client = Asimov::Client.new
-```
-
-### Models
-
-There are different models that can be used to generate text. For a full list and to retrieve information about a single models:
-
-```ruby
-    client.models.list
-    client.models.retrieve(id: "text-ada-001")
-```
-
-#### Examples
-
-- [GPT-3](https://beta.openai.com/docs/models/gpt-3)
-  - text-ada-001
-  - text-babbage-001
-  - text-curie-001
-  - text-davinci-001
-- [Codex (private beta)](https://beta.openai.com/docs/models/codex-series-private-beta)
-  - code-davinci-002
-  - code-cushman-001
-
-### Completions
-
-Hit the OpenAI API for a completion:
-
-```ruby
-    response = client.completions.create(
-        parameters: {
-            model: "text-davinci-001",
-            prompt: "Once upon a time",
-            max_tokens: 5
-        })
-    puts response["choices"].map { |c| c["text"] }
-    => [", there lived a great"]
-```
-
-### Edits
-
-Send a string and some instructions for what to do to the string:
-
-```ruby
-    response = client.edits.create(
-        parameters: {
-            model: "text-davinci-edit-001",
-            input: "What day of the wek is it?",
-            instruction: "Fix the spelling mistakes"
-        }
-    )
-    puts response.dig("choices", 0, "text")
-    => What day of the week is it?
-```
-
-### Embeddings
-
-You can use the embeddings endpoint to get a vector of numbers representing an input. You can then compare these vectors for different inputs to efficiently check how similar the inputs are.
-
-```ruby
-    client.embeddings.create(
-        parameters: {
-            model: "babbage-similarity",
-            input: "The food was delicious and the waiter..."
-        }
-    )
-```
-
-### Files
-
-Put your data in a `.jsonl` file like this:
-
-```json
-    {"text": "puppy A is happy", "metadata": "emotional state of puppy A"}
-    {"text": "puppy B is sad", "metadata": "emotional state of puppy B"}
-```
-
-and pass the path to `client.files.upload` to upload it to OpenAI, and then interact with it:
-
-```ruby
-    client.files.upload(parameters: { file: "path/to/puppy.jsonl", purpose: "search" })
-    client.files.list
-    client.files.retrieve(id: 123)
-    client.files.delete(id: 123)
-```
-
-### Fine-tunes
-
-Put your fine-tuning data in a `.jsonl` file like this:
-
-```json
-    {"prompt":"Overjoyed with my new phone! ->", "completion":" positive"}
-    {"prompt":"@lakers disappoint for a third straight night ->", "completion":" negative"}
-```
-
-and pass the path to `client.files.upload` to upload it to OpenAI and get its ID:
-
-```ruby
-    response = client.files.upload(parameters: { file: "path/to/sentiment.jsonl", purpose: "fine-tune" })
-    file_id = JSON.parse(response.body)["id"]
-```
-
-You can then use this file ID to create a fine-tune model:
-
-```ruby
-    response = client.finetunes.create(
-        parameters: {
-        training_file: file_id,
-        model: "text-ada-001"
-    })
-    fine_tune_id = JSON.parse(response.body)["id"]
-```
-
-That will give you the fine-tune ID. If you made a mistake you can cancel the fine-tune model before it is processed:
-
-```ruby
-    client.finetunes.cancel(id: fine_tune_id)
-```
-
-You may need to wait a short time for processing to complete. Once processed, you can use list or retrieve to get the name of the fine-tuned model:
-
-```ruby
-    client.finetunes.list
-    response = client.finetunes.retrieve(id: fine_tune_id)
-    fine_tuned_model = JSON.parse(response.body)["fine_tuned_model"]
-```
-
-This fine-tuned model name can then be used in completions:
-
-```ruby
-    response = client.completions.create(
-        parameters: {
-            model: fine_tuned_model,
-            prompt: "I love Mondays!"
-        }
-    )
-    JSON.parse(response.body)["choices"].map { |c| c["text"] }
-```
-
-### Image Generation
-
-Generate an image using DALL·E!
-
-```ruby
-    response = client.images.generate(parameters: { prompt: "A baby sea otter cooking pasta wearing a hat of some sort" })
-    puts response.dig("data", 0, "url")
-    => "https://oaidalleapiprodscus.blob.core.windows.net/private/org-Rf437IxKhh..."
-```
-
-![Ruby](https://i.ibb.co/6y4HJFx/img-d-Tx-Rf-RHj-SO5-Gho-Cbd8o-LJvw3.png)
-
-### Image Edit
-
-Fill in the transparent part of an image, or upload a mask with transparent sections to indicate the parts of an image that can be changed according to your prompt...
-
-```ruby
-    response = client.images.edit(parameters: { prompt: "A solid red Ruby on a blue background", image: "image.png", mask: "mask.png" })
-    puts response.dig("data", 0, "url")
-    => "https://oaidalleapiprodscus.blob.core.windows.net/private/org-Rf437IxKhh..."
-```
-
-![Ruby](https://i.ibb.co/sWVh3BX/dalle-ruby.png)
-
-### Image Variations
-
-Create n variations of an image.
-
-```ruby
-    response = client.images.variations(parameters: { image: "image.png", n: 2 })
-    puts response.dig("data", 0, "url")
-    => "https://oaidalleapiprodscus.blob.core.windows.net/private/org-Rf437IxKhh..."
-```
-
-![Ruby](https://i.ibb.co/TWJLP2y/img-miu-Wk-Nl0-QNy-Xtj-Lerc3c0l-NW.png)
-![Ruby](https://i.ibb.co/ScBhDGB/img-a9-Be-Rz-Au-Xwd-AV0-ERLUTSTGdi.png)
-
-### Moderations
-
-Pass a string to check if it violates OpenAI's Content Policy:
-
-```ruby
-    response = client.moderations.create(parameters: { input: "I'm worried about that." })
-    puts response.dig("results", 0, "category_scores", "hate")
-    => 5.505014632944949e-05
-```
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`.
-
-## Release
-
-If you want, first run the specs without VCR so they actually hit the API. This will cost about 2 cents. You'll need to add your `OPENAI_ACCESS_TOKEN=` in `.env`.
-
-```
-  RUN_LIVE=true bundle exec rspec
-```
-
-Then update the version number in `version.rb`, update `CHANGELOG.md`, run `bundle install` to update Gemfile.lock, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+* [User Documentation](https://github.com/petergoldstein/asimov/wiki) - The documentation is maintained in the repository's wiki.  
+* [Announcements](https://github.com/petergoldstein/asimov/discussions/categories/announcements) - Announcements of interest to the Asimov community will be posted here.
+* [Bug Reports](https://github.com/petergoldstein/asimov/issues) - If you discover a problem with Asimov, please submit a bug report in the tracker.
+* [Client API](https://rubydoc.info/github/petergoldstein/asimov/Asimov/Client) - Ruby documentation for the `Asimov::Client` API
 
 ## Contributing
 
@@ -276,3 +33,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the ruby-openai project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/petergoldstein/asimov/blob/main/CODE_OF_CONDUCT.md).
+
+## Appreciation
+
+Asimov was originally created from a fork of the [ruby-openai](https://github.com/alexrudall/ruby-openai).  It would not exist without the work of [alexrudall](https://github.com/alexrudall) and other contributors to that gem.

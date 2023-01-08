@@ -5,7 +5,7 @@ module Asimov
         raise MissingRequiredParameterError.new(:model) unless parameters[:model]
         raise MissingRequiredParameterError.new(:input) unless parameters[:input]
 
-        json_post(path: "/v1/embeddings", parameters: parameters)
+        json_post(path: "/embeddings", parameters: parameters)
       end
     end
   end

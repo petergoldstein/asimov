@@ -12,38 +12,33 @@ RSpec.describe "Finetunes API", type: :request do
        "the results." do
       VCR.use_cassette(cassette) do
         # Upload a training file
-        response = client.files.upload(parameters: { file: file, purpose: "fine-tune" })
-        r = JSON.parse(response.body)
+        r = client.files.upload(parameters: { file: file, purpose: "fine-tune" })
         file_id = r["id"]
 
         # Create a fine tuned model
-        response = client.finetunes.create(
+        r = client.finetunes.create(
           parameters: {
             training_file: file_id,
             model: model
           }
         )
-        r = JSON.parse(response.body)
         expect(r["object"]).to eq("fine-tune")
         fine_tune_id = r["id"]
 
         # List the fine tuning jobs
-        response = client.finetunes.list
-        r = JSON.parse(response.body)
+        r = client.finetunes.list
         job_list = r["data"]
         expect(job_list.size).to be > 0
         expect(job_list[0]["object"]).to eq("fine-tune")
 
         # List the fine tuning events
-        response = client.finetunes.events(fine_tune_id: fine_tune_id)
-        r = JSON.parse(response.body)
+        r = client.finetunes.events(fine_tune_id: fine_tune_id)
         job_list = r["data"]
         expect(job_list.size).to be > 0
         expect(job_list[0]["object"]).to eq("fine-tune-event")
 
         # Retrieve the fine tune job that was created
-        response = client.finetunes.retrieve(fine_tune_id: fine_tune_id)
-        r = JSON.parse(response.body)
+        r = client.finetunes.retrieve(fine_tune_id: fine_tune_id)
         expect(r["object"]).to eq("fine-tune")
         expect(r["id"]).to eq(fine_tune_id)
         model_id = r["fine_tuned_model"]

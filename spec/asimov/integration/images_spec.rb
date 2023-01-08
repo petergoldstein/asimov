@@ -16,8 +16,7 @@ RSpec.describe "Images API", type: :request do
 
     it "succeeds" do
       VCR.use_cassette(cassette) do
-        r = JSON.parse(response.body)
-        expect(r.dig("data", 0, "url")).to include("dalle")
+        expect(response.dig("data", 0, "url")).to include("dalle")
       end
     end
   end
@@ -43,8 +42,7 @@ RSpec.describe "Images API", type: :request do
 
     it "succeeds" do
       VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
-        r = JSON.parse(response.body)
-        expect(r.dig("data", 0, "url")).to include("dalle")
+        expect(response.dig("data", 0, "url")).to include("dalle")
       end
     end
   end
@@ -66,8 +64,7 @@ RSpec.describe "Images API", type: :request do
 
     it "succeeds" do
       VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
-        r = JSON.parse(response.body)
-        expect(r.dig("data", 0, "url")).to include("dalle")
+        expect(response.dig("data", 0, "url")).to include("dalle")
       end
     end
   end

@@ -1,7 +1,7 @@
 module Asimov
   module ApiV1
     class Models < Base
-      URI_PREFIX = "/v1/models".freeze
+      URI_PREFIX = "/models".freeze
 
       def list
         http_get(path: URI_PREFIX)

@@ -29,6 +29,10 @@ RSpec/NestedGroups:
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
 
+RSpec/SubjectStub:
+  Exclude:
+    - "spec/asimov/api_v1/**/*.rb"
+
 Style/Documentation:
   # Skips checking to make sure top level modules / classes have a comment.
   Enabled: false

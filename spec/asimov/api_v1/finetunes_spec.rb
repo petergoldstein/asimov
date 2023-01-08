@@ -3,17 +3,20 @@ require_relative "../../spec_helper"
 RSpec.describe Asimov::ApiV1::Finetunes do
   subject(:finetunes) { described_class.new(client: client) }
 
-  let(:client) { instance_double(Asimov::Client) }
+  let(:access_token) { SecureRandom.hex(4) }
+  let(:client) { Asimov::Client.new(access_token: access_token) }
   let(:ret_val) { SecureRandom.hex(4) }
   let(:parameters) { { SecureRandom.hex(4).to_sym => SecureRandom.hex(4) } }
 
+  it_behaves_like "sends requests to the v1 API"
+
   describe "#list" do
-    let(:path_string) { "/v1/fine-tunes" }
+    let(:path_string) { "/fine-tunes" }
 
     it "calls get on the client with the expected arguments" do
-      allow(client).to receive(:http_get).with(path: path_string).and_return(ret_val)
+      allow(finetunes).to receive(:http_get).with(path: path_string).and_return(ret_val)
       expect(finetunes.list).to eq(ret_val)
-      expect(client).to have_received(:http_get).with(path: path_string)
+      expect(finetunes).to have_received(:http_get).with(path: path_string)
     end
   end
 
@@ -24,11 +27,11 @@ RSpec.describe Asimov::ApiV1::Finetunes do
       end
 
       it "calls json_post on the client with the expected arguments" do
-        allow(client).to receive(:json_post).with(path: "/v1/fine-tunes",
-                                                  parameters: parameters).and_return(ret_val)
+        allow(finetunes).to receive(:json_post).with(path: "/fine-tunes",
+                                                     parameters: parameters).and_return(ret_val)
         expect(finetunes.create(parameters: parameters)).to eq(ret_val)
-        expect(client).to have_received(:json_post).with(path: "/v1/fine-tunes",
-                                                         parameters: parameters)
+        expect(finetunes).to have_received(:json_post).with(path: "/fine-tunes",
+                                                            parameters: parameters)
       end
     end
 
@@ -43,34 +46,34 @@ RSpec.describe Asimov::ApiV1::Finetunes do
 
   describe "#retrieve" do
     let(:fine_tune_id) { SecureRandom.hex(4) }
-    let(:path_string) { "/v1/fine-tunes/#{fine_tune_id}" }
+    let(:path_string) { "/fine-tunes/#{fine_tune_id}" }
 
     it "calls get on the client with the expected arguments" do
-      allow(client).to receive(:http_get).with(path: path_string).and_return(ret_val)
+      allow(finetunes).to receive(:http_get).with(path: path_string).and_return(ret_val)
       expect(finetunes.retrieve(fine_tune_id: fine_tune_id)).to eq(ret_val)
-      expect(client).to have_received(:http_get).with(path: path_string)
+      expect(finetunes).to have_received(:http_get).with(path: path_string)
     end
   end
 
   describe "#cancel" do
     let(:fine_tune_id) { SecureRandom.hex(4) }
-    let(:path_string) { "/v1/fine-tunes/#{fine_tune_id}/cancel" }
+    let(:path_string) { "/fine-tunes/#{fine_tune_id}/cancel" }
 
     it "calls multipart_post on the client with the expected argument" do
-      allow(client).to receive(:multipart_post).with(path: path_string).and_return(ret_val)
+      allow(finetunes).to receive(:multipart_post).with(path: path_string).and_return(ret_val)
       expect(finetunes.cancel(fine_tune_id: fine_tune_id)).to eq(ret_val)
-      expect(client).to have_received(:multipart_post).with(path: path_string)
+      expect(finetunes).to have_received(:multipart_post).with(path: path_string)
     end
   end
 
   describe "#events" do
     let(:fine_tune_id) { SecureRandom.hex(4) }
-    let(:path_string) { "/v1/fine-tunes/#{fine_tune_id}/events" }
+    let(:path_string) { "/fine-tunes/#{fine_tune_id}/events" }
 
     it "calls get on the client with the expected argument" do
-      allow(client).to receive(:http_get).with(path: path_string).and_return(ret_val)
+      allow(finetunes).to receive(:http_get).with(path: path_string).and_return(ret_val)
       expect(finetunes.events(fine_tune_id: fine_tune_id)).to eq(ret_val)
-      expect(client).to have_received(:http_get).with(path: path_string)
+      expect(finetunes).to have_received(:http_get).with(path: path_string)
     end
   end
 end
