@@ -1,0 +1,111 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.openai.com/v1/fine-tunes/nosuchfile
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: NOT FOUND
+    headers:
+      Date:
+      - Thu, 12 Jan 2023 04:30:31 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '141'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - 2310cd6a109e104f7f767e72cc08370d
+      Openai-Processing-Ms:
+      - '36'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "error": {
+            "message": "No fine-tune job: nosuchfile",
+            "type": "invalid_request_error",
+            "param": "id",
+            "code": null
+          }
+        }
+  recorded_at: Thu, 12 Jan 2023 04:30:31 GMT
+- request:
+    method: get
+    uri: https://api.openai.com/v1/fine-tunes/nosuchfinetune
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: NOT FOUND
+    headers:
+      Date:
+      - Thu, 12 Jan 2023 04:33:09 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '145'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - 426eb1924b3d25a3e4abedbb54c402a1
+      Openai-Processing-Ms:
+      - '31'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "error": {
+            "message": "No fine-tune job: nosuchfinetune",
+            "type": "invalid_request_error",
+            "param": "id",
+            "code": null
+          }
+        }
+  recorded_at: Thu, 12 Jan 2023 04:33:09 GMT
+recorded_with: VCR 6.1.0

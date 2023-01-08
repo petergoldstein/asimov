@@ -1,0 +1,43 @@
+require:
+  - rubocop-rake
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 3.0
+  NewCops: enable
+
+Layout/LineLength:
+  Max: 100
+
+Metrics/BlockLength:
+  Exclude:
+    - "asimov.gemspec"
+    - "spec/**/*"
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/ExpectInHook:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/SubjectStub:
+  Exclude:
+    - "spec/asimov/api_v1/**/*.rb"
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/RaiseArgs:
+  AllowedCompactTypes: ['MissingRequiredParameterError']
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes

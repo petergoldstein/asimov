@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.openai.com/v1/models/nosuchmodel
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: NOT FOUND
+    headers:
+      Date:
+      - Thu, 12 Jan 2023 04:33:32 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '141'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - fdb858ed3e3ebc4062cc9aa38e287211
+      Openai-Processing-Ms:
+      - '54'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "error": {
+            "message": "That model does not exist",
+            "type": "invalid_request_error",
+            "param": "model",
+            "code": null
+          }
+        }
+  recorded_at: Thu, 12 Jan 2023 04:33:32 GMT
+recorded_with: VCR 6.1.0

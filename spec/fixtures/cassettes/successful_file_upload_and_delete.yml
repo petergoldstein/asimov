@@ -1,0 +1,558 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.openai.com/v1/files/file-8reEkaXwZ637dYwGZEtw3pdS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jan 2023 04:29:22 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '217'
+      Connection:
+      - keep-alive
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - 553e9b93b0a3552a1cdd0896d4ecb086
+      Openai-Processing-Ms:
+      - '28'
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "object": "file",
+          "id": "file-8reEkaXwZ637dYwGZEtw3pdS",
+          "purpose": "fine-tune",
+          "filename": "sentiment.jsonl",
+          "bytes": 159,
+          "created_at": 1673670562,
+          "status": "uploaded",
+          "status_details": null
+        }
+  recorded_at: Sat, 14 Jan 2023 04:29:22 GMT
+- request:
+    method: get
+    uri: https://api.openai.com/v1/files/file-8reEkaXwZ637dYwGZEtw3pdS/content
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jan 2023 04:29:25 GMT
+      Content-Type:
+      - application/octet-stream
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Content-Disposition:
+      - attachment; filename="sentiment.jsonl"
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - 0a3cfdb97f68baabf4fc03068d6ddf1e
+      Openai-Processing-Ms:
+      - '36'
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {"prompt":"Overjoyed with my new phone! ->", "completion":" positive"}
+        {"prompt":"@lakers disappoint for a third straight night ->", "completion":" negative"}
+  recorded_at: Sat, 14 Jan 2023 04:29:25 GMT
+- request:
+    method: delete
+    uri: https://api.openai.com/v1/files/file-8reEkaXwZ637dYwGZEtw3pdS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jan 2023 04:29:28 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '83'
+      Connection:
+      - keep-alive
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - 2e9546031eabbbf6016aa72e7faaf93b
+      Openai-Processing-Ms:
+      - '333'
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "object": "file",
+          "id": "file-8reEkaXwZ637dYwGZEtw3pdS",
+          "deleted": true
+        }
+  recorded_at: Sat, 14 Jan 2023 04:29:27 GMT
+- request:
+    method: post
+    uri: https://api.openai.com/v1/files
+    body:
+      encoding: UTF-8
+      string: "--------------------------RhGXO5qfH-jk5Ow3\r\nContent-Disposition:
+        form-data; name=\"file\"; filename=\"sentiment.jsonl\"\r\nContent-Type: application/octet-stream\r\n\r\n{\"prompt\":\"Overjoyed
+        with my new phone! ->\", \"completion\":\" positive\"}\n{\"prompt\":\"@lakers
+        disappoint for a third straight night ->\", \"completion\":\" negative\"}\n\r\n--------------------------RhGXO5qfH-jk5Ow3\r\nContent-Disposition:
+        form-data; name=\"purpose\"\r\n\r\nfine-tune\r\n--------------------------RhGXO5qfH-jk5Ow3--\r\n"
+    headers:
+      Content-Type:
+      - multipart/form-data; boundary=------------------------RhGXO5qfH-jk5Ow3
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jan 2023 04:32:40 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '217'
+      Connection:
+      - keep-alive
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - 913848526ef0c686b027daff88a9790f
+      Openai-Processing-Ms:
+      - '1031'
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "object": "file",
+          "id": "file-fDCDjblEgrZ2pDylyEZqKt6M",
+          "purpose": "fine-tune",
+          "filename": "sentiment.jsonl",
+          "bytes": 159,
+          "created_at": 1673670760,
+          "status": "uploaded",
+          "status_details": null
+        }
+  recorded_at: Sat, 14 Jan 2023 04:32:40 GMT
+- request:
+    method: get
+    uri: https://api.openai.com/v1/files
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jan 2023 04:32:41 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '3344'
+      Connection:
+      - keep-alive
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - c1c6224da03f4f8d4da7fe14969d044a
+      Openai-Processing-Ms:
+      - '174'
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "object": "list",
+          "data": [
+            {
+              "object": "file",
+              "id": "file-PWoRdDtDfQDeDisJ6wY4YvTT",
+              "purpose": "fine-tune",
+              "filename": "sentiment.jsonl",
+              "bytes": 159,
+              "created_at": 1673035104,
+              "status": "processed",
+              "status_details": null
+            },
+            {
+              "object": "file",
+              "id": "file-5dBlMldhBZjSx7ZrYM6L4grg",
+              "purpose": "fine-tune",
+              "filename": "sentiment.jsonl",
+              "bytes": 159,
+              "created_at": 1673034662,
+              "status": "processed",
+              "status_details": null
+            },
+            {
+              "object": "file",
+              "id": "file-pNJgeOSpNxZjzzuRZKpOjEQi",
+              "purpose": "answers",
+              "filename": "puppy.jsonl",
+              "bytes": 140,
+              "created_at": 1673669837,
+              "status": "processed",
+              "status_details": null
+            },
+            {
+              "object": "file",
+              "id": "file-tX7R1xIULVJJjeS6r4IQyCm8",
+              "purpose": "answers",
+              "filename": "puppy.jsonl",
+              "bytes": 140,
+              "created_at": 1673289615,
+              "status": "processed",
+              "status_details": null
+            },
+            {
+              "object": "file",
+              "id": "file-34ifTiVCq3yIvtDqoHn85WZQ",
+              "purpose": "search",
+              "filename": "puppy.jsonl",
+              "bytes": 140,
+              "created_at": 1673289604,
+              "status": "processed",
+              "status_details": null
+            },
+            {
+              "object": "file",
+              "id": "file-eHloGXfq1frStXzX4CdyPyQb",
+              "purpose": "answers",
+              "filename": "puppy.jsonl",
+              "bytes": 140,
+              "created_at": 1673670015,
+              "status": "processed",
+              "status_details": null
+            },
+            {
+              "object": "file",
+              "id": "file-yBL2YSlIIURx2NhjRj2HgMrW",
+              "purpose": "answers",
+              "filename": "puppy.jsonl",
+              "bytes": 140,
+              "created_at": 1673669917,
+              "status": "processed",
+              "status_details": null
+            },
+            {
+              "object": "file",
+              "id": "file-vVre9PUfBkSrtGGXpFb1saUq",
+              "purpose": "answers",
+              "filename": "puppy.jsonl",
+              "bytes": 140,
+              "created_at": 1673669854,
+              "status": "processed",
+              "status_details": null
+            },
+            {
+              "object": "file",
+              "id": "file-cAixvuVcsSfGN0v6dz7UJ69d",
+              "purpose": "answers",
+              "filename": "puppy.jsonl",
+              "bytes": 140,
+              "created_at": 1673670123,
+              "status": "processed",
+              "status_details": null
+            },
+            {
+              "object": "file",
+              "id": "file-hujm5Ad22SQeIooQbN5bB9o7",
+              "purpose": "answers",
+              "filename": "puppy.jsonl",
+              "bytes": 140,
+              "created_at": 1673670448,
+              "status": "processed",
+              "status_details": null
+            },
+            {
+              "object": "file",
+              "id": "file-f7JdU104QDmL5oA8Pr43S8fS",
+              "purpose": "answers",
+              "filename": "puppy.jsonl",
+              "bytes": 140,
+              "created_at": 1673670267,
+              "status": "processed",
+              "status_details": null
+            },
+            {
+              "object": "file",
+              "id": "file-fAKLZN6g90iccb2RcrMXhnnc",
+              "purpose": "answers",
+              "filename": "puppy.jsonl",
+              "bytes": 140,
+              "created_at": 1673670396,
+              "status": "processed",
+              "status_details": null
+            },
+            {
+              "object": "file",
+              "id": "file-fDCDjblEgrZ2pDylyEZqKt6M",
+              "purpose": "fine-tune",
+              "filename": "sentiment.jsonl",
+              "bytes": 159,
+              "created_at": 1673670760,
+              "status": "uploaded",
+              "status_details": null
+            }
+          ]
+        }
+  recorded_at: Sat, 14 Jan 2023 04:32:40 GMT
+- request:
+    method: get
+    uri: https://api.openai.com/v1/files/file-fDCDjblEgrZ2pDylyEZqKt6M
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jan 2023 04:32:41 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '217'
+      Connection:
+      - keep-alive
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - 04a5abf23346d2e40c78069a7f068734
+      Openai-Processing-Ms:
+      - '29'
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "object": "file",
+          "id": "file-fDCDjblEgrZ2pDylyEZqKt6M",
+          "purpose": "fine-tune",
+          "filename": "sentiment.jsonl",
+          "bytes": 159,
+          "created_at": 1673670760,
+          "status": "uploaded",
+          "status_details": null
+        }
+  recorded_at: Sat, 14 Jan 2023 04:32:41 GMT
+- request:
+    method: get
+    uri: https://api.openai.com/v1/files/file-fDCDjblEgrZ2pDylyEZqKt6M/content
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jan 2023 04:32:43 GMT
+      Content-Type:
+      - application/octet-stream
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Content-Disposition:
+      - attachment; filename="sentiment.jsonl"
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - 33482b017015f5d1823571872a019e57
+      Openai-Processing-Ms:
+      - '32'
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {"prompt":"Overjoyed with my new phone! ->", "completion":" positive"}
+        {"prompt":"@lakers disappoint for a third straight night ->", "completion":" negative"}
+  recorded_at: Sat, 14 Jan 2023 04:32:43 GMT
+- request:
+    method: delete
+    uri: https://api.openai.com/v1/files/file-fDCDjblEgrZ2pDylyEZqKt6M
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 14 Jan 2023 04:32:46 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '83'
+      Connection:
+      - keep-alive
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - 2d0fa1b43f238d5f8ec4a834203da1f5
+      Openai-Processing-Ms:
+      - '358'
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "object": "file",
+          "id": "file-fDCDjblEgrZ2pDylyEZqKt6M",
+          "deleted": true
+        }
+  recorded_at: Sat, 14 Jan 2023 04:32:46 GMT
+recorded_with: VCR 6.1.0
