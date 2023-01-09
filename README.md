@@ -12,7 +12,7 @@ Asimov is a gem that enables the use of OpenAI's ML capabilities within SaaS app
 
 You can use this gem to write applications that generate text with GPT-3, create images with DALL·E, or write code with Codex.
 
-The name Asimov is a tribute to Isaac Asimov, a 20th century author whose work referenced AI extensively, most famously with his "Three Laws of Robotics". Asimov's stories explored the ethical and philosophical implications of using artificial intelligence and robots in society, and he is often credited with helping to popularize the concept of AI in science fiction. His work has had a lasting impact on the genre and has influenced many other writers and thinkers.
+The name Asimov is a tribute to [Isaac Asimov](https://en.wikipedia.org/wiki/Isaac_Asimov), a 20th century author whose work referenced AI extensively, most famously with his ["Three Laws of Robotics"](https://en.wikipedia.org/wiki/Three_Laws_of_Robotics). Asimov's stories explored the ethical and philosophical implications of using artificial intelligence and robots in society, and he is often credited with helping to popularize the concept of AI in science fiction. His work has had a lasting impact on the genre and has influenced many other writers and thinkers.
 
 
 ## Documentation and Information
