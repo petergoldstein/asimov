@@ -1,5 +1,6 @@
 # Asimov
 
+[![Gem Version](https://badge.fury.io/rb/asimov.svg)](https://badge.fury.io/rb/asimov)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/petergoldstein/asimov/blob/main/LICENSE.txt)
 [![Tests](https://github.com/petergoldstein/asimov/actions/workflows/ci.yml/badge.svg)](https://github.com/petergoldstein/asimov/actions/workflows/ci.yml)
 
