@@ -23,9 +23,9 @@ module Asimov
 
         msg = error_message(resp)
         raise Asimov::InvalidApiKeyError, msg if msg.start_with?(INVALID_API_KEY_PREFIX)
-        raise Asimov::InvalidOrganizationError, msg if msg.start_with?(INVALID_API_KEY_PREFIX)
+        raise Asimov::InvalidOrganizationError, msg if msg.start_with?(INVALID_ORGANIZATION_PREFIX)
 
-        raise Asimov::UnauthorizedError
+        raise Asimov::AuthorizationError
       end
 
       INVALID_TRAINING_EXAMPLE_PREFIX = "Expected file to have JSONL format with " \

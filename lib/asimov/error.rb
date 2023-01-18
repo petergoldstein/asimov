@@ -57,6 +57,18 @@ module Asimov
   class AuthorizationError < RequestError; end
 
   ##
+  # Error that occurs because the provided API key is not
+  # valid.
+  ##
+  class InvalidApiKeyError < AuthorizationError; end
+
+  ##
+  # Error that occurs because the provided API key is not
+  # valid.
+  ##
+  class InvalidOrganizationError < AuthorizationError; end
+
+  ##
   # Errors that occur because of issues with the
   # parameters of a request.  Typically these correspond
   # to a 400 HTTP return code.  Example causes include missing

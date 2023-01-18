@@ -1,0 +1,59 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.openai.com/v1/models
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Openai-Organization:
+      - invalid_id
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 401
+      message: UNAUTHORIZED
+    headers:
+      Date:
+      - Wed, 18 Jan 2023 05:25:55 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '164'
+      Connection:
+      - keep-alive
+      Www-Authenticate:
+      - Basic realm="OpenAI API"
+      Access-Control-Allow-Origin:
+      - "*"
+      Openai-Version:
+      - '2020-10-01'
+      X-Request-Id:
+      - 5848fa3adfd9f50ad55ab6ef5c3d3664
+      Openai-Processing-Ms:
+      - '16'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "error": {
+            "message": "No such organization: invalid_id.",
+            "type": "invalid_request_error",
+            "param": null,
+            "code": "invalid_organization"
+          }
+        }
+  recorded_at: Wed, 18 Jan 2023 05:25:55 GMT
+recorded_with: VCR 6.1.0
