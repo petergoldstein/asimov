@@ -6,6 +6,7 @@ module Asimov
     class Completions < Base
       def create(parameters:)
         raise MissingRequiredParameterError.new(:model) unless parameters[:model]
+        raise StreamingResponseNotSupportedError if parameters[:stream]
 
         json_post(path: "/completions", parameters: parameters)
       end

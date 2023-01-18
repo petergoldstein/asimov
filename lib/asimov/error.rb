@@ -138,4 +138,12 @@ module Asimov
   # an object in the OpenAI system.
   ##
   class NotFoundError < RequestError; end
+
+  ##
+  # Raised when a non-false stream parameter is passed
+  # to certain API methods.  Processing of server-side
+  # events using the stream parameter is currently not
+  # supported.
+  ##
+  class StreamingResponseNotSupportedError < RequestError; end
 end
