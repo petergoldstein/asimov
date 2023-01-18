@@ -21,6 +21,46 @@ RSpec.describe "Images API", type: :feature do
     end
   end
 
+  describe "create an image with too large a value for n", :vcr do
+    let(:cassette) { "images create with too large an n" }
+    let(:prompt) { "A baby sea otter cooking pasta wearing a hat of some sort" }
+    let(:size) { "256x256" }
+
+    it "raises the expected error" do
+      VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
+        expect do
+          Asimov::Client.new.images.create(
+            parameters: {
+              prompt: prompt,
+              size: size,
+              n: 100
+            }
+          )
+        end.to raise_error(Asimov::InvalidParameterValueError)
+      end
+    end
+  end
+
+  describe "create an image with too small a value for n", :vcr do
+    let(:cassette) { "images create with too small an n" }
+    let(:prompt) { "A baby sea otter cooking pasta wearing a hat of some sort" }
+    let(:size) { "256x256" }
+
+    it "raises the expected error" do
+      VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
+        expect do
+          Asimov::Client.new.images.create(
+            parameters: {
+              prompt: prompt,
+              size: size,
+              n: 0
+            }
+          )
+        end.to raise_error(Asimov::InvalidParameterValueError)
+      end
+    end
+  end
+
   describe "create an image edit with valid parameters", :vcr do
     let(:response) do
       Asimov::Client.new.images.create_edit(
@@ -56,7 +96,7 @@ RSpec.describe "Images API", type: :feature do
     let(:mask_filename) { "mask.png" }
     let(:size) { "256x256" }
 
-    it "succeeds" do
+    it "raises the expected error" do
       VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
         expect do
           Asimov::Client.new.images.create_edit(
@@ -69,6 +109,31 @@ RSpec.describe "Images API", type: :feature do
             }
           )
         end.to raise_error(Asimov::UnsupportedParameterError)
+      end
+    end
+  end
+
+  describe "create an image edit with an invalid value for a parameter", :vcr do
+    let(:cassette) { "images edit with an invalid value for a parameter" }
+    let(:prompt) { "A solid red Ruby on a blue background" }
+    let(:image) { Utils.fixture_filename(filename: image_filename) }
+    let(:image_filename) { "image.png" }
+    let(:mask) { Utils.fixture_filename(filename: mask_filename) }
+    let(:mask_filename) { "mask.png" }
+    let(:size) { "1280x768" }
+
+    it "raises the expected error" do
+      VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
+        expect do
+          Asimov::Client.new.images.create_edit(
+            parameters: {
+              image: image,
+              mask: mask,
+              prompt: prompt,
+              size: size
+            }
+          )
+        end.to raise_error(Asimov::InvalidParameterValueError)
       end
     end
   end

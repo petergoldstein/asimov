@@ -1,0 +1,56 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/images/generations
+    body:
+      encoding: UTF-8
+      base64_string: |
+        eyJwcm9tcHQiOiJBIGJhYnkgc2VhIG90dGVyIGNvb2tpbmcgcGFzdGEgd2Vh
+        cmluZyBhIGhhdCBvZiBzb21lIHNvcnQiLCJzaXplIjoiMjU2eDI1NiIsIm4i
+        OjEwMH0=
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: BAD REQUEST
+    headers:
+      Date:
+      - Wed, 18 Jan 2023 05:42:19 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '156'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - user-v7rioy6cjkgtatbz00ynxiny
+      X-Request-Id:
+      - 879cc792861250cd77777435f22d62b7
+      Openai-Processing-Ms:
+      - '47'
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      base64_string: |
+        ewogICJlcnJvciI6IHsKICAgICJjb2RlIjogbnVsbCwKICAgICJtZXNzYWdl
+        IjogIjEwMCBpcyBncmVhdGVyIHRoYW4gdGhlIG1heGltdW0gb2YgMTAgLSAn
+        biciLAogICAgInBhcmFtIjogbnVsbCwKICAgICJ0eXBlIjogImludmFsaWRf
+        cmVxdWVzdF9lcnJvciIKICB9Cn0K
+  recorded_at: Wed, 18 Jan 2023 05:42:19 GMT
+recorded_with: VCR 6.1.0

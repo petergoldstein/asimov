@@ -6,7 +6,7 @@ http_interactions:
     body:
       encoding: UTF-8
       base64_string: |
-        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1IOFExd0U2dnAzZmZMSTlODQpD
+        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1qTzVXYU9QSTJCU2RTeGFhDQpD
         b250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImltYWdlIjsg
         ZmlsZW5hbWU9ImltYWdlLnBuZyINCkNvbnRlbnQtVHlwZTogaW1hZ2UvcG5n
         DQoNColQTkcNChoKAAAADUlIRFIAAABEAAAARAgGAAAAOBOTsgAAAAlwSFlz
@@ -15,14 +15,14 @@ http_interactions:
         EkJCSAgJISEkhISQEBJCQkgICSEhJISEkBASQkJICAkhISSEhJAQEkJCSAgJ
         ISEkhISQEBJCQkgICSEhJISEkBASQkJICAkhISSEhJAQEkJCSAgJISEkhISQ
         EBJCQkgIiQPDaANnb9mKTgAAAABJRU5ErkJggg0KLS0tLS0tLS0tLS0tLS0t
-        LS0tLS0tLS0tLS1IOFExd0U2dnAzZmZMSTlODQpDb250ZW50LURpc3Bvc2l0
+        LS0tLS0tLS0tLS1qTzVXYU9QSTJCU2RTeGFhDQpDb250ZW50LURpc3Bvc2l0
         aW9uOiBmb3JtLWRhdGE7IG5hbWU9Im4iDQoNCjINCi0tLS0tLS0tLS0tLS0t
-        LS0tLS0tLS0tLS0tSDhRMXdFNnZwM2ZmTEk5Tg0KQ29udGVudC1EaXNwb3Np
+        LS0tLS0tLS0tLS0tak81V2FPUEkyQlNkU3hhYQ0KQ29udGVudC1EaXNwb3Np
         dGlvbjogZm9ybS1kYXRhOyBuYW1lPSJzaXplIg0KDQoyNTZ4MjU2DQotLS0t
-        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLUg4UTF3RTZ2cDNmZkxJOU4tLQ0K
+        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLWpPNVdhT1BJMkJTZFN4YWEtLQ0K
     headers:
       Content-Type:
-      - multipart/form-data; boundary=------------------------H8Q1wE6vp3ffLI9N
+      - multipart/form-data; boundary=------------------------jO5WaOPI2BSdSxaa
       Authorization:
       - Bearer <OPENAI_API_KEY>
       Accept-Encoding:
@@ -37,11 +37,11 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 13 Jan 2023 18:16:36 GMT
+      - Wed, 18 Jan 2023 05:37:35 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '1046'
+      - '1050'
       Connection:
       - keep-alive
       Openai-Version:
@@ -49,9 +49,9 @@ http_interactions:
       Openai-Organization:
       - user-v7rioy6cjkgtatbz00ynxiny
       X-Request-Id:
-      - 77776ef3549b201b8acd6db81395b8e1
+      - 15df3f1e8fc80b7fb1f6d2c3b741b59d
       Openai-Processing-Ms:
-      - '7211'
+      - '7241'
       Access-Control-Allow-Origin:
       - "*"
       Strict-Transport-Security:
@@ -59,29 +59,29 @@ http_interactions:
     body:
       encoding: UTF-8
       base64_string: |
-        ewogICJjcmVhdGVkIjogMTY3MzYzMzc5NiwKICAiZGF0YSI6IFsKICAgIHsK
+        ewogICJjcmVhdGVkIjogMTY3NDAyMDI1NSwKICAiZGF0YSI6IFsKICAgIHsK
         ICAgICAgInVybCI6ICJodHRwczovL29haWRhbGxlYXBpcHJvZHNjdXMuYmxv
         Yi5jb3JlLndpbmRvd3MubmV0L3ByaXZhdGUvb3JnLWNCTjB5OWdMMnY2alVj
         aVNEczIzU25Xcy91c2VyLXY3UmlPWTZDSmtndGF0YlowMHluWEluWS9pbWct
-        cnZIcHV5dUFUT0pYZGhnelpCV0hteUNQLnBuZz9zdD0yMDIzLTAxLTEzVDE3
-        JTNBMTYlM0EzNlomc2U9MjAyMy0wMS0xM1QxOSUzQTE2JTNBMzZaJnNwPXIm
+        TjRyVmJXRmlwMnRqcTczUEdkV0V4TXdyLnBuZz9zdD0yMDIzLTAxLTE4VDA0
+        JTNBMzclM0EzNVomc2U9MjAyMy0wMS0xOFQwNiUzQTM3JTNBMzVaJnNwPXIm
         c3Y9MjAyMS0wOC0wNiZzcj1iJnJzY2Q9aW5saW5lJnJzY3Q9aW1hZ2UvcG5n
         JnNrb2lkPTZhYWFkZWRlLTRmYjMtNDY5OC1hOGY2LTY4NGQ3Nzg2YjA2NyZz
         a3RpZD1hNDhjY2E1Ni1lNmRhLTQ4NGUtYTgxNC05Yzg0OTY1MmJjYjMmc2t0
-        PTIwMjMtMDEtMTNUMTglM0EwOSUzQTQ5WiZza2U9MjAyMy0wMS0xNFQxOCUz
-        QTA5JTNBNDlaJnNrcz1iJnNrdj0yMDIxLTA4LTA2JnNpZz1qVHV0Mm9jQThF
-        TDFZN2UvOWZvMzdScEwvYjh6VEo4WDJ0dmE0ZlcxRjl3JTNEIgogICAgfSwK
-        ICAgIHsKICAgICAgInVybCI6ICJodHRwczovL29haWRhbGxlYXBpcHJvZHNj
-        dXMuYmxvYi5jb3JlLndpbmRvd3MubmV0L3ByaXZhdGUvb3JnLWNCTjB5OWdM
-        MnY2alVjaVNEczIzU25Xcy91c2VyLXY3UmlPWTZDSmtndGF0YlowMHluWElu
-        WS9pbWctWVBMeldQRjl1TFFIdk9uNlJlMlVyOFpzLnBuZz9zdD0yMDIzLTAx
-        LTEzVDE3JTNBMTYlM0EzNlomc2U9MjAyMy0wMS0xM1QxOSUzQTE2JTNBMzZa
-        JnNwPXImc3Y9MjAyMS0wOC0wNiZzcj1iJnJzY2Q9aW5saW5lJnJzY3Q9aW1h
-        Z2UvcG5nJnNrb2lkPTZhYWFkZWRlLTRmYjMtNDY5OC1hOGY2LTY4NGQ3Nzg2
-        YjA2NyZza3RpZD1hNDhjY2E1Ni1lNmRhLTQ4NGUtYTgxNC05Yzg0OTY1MmJj
-        YjMmc2t0PTIwMjMtMDEtMTNUMTglM0EwOSUzQTQ5WiZza2U9MjAyMy0wMS0x
-        NFQxOCUzQTA5JTNBNDlaJnNrcz1iJnNrdj0yMDIxLTA4LTA2JnNpZz0xVlJ2
-        M2k0V0YzWVFZd3ZnSU5raEdJVlVNOEFaZmVlUkI2cE0yRHRoaFNRJTNEIgog
-        ICAgfQogIF0KfQo=
-  recorded_at: Fri, 13 Jan 2023 18:16:36 GMT
+        PTIwMjMtMDEtMThUMDQlM0E1NiUzQTU4WiZza2U9MjAyMy0wMS0xOVQwNCUz
+        QTU2JTNBNThaJnNrcz1iJnNrdj0yMDIxLTA4LTA2JnNpZz1GSWZZeDlqcHAv
+        R0N3ZWFVZiUyQm50bVlaNEhEWmJhNjEvVEdLZG9LcmFHVkUlM0QiCiAgICB9
+        LAogICAgewogICAgICAidXJsIjogImh0dHBzOi8vb2FpZGFsbGVhcGlwcm9k
+        c2N1cy5ibG9iLmNvcmUud2luZG93cy5uZXQvcHJpdmF0ZS9vcmctY0JOMHk5
+        Z0wydjZqVWNpU0RzMjNTbldzL3VzZXItdjdSaU9ZNkNKa2d0YXRiWjAweW5Y
+        SW5ZL2ltZy1jN21rQmNpVHNBMlZzTXJyNVZvb2FrQ3YucG5nP3N0PTIwMjMt
+        MDEtMThUMDQlM0EzNyUzQTM1WiZzZT0yMDIzLTAxLTE4VDA2JTNBMzclM0Ez
+        NVomc3A9ciZzdj0yMDIxLTA4LTA2JnNyPWImcnNjZD1pbmxpbmUmcnNjdD1p
+        bWFnZS9wbmcmc2tvaWQ9NmFhYWRlZGUtNGZiMy00Njk4LWE4ZjYtNjg0ZDc3
+        ODZiMDY3JnNrdGlkPWE0OGNjYTU2LWU2ZGEtNDg0ZS1hODE0LTljODQ5NjUy
+        YmNiMyZza3Q9MjAyMy0wMS0xOFQwNCUzQTU2JTNBNThaJnNrZT0yMDIzLTAx
+        LTE5VDA0JTNBNTYlM0E1OFomc2tzPWImc2t2PTIwMjEtMDgtMDYmc2lnPVN4
+        ZXJ5dWZxazNGZ3d3OFBzM2F4clIlMkJNaWgyMWFKeFRpZ2cyZ2E3Wk92SSUz
+        RCIKICAgIH0KICBdCn0K
+  recorded_at: Wed, 18 Jan 2023 05:37:35 GMT
 recorded_with: VCR 6.1.0

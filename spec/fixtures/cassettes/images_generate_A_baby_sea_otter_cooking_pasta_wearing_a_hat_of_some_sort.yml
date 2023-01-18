@@ -23,7 +23,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 13 Jan 2023 18:16:19 GMT
+      - Wed, 18 Jan 2023 05:37:19 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -35,9 +35,9 @@ http_interactions:
       Openai-Organization:
       - user-v7rioy6cjkgtatbz00ynxiny
       X-Request-Id:
-      - bbf76b71c278c7dc86e80af7570c7e17
+      - 15b81448b461ad763e85da795f3bf2fd
       Openai-Processing-Ms:
-      - '5017'
+      - '4873'
       Access-Control-Allow-Origin:
       - "*"
       Strict-Transport-Security:
@@ -46,12 +46,12 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "created": 1673633779,
+          "created": 1674020239,
           "data": [
             {
-              "url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-cBN0y9gL2v6jUciSDs23SnWs/user-v7RiOY6CJkgtatbZ00ynXInY/img-DCrpL438jAwUmLgyATRY6iIY.png?st=2023-01-13T17%3A16%3A19Z&se=2023-01-13T19%3A16%3A19Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-01-13T17%3A54%3A56Z&ske=2023-01-14T17%3A54%3A56Z&sks=b&skv=2021-08-06&sig=/u6YZR8ugsXUU3XkNy2MvdQkr3lCXD0zAhZq89c066o%3D"
+              "url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-cBN0y9gL2v6jUciSDs23SnWs/user-v7RiOY6CJkgtatbZ00ynXInY/img-7tJ9gte1uuVL5sTJ7Px3vx1W.png?st=2023-01-18T04%3A37%3A19Z&se=2023-01-18T06%3A37%3A19Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-01-18T04%3A26%3A22Z&ske=2023-01-19T04%3A26%3A22Z&sks=b&skv=2021-08-06&sig=swPLMZUONkkgi9YQtIfWq8cPsEv81f8DHVoSsQ1bP0k%3D"
             }
           ]
         }
-  recorded_at: Fri, 13 Jan 2023 18:16:19 GMT
+  recorded_at: Wed, 18 Jan 2023 05:37:18 GMT
 recorded_with: VCR 6.1.0

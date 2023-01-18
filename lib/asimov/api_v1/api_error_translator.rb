@@ -8,6 +8,10 @@ module Asimov
     # fragile.
     ##
     class ApiErrorTranslator
+      ##
+      # This method raises an appropriate Asimov::RequestError
+      # subclass if the response corresponds to an HTTP error.
+      ##
       def self.translate(resp)
         match_400(resp)
         match_401(resp)
@@ -39,28 +43,6 @@ module Asimov
         return unless resp.code == 400
 
         msg = error_message(resp)
-        # 400
-        # {"error"=>{"message"=>"'moose' is not one of ['fine-tune', 'answers', 'search', " \
-        #                       "'classifications'] - 'purpose'", "type"=>"invalid_request_error",
-        #                       "param"=>nil, "code"=>nil}}
-        # {"error"=>{"code"=>nil, "message"=>"'8x8' is not one of ['256x256', '512x512', " \
-        #                                    "'1024x1024'] - 'size'", "param"=>nil,
-        #            "type"=>"invalid_request_error"}}
-        # {"error"=>{"message"=>"Incorrect format for purpose=classifications. Please check " \
-        #                       "the openai documentation and try again",
-        #            "type"=>"invalid_request_error", "param"=>nil, "code"=>nil}}
-        # {"error"=>{"message"=>"Expected file to have the JSONL format with 'text' key " \
-        #                       "and (optional) 'metadata' key.",
-        #            "type"=>"invalid_request_error", "param"=>nil, "code"=>nil}}
-        # {"error"=>{"message"=>"Additional properties are not allowed ('moose' was unexpected)",
-        #            "type"=>"invalid_request_error", "param"=>nil, "code"=>nil}}
-        # {"error"=>{"message"=>"Additional properties are not allowed ('moose', 'squirrel' were " \
-        #                       "unexpected)",
-        #            "type"=>"invalid_request_error", "param"=>nil, "code"=>nil}}
-        # {"error"=>{"code"=>nil, "message"=>"-1 is less than the minimum of 1 - 'n'",
-        #  "param"=>nil, "type"=>"invalid_request_error"}}
-        # {"error"=>{"code"=>nil, "message"=>"20 is greater than the maximum of 10 - 'n'",
-        #  "param"=>nil, "type"=>"invalid_request_error"}}
 
         if msg.start_with?(INVALID_TRAINING_EXAMPLE_PREFIX)
           raise Asimov::InvalidTrainingExampleError,
@@ -90,10 +72,6 @@ module Asimov
         return unless resp.code == 404
 
         msg = error_message(resp)
-        # {"error"=>{"message"=>"That model does not exist", "type"=>"invalid_request_error",
-        #  "param"=>"model", "code"=>nil}}
-        # {"error"=>{"message"=>"No such File object: file-BWp1k9EVJRq5Ybjr3Mb0tDXW",
-        #  "type"=>"invalid_request_error", "param"=>"id", "code"=>nil}}
         raise Asimov::NotFoundError, msg
       end
 
