@@ -25,7 +25,7 @@ module Asimov
       ##
       # Creates edits of the specified image based on the prompt.
       #
-      # @param [String] file name of the base image
+      # @param [String] image file name  or a File-like object of the base image
       # @param [String] prompt the prompt used to guide the edit
       # @param [Hash] parameters additional parameters passed to the API
       ##
@@ -39,8 +39,9 @@ module Asimov
       ##
       # Creates variations of the specified image.
       #
-      # @param [String] file name of the base image
+      # @param [String] image file name or a File-like object of the base image
       # @param [Hash] parameters additional parameters passed to the API
+      # @option parameters [String] :mask mask file name or a File-like object
       ##
       def create_variation(image:, parameters: {})
         multipart_post(path: "#{URI_PREFIX}/variations",

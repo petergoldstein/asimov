@@ -23,6 +23,7 @@ module Asimov
       ##
       # Uploads a file to the /files endpoint with the specified parameters.
       #
+      # @param [String] file file name  or a File-like object to be uploaded
       # @param [Hash] parameters the set of parameters being passed to the API
       ##
       def upload(file:, purpose:, parameters: {})
