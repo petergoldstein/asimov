@@ -11,16 +11,26 @@ module Asimov
 
     attr_reader :request_options
 
+    ##
+    # Initializes the Configuration object and resets it to default values.
+    ##
     def initialize
       reset
     end
 
+    ##
+    # Reset the configuration to default values.  Mostly used for testing.
+    ##
     def reset
       @api_key = nil
       @organization_id = nil
       @request_options = {}
     end
 
+    ##
+    # Sets the request_options on the Configuration.  Typically not invoked
+    # directly, but rather through use of `Asimov.configure`.
+    ##
     def request_options=(val)
       @request_options = Utils::RequestOptionsValidator.validate(val)
     end

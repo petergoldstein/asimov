@@ -2,6 +2,10 @@ require_relative "./api_error_translator"
 require_relative "./network_error_translator"
 
 module Asimov
+  ##
+  # Classes and method associated with the requests, responses, and
+  # errors associated with v1 of the OpenAI API.
+  ##
   module ApiV1
     ##
     # Base class for API interface implementations. Currently
@@ -18,6 +22,12 @@ module Asimov
       end
       def_delegators :@client, :headers, :request_options
 
+      ##
+      # Executes an HTTP DELETE on the specified path.
+      #
+      # @param [String] path the URI (when combined with the
+      # base_uri) against which the DELETE is executed.
+      ##
       def http_delete(path:)
         wrap_response_with_error_handling do
           self.class.delete(
@@ -27,6 +37,12 @@ module Asimov
         end
       end
 
+      ##
+      # Executes an HTTP GET on the specified path.
+      #
+      # @param [String] path the URI (when combined with the
+      # base_uri) against which the GET is executed.
+      ##
       def http_get(path:)
         wrap_response_with_error_handling do
           self.class.get(
@@ -36,6 +52,12 @@ module Asimov
         end
       end
 
+      ##
+      # Executes an HTTP POST with JSON-encoded parameters on the specified path.
+      #
+      # @param [String] path the URI (when combined with the
+      # base_uri) against which the POST is executed.
+      ##
       def json_post(path:, parameters:)
         wrap_response_with_error_handling do
           self.class.post(
@@ -46,6 +68,12 @@ module Asimov
         end
       end
 
+      ##
+      # Executes an HTTP POST with multipart encoded parameters on the specified path.
+      #
+      # @param [String] path the URI (when combined with the
+      # base_uri) against which the POST is executed.
+      ##
       def multipart_post(path:, parameters: nil)
         wrap_response_with_error_handling do
           self.class.post(
@@ -56,6 +84,14 @@ module Asimov
         end
       end
 
+      ##
+      # Executes an HTTP GET on the specified path, streaming the resulting body
+      # to the writer in case of success.
+      #
+      # @param [String] path the URI (when combined with the
+      # base_uri) against which the POST is executed.
+      # @param [Writer] writer an object, typically a File, that responds to a `write` method
+      ##
       def http_streamed_download(path:, writer:)
         self.class.get(path,
                        { headers: headers,
@@ -69,6 +105,8 @@ module Asimov
         # Otherwise translate the error to a network error
         NetworkErrorTranslator.translate(e)
       end
+
+      private
 
       def wrap_response_with_error_handling
         resp = begin

@@ -8,8 +8,8 @@ RSpec.describe "Images API", type: :feature do
   describe "create an image with valid parameters", :vcr do
     let(:response) do
       client.images.create(
+        prompt: prompt,
         parameters: {
-          prompt: prompt,
           size: size
         }
       )
@@ -28,8 +28,8 @@ RSpec.describe "Images API", type: :feature do
       VCR.use_cassette("images create with too large an n", preserve_exact_body_bytes: true) do
         expect do
           client.images.create(
+            prompt: prompt,
             parameters: {
-              prompt: prompt,
               size: size,
               n: 100
             }
@@ -44,8 +44,8 @@ RSpec.describe "Images API", type: :feature do
       VCR.use_cassette("images create with too small an n", preserve_exact_body_bytes: true) do
         expect do
           client.images.create(
+            prompt: prompt,
             parameters: {
-              prompt: prompt,
               size: size,
               n: 0
             }
@@ -56,21 +56,19 @@ RSpec.describe "Images API", type: :feature do
   end
 
   describe "create an image edit with valid parameters", :vcr do
-    let(:cassette) { "images edit #{image_filename} #{prompt}" }
+    let(:cassette) { "images edit #{prompt}" }
     let(:prompt) { "A solid red Ruby on a blue background" }
-    let(:image) { Utils.fixture_filename(filename: image_filename) }
-    let(:image_filename) { "image.png" }
-    let(:mask) { Utils.fixture_filename(filename: mask_filename) }
-    let(:mask_filename) { "mask.png" }
+    let(:image_filename) { Utils.fixture_filename(filename: "image.png") }
+    let(:mask_filename) { Utils.fixture_filename(filename: "mask.png") }
     let(:size) { "256x256" }
 
     it "succeeds" do
       VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
         response = client.images.create_edit(
+          image: image_filename,
+          prompt: prompt,
           parameters: {
-            image: image,
-            mask: mask,
-            prompt: prompt,
+            mask: mask_filename,
             size: size
           }
         )
@@ -83,20 +81,18 @@ RSpec.describe "Images API", type: :feature do
   describe "create an image edit with an extra unsupported parameter", :vcr do
     let(:cassette) { "images edit with an unsupported parameter" }
     let(:prompt) { "A solid red Ruby on a blue background" }
-    let(:image) { Utils.fixture_filename(filename: image_filename) }
-    let(:image_filename) { "image.png" }
-    let(:mask) { Utils.fixture_filename(filename: mask_filename) }
-    let(:mask_filename) { "mask.png" }
+    let(:image_filename) { Utils.fixture_filename(filename: "image.png") }
+    let(:mask_filename) { Utils.fixture_filename(filename: "mask.png") }
     let(:size) { "256x256" }
 
     it "raises the expected error" do
       VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
         expect do
           client.images.create_edit(
+            image: image_filename,
+            prompt: prompt,
             parameters: {
-              image: image,
-              mask: mask,
-              prompt: prompt,
+              mask: mask_filename,
               size: size,
               notaparameter: "notavalue"
             }
@@ -109,20 +105,18 @@ RSpec.describe "Images API", type: :feature do
   describe "create an image edit with an invalid value for a parameter", :vcr do
     let(:cassette) { "images edit with an invalid value for a parameter" }
     let(:prompt) { "A solid red Ruby on a blue background" }
-    let(:image) { Utils.fixture_filename(filename: image_filename) }
-    let(:image_filename) { "image.png" }
-    let(:mask) { Utils.fixture_filename(filename: mask_filename) }
-    let(:mask_filename) { "mask.png" }
+    let(:image_filename) { Utils.fixture_filename(filename: "image.png") }
+    let(:mask_filename) { Utils.fixture_filename(filename: "mask.png") }
     let(:size) { "1280x768" }
 
     it "raises the expected error" do
       VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
         expect do
           client.images.create_edit(
+            image: image_filename,
+            prompt: prompt,
             parameters: {
-              image: image,
-              mask: mask,
-              prompt: prompt,
+              mask: mask_filename,
               size: size
             }
           )
@@ -134,16 +128,15 @@ RSpec.describe "Images API", type: :feature do
   describe "#create_variation", :vcr do
     let(:response) do
       client.images.create_variation(
+        image: image_filename,
         parameters: {
-          image: image,
           n: 2,
           size: size
         }
       )
     end
-    let(:cassette) { "images variations #{image_filename}" }
-    let(:image) { Utils.fixture_filename(filename: image_filename) }
-    let(:image_filename) { "image.png" }
+    let(:cassette) { "images create variation" }
+    let(:image_filename) { Utils.fixture_filename(filename: "image.png") }
     let(:size) { "256x256" }
 
     it "succeeds" do

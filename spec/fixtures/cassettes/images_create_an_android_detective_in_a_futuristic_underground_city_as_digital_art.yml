@@ -5,8 +5,8 @@ http_interactions:
     uri: https://api.openai.com/v1/images/generations
     body:
       encoding: UTF-8
-      string: '{"prompt":"an android detective in a futuristic underground city, as
-        digital art","size":"256x256"}'
+      string: '{"size":"256x256","prompt":"an android detective in a futuristic underground
+        city, as digital art"}'
     headers:
       Content-Type:
       - application/json
@@ -24,11 +24,11 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 20 Jan 2023 05:08:11 GMT
+      - Fri, 20 Jan 2023 20:26:14 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '547'
+      - '545'
       Connection:
       - keep-alive
       Openai-Version:
@@ -36,9 +36,9 @@ http_interactions:
       Openai-Organization:
       - user-v7rioy6cjkgtatbz00ynxiny
       X-Request-Id:
-      - 9e8cd17db8498b08c802d006b748eb20
+      - a3d3b3b0e13c31c8984be4996fece52b
       Openai-Processing-Ms:
-      - '4423'
+      - '4446'
       Access-Control-Allow-Origin:
       - "*"
       Strict-Transport-Security:
@@ -47,12 +47,12 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "created": 1674191291,
+          "created": 1674246374,
           "data": [
             {
-              "url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-cBN0y9gL2v6jUciSDs23SnWs/user-v7RiOY6CJkgtatbZ00ynXInY/img-KdKCC3tr9Mwkg5hcBDm5gTTr.png?st=2023-01-20T04%3A08%3A11Z&se=2023-01-20T06%3A08%3A11Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-01-19T23%3A50%3A14Z&ske=2023-01-20T23%3A50%3A14Z&sks=b&skv=2021-08-06&sig=5/qi97rP0qWiVcmdaj6QGh7w2EhRIQ8wNI0%2B2OF39os%3D"
+              "url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-cBN0y9gL2v6jUciSDs23SnWs/user-v7RiOY6CJkgtatbZ00ynXInY/img-l9Qv35GrcX7zvIGaaPVC8Y9Y.png?st=2023-01-20T19%3A26%3A14Z&se=2023-01-20T21%3A26%3A14Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-01-20T17%3A37%3A06Z&ske=2023-01-21T17%3A37%3A06Z&sks=b&skv=2021-08-06&sig=Rx1qS2hTxJ0lxrTRK9wr7QSsP20LU2xNzoOzrJ9gyKc%3D"
             }
           ]
         }
-  recorded_at: Fri, 20 Jan 2023 05:08:11 GMT
+  recorded_at: Fri, 20 Jan 2023 20:26:14 GMT
 recorded_with: VCR 6.1.0

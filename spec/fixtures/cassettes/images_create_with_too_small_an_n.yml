@@ -6,9 +6,9 @@ http_interactions:
     body:
       encoding: UTF-8
       base64_string: |
-        eyJwcm9tcHQiOiJhbiBhbmRyb2lkIGRldGVjdGl2ZSBpbiBhIGZ1dHVyaXN0
-        aWMgdW5kZXJncm91bmQgY2l0eSwgYXMgZGlnaXRhbCBhcnQiLCJzaXplIjoi
-        MjU2eDI1NiIsIm4iOjB9
+        eyJzaXplIjoiMjU2eDI1NiIsIm4iOjAsInByb21wdCI6ImFuIGFuZHJvaWQg
+        ZGV0ZWN0aXZlIGluIGEgZnV0dXJpc3RpYyB1bmRlcmdyb3VuZCBjaXR5LCBh
+        cyBkaWdpdGFsIGFydCJ9
     headers:
       Content-Type:
       - application/json
@@ -26,7 +26,7 @@ http_interactions:
       message: BAD REQUEST
     headers:
       Date:
-      - Fri, 20 Jan 2023 05:08:11 GMT
+      - Fri, 20 Jan 2023 20:26:14 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -40,9 +40,9 @@ http_interactions:
       Openai-Organization:
       - user-v7rioy6cjkgtatbz00ynxiny
       X-Request-Id:
-      - 8a1c605f9016043e81be4eaa8c33e3d7
+      - 797a742d1022bc1feba00fc54b3aa277
       Openai-Processing-Ms:
-      - '47'
+      - '51'
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
@@ -52,5 +52,5 @@ http_interactions:
         IjogIjAgaXMgbGVzcyB0aGFuIHRoZSBtaW5pbXVtIG9mIDEgLSAnbiciLAog
         ICAgInBhcmFtIjogbnVsbCwKICAgICJ0eXBlIjogImludmFsaWRfcmVxdWVz
         dF9lcnJvciIKICB9Cn0K
-  recorded_at: Fri, 20 Jan 2023 05:08:11 GMT
+  recorded_at: Fri, 20 Jan 2023 20:26:14 GMT
 recorded_with: VCR 6.1.0

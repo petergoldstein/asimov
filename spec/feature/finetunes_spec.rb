@@ -12,7 +12,7 @@ RSpec.describe "Finetunes API", type: :feature do
        "the results." do
       VCR.use_cassette(cassette) do
         # Upload a training file
-        r = client.files.upload(parameters: { file: file, purpose: "fine-tune" })
+        r = client.files.upload(file: file, purpose: "fine-tune")
         file_id = r["id"]
 
         # Create a fine tuned model

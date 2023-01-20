@@ -11,6 +11,9 @@ module Asimov
       ##
       # This method raises an appropriate Asimov::RequestError
       # subclass if the response corresponds to an HTTP error.
+      #
+      # @param [HTTParty::Response] resp the response (or fragment) object
+      # encapsulating the server response.
       ##
       def self.translate(resp)
         return if resp.code == 200
@@ -26,7 +29,11 @@ module Asimov
 
       # rubocop:disable Naming/VariableNumber
       # rubocop:disable Metrics/MethodLength
+
+      # Prefix for OpenAI error message when an invalid key is provided.
       INVALID_API_KEY_PREFIX = "Incorrect API key provided: ".freeze
+
+      # Prefix for OpenAI error message when an organization cannot be found.
       INVALID_ORGANIZATION_PREFIX = "No such organization: ".freeze
       def self.match_401(resp)
         return unless resp.code == 401
@@ -37,7 +44,11 @@ module Asimov
 
         raise Asimov::AuthorizationError
       end
+      private_class_method :match_401
+      private_constant :INVALID_API_KEY_PREFIX
+      private_constant :INVALID_ORGANIZATION_PREFIX
 
+      # Prefix for OpenAI error message when training file format cannot be validated.
       INVALID_TRAINING_EXAMPLE_PREFIX = "Expected file to have JSONL format with " \
                                         "prompt/completion keys. Missing".freeze
       ADDITIONAL_PROPERTIES_ERROR_PREFIX = "Additional properties are not allowed".freeze
@@ -66,12 +77,20 @@ module Asimov
 
         raise Asimov::RequestError, msg
       end
+      private_class_method :match_400
+      private_constant :INVALID_TRAINING_EXAMPLE_PREFIX
+      private_constant :ADDITIONAL_PROPERTIES_ERROR_PREFIX
+      private_constant :INVALID_PARAMETER_VALUE_STRING
+      private_constant :INVALID_PARAMETER_VALUE_PREFIX_2
+      private_constant :BELOW_MINIMUM_STRING
+      private_constant :ABOVE_MAXIMUM_STRING
 
       def self.match_409(resp)
         return unless resp.code == 409
 
         raise Asimov::RequestError, error_message(resp)
       end
+      private_class_method :match_409
 
       QUOTA_EXCEEDED_MESSAGE = "You exceeded your current quota".freeze
       RATE_LIMIT_REACHED_MESSAGE = "Rate limit reached".freeze
@@ -98,6 +117,10 @@ module Asimov
 
         raise Asimov::TooManyRequestsError, msg
       end
+      private_class_method :match_429
+      private_constant :QUOTA_EXCEEDED_MESSAGE
+      private_constant :RATE_LIMIT_REACHED_MESSAGE
+      private_constant :ENGINE_OVERLOADED_MESSAGE
 
       def self.match_invalid_parameter_value?(msg)
         msg.include?(INVALID_PARAMETER_VALUE_STRING) ||
@@ -105,6 +128,7 @@ module Asimov
           msg.include?(ABOVE_MAXIMUM_STRING) ||
           msg.start_with?(INVALID_PARAMETER_VALUE_PREFIX_2)
       end
+      private_class_method :match_invalid_parameter_value?
 
       def self.match_404(resp)
         return unless resp.code == 404
@@ -112,6 +136,7 @@ module Asimov
         msg = error_message(resp)
         raise Asimov::NotFoundError, msg
       end
+      private_class_method :match_404
 
       # rubocop:enable Naming/VariableNumber
       # rubocop:enable Metrics/MethodLength
@@ -126,6 +151,7 @@ module Asimov
 
         pr["error"]["message"] || ""
       end
+      private_class_method :error_message
     end
   end
 end

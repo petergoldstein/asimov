@@ -4,7 +4,7 @@ require_relative "asimov/error"
 require_relative "asimov/client"
 
 ##
-# Client library for using the OpenAI API.
+# Top level module for the Asimov client library for using the OpenAI API.
 ##
 module Asimov
   ##

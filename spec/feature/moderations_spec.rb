@@ -5,11 +5,7 @@ RSpec.describe "Moderations API", type: :feature do
     let(:input) { "I'm worried about that." }
     let(:cassette) { "moderations #{input}".downcase }
     let(:response) do
-      Asimov::Client.new.moderations.create(
-        parameters: {
-          input: input
-        }
-      )
+      Asimov::Client.new.moderations.create(input: input)
     end
 
     it "succeeds" do
@@ -27,7 +23,7 @@ RSpec.describe "Moderations API", type: :feature do
     it "returns the expected error" do
       VCR.use_cassette("moderation with invalid model") do
         expect do
-          client.moderations.create(parameters: { input: input, model: model })
+          client.moderations.create(input: input, parameters: { model: model })
         end.to raise_error(Asimov::InvalidParameterValueError)
       end
     end
@@ -39,7 +35,7 @@ RSpec.describe "Moderations API", type: :feature do
 
     it "ignores the extra parameter" do
       VCR.use_cassette("moderation with extra unsupported parameter") do
-        r = client.moderations.create(parameters: { input: input, notaparameter: "notavalue" })
+        r = client.moderations.create(input: input, parameters: { notaparameter: "notavalue" })
         expect(r.dig("results", 0, "categories", "hate")).to be(false)
       end
     end

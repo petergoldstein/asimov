@@ -13,7 +13,7 @@ RSpec.describe "Files API", type: :feature do
     it "runs through a basic upload, list, retrieve, and delete" do
       VCR.use_cassette("successful file upload and delete") do
         # Upload a file
-        r = client.files.upload(parameters: { file: file, purpose: purpose })
+        r = client.files.upload(file: file, purpose: purpose)
         expect(r["filename"]).to eq(filename)
 
         # Capture the uploaded file.

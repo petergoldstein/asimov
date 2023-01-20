@@ -103,6 +103,9 @@ module Asimov
       @system_message = system_message
     end
 
+    ##
+    # Returns the error message based on the file name and the wrapped error.
+    ##
     def message
       "The file #{@file_name} could not be opened for upload because of the " \
         "following error - #{@system_message}."
@@ -155,6 +158,9 @@ module Asimov
       @parameter_name = parameter_name
     end
 
+    ##
+    # Returns the error message based on the missing parameter name.
+    ##
     def message
       "The parameter #{@parameter_name} is required."
     end

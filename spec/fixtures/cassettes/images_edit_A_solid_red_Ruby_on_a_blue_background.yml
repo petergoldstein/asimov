@@ -6,7 +6,7 @@ http_interactions:
     body:
       encoding: UTF-8
       base64_string: |
-        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1ldUxhUTZETHo2NVc1bldRDQpD
+        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0zT21QX2lzWHVQLXV1eHdXDQpD
         b250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9Im1hc2siOyBm
         aWxlbmFtZT0ibWFzay5wbmciDQpDb250ZW50LVR5cGU6IGltYWdlL3BuZw0K
         DQqJUE5HDQoaCgAAAA1JSERSAAAARAAAAEQIBgAAADgTk7IAAAAJcEhZcwAA
@@ -33,27 +33,25 @@ http_interactions:
         CzMxlhCT5N+XkTcjFHpZvS8zz6AT6/2m90YVX5DJvPlZCuNY87qkb1Kb2JL+
         O3dsMfLiYWOKj3GGb+bWIL1QiR6pJYaU6T9DEHF8vnknfJNRC5kukAv14FuZ
         t/cZcYuk68+N7nlvN5PsOFtBSkB9txugFiRALUiAWpAAtSAB/gAQyVDrUz1M
-        mwAAAABJRU5ErkJggg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1ldUxh
-        UTZETHo2NVc1bldRDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7
+        mwAAAABJRU5ErkJggg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0zT21Q
+        X2lzWHVQLXV1eHdXDQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7
         IG5hbWU9InNpemUiDQoNCjI1NngyNTYNCi0tLS0tLS0tLS0tLS0tLS0tLS0t
-        LS0tLS0tZXVMYVE2REx6NjVXNW5XUQ0KQ29udGVudC1EaXNwb3NpdGlvbjog
-        Zm9ybS1kYXRhOyBuYW1lPSJub3RhcGFyYW1ldGVyIg0KDQpub3RhdmFsdWUN
-        Ci0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tZXVMYVE2REx6NjVXNW5XUQ0K
-        Q29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJpbWFnZSI7
-        IGZpbGVuYW1lPSJpbWFnZS5wbmciDQpDb250ZW50LVR5cGU6IGltYWdlL3Bu
-        Zw0KDQqJUE5HDQoaCgAAAA1JSERSAAAARAAAAEQIBgAAADgTk7IAAAAJcEhZ
-        cwAACxMAAAsTAQCanBgAAAABc1JHQgCuzhzpAAAABGdBTUEAALGPC/xhBQAA
-        AI5JREFUeAHt0EENwCAAADE2cZhELPxIOA2thH5z7T24/sFDSAgJISEkhISQ
-        EBJCQkgICSEhJISEkBASQkJICAkhISSEhJAQEkJCSAgJISEkhISQEBJCQkgI
-        CSEhJISEkBASQkJICAkhISSEhJAQEkJCSAgJISEkhISQEBJCQkgICSEhJISE
-        kBASQkJICIkDw2gDZ2/Zik4AAAAASUVORK5CYIINCi0tLS0tLS0tLS0tLS0t
-        LS0tLS0tLS0tLS0tZXVMYVE2REx6NjVXNW5XUQ0KQ29udGVudC1EaXNwb3Np
-        dGlvbjogZm9ybS1kYXRhOyBuYW1lPSJwcm9tcHQiDQoNCkEgc29saWQgcmVk
-        IFJ1Ynkgb24gYSBibHVlIGJhY2tncm91bmQNCi0tLS0tLS0tLS0tLS0tLS0t
-        LS0tLS0tLS0tZXVMYVE2REx6NjVXNW5XUS0tDQo=
+        LS0tLS0tM09tUF9pc1h1UC11dXh3Vw0KQ29udGVudC1EaXNwb3NpdGlvbjog
+        Zm9ybS1kYXRhOyBuYW1lPSJpbWFnZSI7IGZpbGVuYW1lPSJpbWFnZS5wbmci
+        DQpDb250ZW50LVR5cGU6IGltYWdlL3BuZw0KDQqJUE5HDQoaCgAAAA1JSERS
+        AAAARAAAAEQIBgAAADgTk7IAAAAJcEhZcwAACxMAAAsTAQCanBgAAAABc1JH
+        QgCuzhzpAAAABGdBTUEAALGPC/xhBQAAAI5JREFUeAHt0EENwCAAADE2cZhE
+        LPxIOA2thH5z7T24/sFDSAgJISEkhISQEBJCQkgICSEhJISEkBASQkJICAkh
+        ISSEhJAQEkJCSAgJISEkhISQEBJCQkgICSEhJISEkBASQkJICAkhISSEhJAQ
+        EkJCSAgJISEkhISQEBJCQkgICSEhJISEkBASQkJICIkDw2gDZ2/Zik4AAAAA
+        SUVORK5CYIINCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tM09tUF9pc1h1
+        UC11dXh3Vw0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1l
+        PSJwcm9tcHQiDQoNCkEgc29saWQgcmVkIFJ1Ynkgb24gYSBibHVlIGJhY2tn
+        cm91bmQNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tM09tUF9pc1h1UC11
+        dXh3Vy0tDQo=
     headers:
       Content-Type:
-      - multipart/form-data; boundary=------------------------euLaQ6DLz65W5nWQ
+      - multipart/form-data; boundary=------------------------3OmP_isXuP-uuxwW
       Authorization:
       - Bearer <OPENAI_API_KEY>
       Accept-Encoding:
@@ -64,36 +62,44 @@ http_interactions:
       - Ruby
   response:
     status:
-      code: 400
-      message: BAD REQUEST
+      code: 200
+      message: OK
     headers:
       Date:
       - Fri, 20 Jan 2023 20:26:23 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '183'
+      - '549'
       Connection:
       - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
       Openai-Version:
       - '2020-10-01'
       Openai-Organization:
       - user-v7rioy6cjkgtatbz00ynxiny
       X-Request-Id:
-      - 0a6412affe1274ab10c337912556fda4
+      - ec497ba5fd9162c58cf4766a3a898c94
       Openai-Processing-Ms:
-      - '48'
+      - '8468'
+      Access-Control-Allow-Origin:
+      - "*"
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       base64_string: |
-        ewogICJlcnJvciI6IHsKICAgICJjb2RlIjogbnVsbCwKICAgICJtZXNzYWdl
-        IjogIkFkZGl0aW9uYWwgcHJvcGVydGllcyBhcmUgbm90IGFsbG93ZWQgKCdu
-        b3RhcGFyYW1ldGVyJyB3YXMgdW5leHBlY3RlZCkiLAogICAgInBhcmFtIjog
-        bnVsbCwKICAgICJ0eXBlIjogImludmFsaWRfcmVxdWVzdF9lcnJvciIKICB9
-        Cn0K
+        ewogICJjcmVhdGVkIjogMTY3NDI0NjM4MywKICAiZGF0YSI6IFsKICAgIHsK
+        ICAgICAgInVybCI6ICJodHRwczovL29haWRhbGxlYXBpcHJvZHNjdXMuYmxv
+        Yi5jb3JlLndpbmRvd3MubmV0L3ByaXZhdGUvb3JnLWNCTjB5OWdMMnY2alVj
+        aVNEczIzU25Xcy91c2VyLXY3UmlPWTZDSmtndGF0YlowMHluWEluWS9pbWct
+        WUdzZHFicjV2TTB5TjV6emNzc0swZlJCLnBuZz9zdD0yMDIzLTAxLTIwVDE5
+        JTNBMjYlM0EyM1omc2U9MjAyMy0wMS0yMFQyMSUzQTI2JTNBMjNaJnNwPXIm
+        c3Y9MjAyMS0wOC0wNiZzcj1iJnJzY2Q9aW5saW5lJnJzY3Q9aW1hZ2UvcG5n
+        JnNrb2lkPTZhYWFkZWRlLTRmYjMtNDY5OC1hOGY2LTY4NGQ3Nzg2YjA2NyZz
+        a3RpZD1hNDhjY2E1Ni1lNmRhLTQ4NGUtYTgxNC05Yzg0OTY1MmJjYjMmc2t0
+        PTIwMjMtMDEtMjBUMTclM0EwNCUzQTUwWiZza2U9MjAyMy0wMS0yMVQxNyUz
+        QTA0JTNBNTBaJnNrcz1iJnNrdj0yMDIxLTA4LTA2JnNpZz1qaUVIdEZlMmlU
+        aDFNeWV6L1ZlTjlnSmdCdldDUyUyQlIlMkIxSXVBVjc4VHZhVSUzRCIKICAg
+        IH0KICBdCn0K
   recorded_at: Fri, 20 Jan 2023 20:26:23 GMT
 recorded_with: VCR 6.1.0

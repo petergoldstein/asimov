@@ -4,13 +4,13 @@ RSpec.describe "Edits API", type: :feature do
   describe "#create", :vcr do
     let(:input) { "What day of the wek is it?" }
     let(:instruction) { "Fix the spelling mistakes" }
-    let(:cassette) { "#{model} moderations #{input}".downcase }
+    let(:cassette) { "#{model} edits #{input}".downcase }
     let(:response) do
       Asimov::Client.new.edits.create(
+        model: model,
+        instruction: instruction,
         parameters: {
-          model: model,
-          input: input,
-          instruction: instruction
+          input: input
         }
       )
     end

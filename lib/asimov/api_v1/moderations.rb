@@ -4,10 +4,16 @@ module Asimov
     # Class interface for API methods in the "/moderations" URI subspace.
     ##
     class Moderations < Base
-      def create(parameters:)
-        raise MissingRequiredParameterError.new(:input) unless parameters[:input]
+      ##
+      # Calls the /moderations POST endpoint with the specified parameters.
+      #
+      # @param [String] input the text being evaluated by the API
+      # @param [Hash] parameters the set of parameters being passed to the API
+      ##
+      def create(input:, parameters: {})
+        raise MissingRequiredParameterError.new(:input) unless input
 
-        json_post(path: "/moderations", parameters: parameters)
+        json_post(path: "/moderations", parameters: parameters.merge({ input: input }))
       end
     end
   end

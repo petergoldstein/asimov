@@ -9,6 +9,8 @@ module Asimov
     # values.  No other keys are permitted.
     ##
     class TrainingFileValidator < JsonlValidator
+      private
+
       def validate_line(line, idx)
         parsed = JSON.parse(line)
         validate_training_example(parsed, idx)

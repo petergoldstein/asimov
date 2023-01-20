@@ -5,12 +5,7 @@ RSpec.describe "Embeddings API", type: :feature do
     let(:input) { "The food was delicious and the waiter..." }
     let(:cassette) { "#{model} embeddings #{input}".downcase }
     let(:response) do
-      Asimov::Client.new.embeddings.create(
-        parameters: {
-          model: model,
-          input: input
-        }
-      )
+      Asimov::Client.new.embeddings.create(model: model, input: input)
     end
 
     context "with model: babbage-similarity" do

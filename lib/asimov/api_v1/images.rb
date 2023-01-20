@@ -7,21 +7,44 @@ module Asimov
     ##
     class Images < Base
       URI_PREFIX = "/images".freeze
+      private_constant :URI_PREFIX
 
-      def create(parameters:)
-        raise MissingRequiredParameterError.new(:prompt) unless parameters[:prompt]
+      ##
+      # Creates an image using the specified prompt.
+      #
+      # @param [String] prompt the prompt used to create the image
+      # @param [Hash] parameters additional parameters passed to the API
+      ##
+      def create(prompt:, parameters: {})
+        raise MissingRequiredParameterError.new(:prompt) unless prompt
 
-        json_post(path: "#{URI_PREFIX}/generations", parameters: parameters)
+        json_post(path: "#{URI_PREFIX}/generations",
+                  parameters: parameters.merge({ prompt: prompt }))
       end
 
-      def create_edit(parameters:)
-        raise MissingRequiredParameterError.new(:prompt) unless parameters[:prompt]
+      ##
+      # Creates edits of the specified image based on the prompt.
+      #
+      # @param [String] file name of the base image
+      # @param [String] prompt the prompt used to guide the edit
+      # @param [Hash] parameters additional parameters passed to the API
+      ##
+      def create_edit(image:, prompt:, parameters: {})
+        raise MissingRequiredParameterError.new(:prompt) unless prompt
 
-        multipart_post(path: "#{URI_PREFIX}/edits", parameters: open_files(parameters))
+        multipart_post(path: "#{URI_PREFIX}/edits",
+                       parameters: open_files(parameters.merge({ image: image, prompt: prompt })))
       end
 
-      def create_variation(parameters:)
-        multipart_post(path: "#{URI_PREFIX}/variations", parameters: open_files(parameters))
+      ##
+      # Creates variations of the specified image.
+      #
+      # @param [String] file name of the base image
+      # @param [Hash] parameters additional parameters passed to the API
+      ##
+      def create_variation(image:, parameters: {})
+        multipart_post(path: "#{URI_PREFIX}/variations",
+                       parameters: open_files(parameters.merge({ image: image })))
       end
 
       private

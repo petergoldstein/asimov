@@ -32,21 +32,14 @@ RSpec.describe Asimov::ApiV1::Files do
         let(:purpose) { type }
         let(:validator_class) { validator }
         let(:validator_instance) { instance_double(validator_class) }
-        let(:parameters) do
-          { SecureRandom.hex(4).to_sym => SecureRandom.hex(4), purpose: purpose }
-        end
 
         context "when the parameters include a :file value" do
           let(:filename) { SecureRandom.hex(4) }
           let(:file_instance1) { instance_double(File) }
           let(:file_instance2) { instance_double(File) }
-          let(:parameters) do
-            { SecureRandom.hex(4).to_sym => SecureRandom.hex(4), purpose: purpose,
-              file: filename }
-          end
 
           context "when the file can be loaded" do
-            let(:merged_parameters) { parameters.merge({ file: file_instance2 }) }
+            let(:merged_parameters) { parameters.merge({ file: file_instance2, purpose: purpose }) }
 
             before do
               allow(File).to receive(:open).with(filename).and_return(file_instance1,
@@ -66,7 +59,7 @@ RSpec.describe Asimov::ApiV1::Files do
               end
 
               it "runs JSONL validation and passes to the client" do
-                val = files.upload(parameters: parameters)
+                val = files.upload(file: filename, purpose: purpose, parameters: parameters)
                 expect(val).to eq(ret_val)
                 expect(validator_instance).to have_received(:validate)
                   .with(file_instance1)
@@ -84,7 +77,7 @@ RSpec.describe Asimov::ApiV1::Files do
 
               it "runs JSONL validation and does not pass to the client" do
                 expect do
-                  files.upload(parameters: parameters)
+                  files.upload(file: filename, purpose: purpose, parameters: parameters)
                 end.to raise_error(Asimov::JsonlFileCannotBeParsedError)
                 expect(validator_instance).to have_received(:validate)
                   .with(file_instance1)
@@ -104,7 +97,7 @@ RSpec.describe Asimov::ApiV1::Files do
 
             it "reraises the underlying error" do
               expect do
-                files.upload(parameters: parameters)
+                files.upload(file: filename, purpose: purpose, parameters: parameters)
               end.to raise_error(Asimov::FileCannotBeOpenedError)
             end
           end
@@ -113,7 +106,11 @@ RSpec.describe Asimov::ApiV1::Files do
         context "when the parameters do not include a :file value" do
           it "raises a MissingRequiredParameterError" do
             expect do
-              files.upload(parameters: parameters)
+              files.upload(file: nil, purpose: purpose)
+            end.to raise_error(Asimov::MissingRequiredParameterError)
+
+            expect do
+              files.upload(file: nil, purpose: purpose, parameters: parameters)
             end.to raise_error(Asimov::MissingRequiredParameterError)
           end
         end
@@ -122,11 +119,14 @@ RSpec.describe Asimov::ApiV1::Files do
 
     context "when the parameters do not include a :purpose value" do
       let(:filename) { SecureRandom.hex(4) }
-      let(:parameters) { { SecureRandom.hex(4).to_sym => SecureRandom.hex(4), file: filename } }
 
       it "raises an error before calling anything" do
         expect do
-          files.upload(parameters: parameters)
+          files.upload(file: filename, purpose: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+
+        expect do
+          files.upload(file: filename, purpose: nil, parameters: parameters)
         end.to raise_error(Asimov::MissingRequiredParameterError)
       end
     end
@@ -134,7 +134,11 @@ RSpec.describe Asimov::ApiV1::Files do
     context "when the parameters do not include either the :file or :purpose values" do
       it "raises an error before calling anything" do
         expect do
-          files.upload(parameters: parameters)
+          files.upload(file: nil, purpose: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+
+        expect do
+          files.upload(file: nil, purpose: nil, parameters: parameters)
         end.to raise_error(Asimov::MissingRequiredParameterError)
       end
     end

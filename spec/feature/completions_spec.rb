@@ -8,8 +8,8 @@ RSpec.describe "Completions API", type: :feature do
 
       let(:response) do
         Asimov::Client.new.completions.create(
+          model: model,
           parameters: {
-            model: model,
             prompt: prompt,
             max_tokens: max_tokens
           }
@@ -67,8 +67,8 @@ RSpec.describe "Completions API", type: :feature do
 
       let(:response) do
         Asimov::Client.new.completions.create(
+          model: model,
           parameters: {
-            model: model,
             prompt: prompt,
             max_tokens: max_tokens
           }
@@ -107,7 +107,6 @@ RSpec.describe "Completions API", type: :feature do
       let(:client) { Asimov::Client.new }
       let(:parameters) do
         {
-          model: model,
           prompt: prompt,
           stream: true
         }
@@ -115,7 +114,7 @@ RSpec.describe "Completions API", type: :feature do
 
       it "raises the expected error" do
         expect do
-          client.completions.create(parameters: parameters)
+          client.completions.create(model: model, parameters: parameters)
         end.to raise_error(Asimov::StreamingResponseNotSupportedError)
       end
     end

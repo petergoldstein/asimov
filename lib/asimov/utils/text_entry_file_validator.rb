@@ -10,6 +10,8 @@ module Asimov
     # any value.  No other keys are permitted.
     ##
     class TextEntryFileValidator < JsonlValidator
+      private
+
       def validate_line(line, idx)
         parsed = JSON.parse(line)
         validate_text_entry(parsed, idx)

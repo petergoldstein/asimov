@@ -1,6 +1,9 @@
 require "json"
 
 module Asimov
+  ##
+  # Set of utilities, primarily intended for internal library use.
+  ##
   module Utils
     ##
     # Validates that a file is in the "classifications" format
@@ -8,8 +11,13 @@ module Asimov
     # "text" and "label" keys for each line that have string
     # values and an optional "metadata" key that can have
     # any value.  No other keys are permitted.
+    #
+    # The only method that clients should call on instances
+    # of this class is `validate`
     ##
     class ClassificationsFileValidator < JsonlValidator
+      private
+
       def validate_line(line, idx)
         parsed = JSON.parse(line)
         validate_classification(parsed, idx)

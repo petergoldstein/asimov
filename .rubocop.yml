@@ -14,6 +14,10 @@ Metrics/BlockLength:
     - "asimov.gemspec"
     - "spec/**/*"
 
+Metrics/ClassLength:
+  Exclude:
+    - "lib/asimov/api_v1/api_error_translator.rb"
+
 RSpec/ExampleLength:
   Enabled: false
 

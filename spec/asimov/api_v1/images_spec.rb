@@ -12,25 +12,30 @@ RSpec.describe Asimov::ApiV1::Images do
 
   describe "#create" do
     let(:path_string) { "/images/generations" }
+    let(:prompt) { SecureRandom.hex(4) }
 
     context "when the required prompt parameter is present" do
-      let(:parameters) do
-        { SecureRandom.hex(4).to_sym => SecureRandom.hex(4), prompt: SecureRandom.hex(4) }
+      let(:merged_parameters) do
+        parameters.merge({ prompt: prompt })
       end
 
       it "calls json_post on the client with the expected arguments" do
         allow(images).to receive(:json_post).with(path: path_string,
-                                                  parameters: parameters).and_return(ret_val)
-        expect(images.create(parameters: parameters)).to eq(ret_val)
+                                                  parameters: merged_parameters).and_return(ret_val)
+        expect(images.create(prompt: prompt, parameters: parameters)).to eq(ret_val)
         expect(images).to have_received(:json_post).with(path: path_string,
-                                                         parameters: parameters)
+                                                         parameters: merged_parameters)
       end
     end
 
     context "when the required prompt parameter is missing" do
       it "raises a MissingRequiredParameterError" do
         expect do
-          images.create(parameters: parameters)
+          images.create(prompt: nil)
+        end.to raise_error Asimov::MissingRequiredParameterError
+
+        expect do
+          images.create(prompt: nil, parameters: parameters)
         end.to raise_error Asimov::MissingRequiredParameterError
       end
     end
@@ -38,19 +43,15 @@ RSpec.describe Asimov::ApiV1::Images do
 
   describe "#edit" do
     let(:path_string) { "/images/edits" }
+    let(:prompt) { SecureRandom.hex(4) }
+    let(:image_filename) { SecureRandom.hex(4) }
 
     context "when the required prompt parameter is present" do
       let(:parameters) do
-        { SecureRandom.hex(4).to_sym => SecureRandom.hex(4), prompt: SecureRandom.hex(4) }
+        { SecureRandom.hex(4).to_sym => SecureRandom.hex(4) }
       end
 
       context "when the required image parameter is present" do
-        let(:image_filename) { SecureRandom.hex(4) }
-        let(:parameters) do
-          { SecureRandom.hex(4).to_sym => SecureRandom.hex(4), prompt: SecureRandom.hex(4),
-            image: image_filename }
-        end
-
         context "when the image file can be loaded" do
           let(:image_file) { instance_double(File) }
 
@@ -64,14 +65,15 @@ RSpec.describe Asimov::ApiV1::Images do
 
           context "when the optional mask parameter is not present" do
             let(:merged_parameters) do
-              parameters.merge({ image: image_file })
+              parameters.merge({ image: image_file, prompt: prompt })
             end
 
             it "calls multipart_post on the client with the expected arguments" do
               allow(images).to receive(:multipart_post).with(path: path_string,
                                                              parameters: merged_parameters)
                                                        .and_return(ret_val)
-              expect(images.create_edit(parameters: parameters)).to eq(ret_val)
+              expect(images.create_edit(image: image_filename, prompt: prompt,
+                                        parameters: parameters)).to eq(ret_val)
               expect(images).to have_received(:multipart_post).with(path: path_string,
                                                                     parameters: merged_parameters)
             end
@@ -80,14 +82,13 @@ RSpec.describe Asimov::ApiV1::Images do
           context "when the optional mask parameter is present" do
             let(:mask_filename) { SecureRandom.hex(4) }
             let(:parameters) do
-              { SecureRandom.hex(4).to_sym => SecureRandom.hex(4), prompt: SecureRandom.hex(4),
-                image: image_filename, mask: mask_filename }
+              { SecureRandom.hex(4).to_sym => SecureRandom.hex(4), mask: mask_filename }
             end
 
             context "when the mask file can be loaded" do
               let(:mask_file) { instance_double(File) }
               let(:merged_parameters) do
-                parameters.merge({ image: image_file, mask: mask_file })
+                parameters.merge({ image: image_file, mask: mask_file, prompt: prompt })
               end
 
               before do
@@ -102,7 +103,8 @@ RSpec.describe Asimov::ApiV1::Images do
                 allow(images).to receive(:multipart_post).with(path: path_string,
                                                                parameters: merged_parameters)
                                                          .and_return(ret_val)
-                expect(images.create_edit(parameters: parameters)).to eq(ret_val)
+                expect(images.create_edit(image: image_filename, prompt: prompt,
+                                          parameters: parameters)).to eq(ret_val)
                 expect(images).to have_received(:multipart_post).with(path: path_string,
                                                                       parameters: merged_parameters)
               end
@@ -119,7 +121,7 @@ RSpec.describe Asimov::ApiV1::Images do
 
               it "reraises the underlying error" do
                 expect do
-                  images.create_edit(parameters: parameters)
+                  images.create_edit(image: image_filename, prompt: prompt, parameters: parameters)
                 end.to raise_error(Asimov::FileCannotBeOpenedError)
               end
             end
@@ -137,7 +139,7 @@ RSpec.describe Asimov::ApiV1::Images do
 
           it "reraises the underlying error" do
             expect do
-              images.create_edit(parameters: parameters)
+              images.create_edit(image: image_filename, prompt: prompt, parameters: parameters)
             end.to raise_error(Asimov::FileCannotBeOpenedError)
           end
         end
@@ -146,7 +148,7 @@ RSpec.describe Asimov::ApiV1::Images do
       context "when the required image parameter is missing" do
         it "raises a MissingRequiredParameterError" do
           expect do
-            images.create_edit(parameters: parameters)
+            images.create_edit(image: nil, prompt: prompt, parameters: parameters)
           end.to raise_error(Asimov::MissingRequiredParameterError)
         end
       end
@@ -155,7 +157,7 @@ RSpec.describe Asimov::ApiV1::Images do
     context "when the required prompt parameter is missing" do
       it "raises a MissingRequiredParameterError" do
         expect do
-          images.create_edit(parameters: parameters)
+          images.create_edit(image: image_filename, prompt: nil, parameters: parameters)
         end.to raise_error(Asimov::MissingRequiredParameterError)
       end
     end
@@ -191,7 +193,8 @@ RSpec.describe Asimov::ApiV1::Images do
             allow(images).to receive(:multipart_post).with(path: path_string,
                                                            parameters: merged_parameters)
                                                      .and_return(ret_val)
-            expect(images.create_variation(parameters: parameters)).to eq(ret_val)
+            expect(images.create_variation(image: image_filename,
+                                           parameters: parameters)).to eq(ret_val)
             expect(images).to have_received(:multipart_post).with(path: path_string,
                                                                   parameters: merged_parameters)
           end
@@ -201,7 +204,7 @@ RSpec.describe Asimov::ApiV1::Images do
           let(:mask_filename) { SecureRandom.hex(4) }
           let(:parameters) do
             { SecureRandom.hex(4).to_sym => SecureRandom.hex(4),
-              image: image_filename, mask: mask_filename }
+              mask: mask_filename }
           end
 
           context "when the mask file can be loaded" do
@@ -222,7 +225,8 @@ RSpec.describe Asimov::ApiV1::Images do
               allow(images).to receive(:multipart_post).with(path: path_string,
                                                              parameters: merged_parameters)
                                                        .and_return(ret_val)
-              expect(images.create_variation(parameters: parameters)).to eq(ret_val)
+              expect(images.create_variation(image: image_filename,
+                                             parameters: parameters)).to eq(ret_val)
               expect(images).to have_received(:multipart_post).with(path: path_string,
                                                                     parameters: merged_parameters)
             end
@@ -239,7 +243,7 @@ RSpec.describe Asimov::ApiV1::Images do
 
             it "reraises the underlying error" do
               expect do
-                images.create_variation(parameters: parameters)
+                images.create_variation(image: image_filename, parameters: parameters)
               end.to raise_error(Asimov::FileCannotBeOpenedError)
             end
           end
@@ -257,7 +261,7 @@ RSpec.describe Asimov::ApiV1::Images do
 
         it "reraises the underlying error" do
           expect do
-            images.create_variation(parameters: parameters)
+            images.create_variation(image: image_filename, parameters: parameters)
           end.to raise_error(Asimov::FileCannotBeOpenedError)
         end
       end
@@ -266,7 +270,11 @@ RSpec.describe Asimov::ApiV1::Images do
     context "when the required image parameter is missing" do
       it "raises a MissingRequiredParameterError" do
         expect do
-          images.create_variation(parameters: parameters)
+          images.create_variation(image: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+
+        expect do
+          images.create_variation(image: nil, parameters: parameters)
         end.to raise_error(Asimov::MissingRequiredParameterError)
       end
     end

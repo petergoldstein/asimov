@@ -4,11 +4,18 @@ module Asimov
     # Class interface for API methods in the "/edits" URI subspace.
     ##
     class Edits < Base
-      def create(parameters:)
-        raise MissingRequiredParameterError.new(:model) unless parameters[:model]
-        raise MissingRequiredParameterError.new(:instruction) unless parameters[:instruction]
+      ##
+      # Calls the /edits POST endpoint with the specified parameters.
+      #
+      # @param [Hash] parameters the set of parameters being passed to the API
+      ##
+      def create(model:, instruction:, parameters: {})
+        raise MissingRequiredParameterError.new(:model) unless model
+        raise MissingRequiredParameterError.new(:instruction) unless instruction
 
-        json_post(path: "/edits", parameters: parameters)
+        json_post(path: "/edits",
+                  parameters: parameters.merge({ model: model,
+                                                 instruction: instruction }))
       end
     end
   end
