@@ -24,7 +24,7 @@ module Asimov
         multipart_post(path: "#{URI_PREFIX}/#{fine_tune_id}/cancel")
       end
 
-      def events(fine_tune_id:)
+      def list_events(fine_tune_id:)
         http_get(path: "#{URI_PREFIX}/#{fine_tune_id}/events")
       end
     end

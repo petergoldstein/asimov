@@ -72,7 +72,7 @@ RSpec.describe Asimov::ApiV1::Finetunes do
 
     it "calls get on the client with the expected argument" do
       allow(finetunes).to receive(:http_get).with(path: path_string).and_return(ret_val)
-      expect(finetunes.events(fine_tune_id: fine_tune_id)).to eq(ret_val)
+      expect(finetunes.list_events(fine_tune_id: fine_tune_id)).to eq(ret_val)
       expect(finetunes).to have_received(:http_get).with(path: path_string)
     end
   end

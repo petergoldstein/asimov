@@ -32,7 +32,7 @@ RSpec.describe "Finetunes API", type: :feature do
         expect(job_list[0]["object"]).to eq("fine-tune")
 
         # List the fine tuning events
-        r = client.finetunes.events(fine_tune_id: fine_tune_id)
+        r = client.finetunes.list_events(fine_tune_id: fine_tune_id)
         job_list = r["data"]
         expect(job_list.size).to be > 0
         expect(job_list[0]["object"]).to eq("fine-tune-event")
@@ -92,7 +92,7 @@ RSpec.describe "Finetunes API", type: :feature do
     it "generates the expected error" do
       VCR.use_cassette("fine tune job list events with non-existent id") do
         expect do
-          client.finetunes.events(fine_tune_id: "nosuchfinetune")
+          client.finetunes.list_events(fine_tune_id: "nosuchfinetune")
         end.to raise_error(Asimov::NotFoundError)
       end
     end
