@@ -77,7 +77,7 @@ http_interactions:
       message: NOT FOUND
     headers:
       Date:
-      - Thu, 12 Jan 2023 04:33:09 GMT
+      - Fri, 20 Jan 2023 05:01:01 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -91,9 +91,9 @@ http_interactions:
       Openai-Organization:
       - user-v7rioy6cjkgtatbz00ynxiny
       X-Request-Id:
-      - 426eb1924b3d25a3e4abedbb54c402a1
+      - 1b5738b607536660e7a4ca45494f0970
       Openai-Processing-Ms:
-      - '31'
+      - '40'
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
@@ -107,5 +107,5 @@ http_interactions:
             "code": null
           }
         }
-  recorded_at: Thu, 12 Jan 2023 04:33:09 GMT
+  recorded_at: Fri, 20 Jan 2023 05:01:01 GMT
 recorded_with: VCR 6.1.0

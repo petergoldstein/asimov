@@ -6,7 +6,7 @@ http_interactions:
     body:
       encoding: UTF-8
       base64_string: |
-        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1UWEd2WFRpTDJ4RHVmX21RDQpD
+        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1XNmFGT1ZGc3RKYllZcmVFDQpD
         b250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImltYWdlIjsg
         ZmlsZW5hbWU9ImltYWdlLnBuZyINCkNvbnRlbnQtVHlwZTogaW1hZ2UvcG5n
         DQoNColQTkcNChoKAAAADUlIRFIAAABEAAAARAgGAAAAOBOTsgAAAAlwSFlz
@@ -15,7 +15,7 @@ http_interactions:
         EkJCSAgJISEkhISQEBJCQkgICSEhJISEkBASQkJICAkhISSEhJAQEkJCSAgJ
         ISEkhISQEBJCQkgICSEhJISEkBASQkJICAkhISSEhJAQEkJCSAgJISEkhISQ
         EBJCQkgIiQPDaANnb9mKTgAAAABJRU5ErkJggg0KLS0tLS0tLS0tLS0tLS0t
-        LS0tLS0tLS0tLS1UWEd2WFRpTDJ4RHVmX21RDQpDb250ZW50LURpc3Bvc2l0
+        LS0tLS0tLS0tLS1XNmFGT1ZGc3RKYllZcmVFDQpDb250ZW50LURpc3Bvc2l0
         aW9uOiBmb3JtLWRhdGE7IG5hbWU9Im1hc2siOyBmaWxlbmFtZT0ibWFzay5w
         bmciDQpDb250ZW50LVR5cGU6IGltYWdlL3BuZw0KDQqJUE5HDQoaCgAAAA1J
         SERSAAAARAAAAEQIBgAAADgTk7IAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAB
@@ -42,16 +42,16 @@ http_interactions:
         vS8zz6AT6/2m90YVX5DJvPlZCuNY87qkb1Kb2JL+O3dsMfLiYWOKj3GGb+bW
         IL1QiR6pJYaU6T9DEHF8vnknfJNRC5kukAv14FuZt/cZcYuk68+N7nlvN5Ps
         OFtBSkB9txugFiRALUiAWpAAtSAB/gAQyVDrUz1MmwAAAABJRU5ErkJggg0K
-        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1UWEd2WFRpTDJ4RHVmX21RDQpD
+        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1XNmFGT1ZGc3RKYllZcmVFDQpD
         b250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InByb21wdCIN
         Cg0KQSBzb2xpZCByZWQgUnVieSBvbiBhIGJsdWUgYmFja2dyb3VuZA0KLS0t
-        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1UWEd2WFRpTDJ4RHVmX21RDQpDb250
+        LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1XNmFGT1ZGc3RKYllZcmVFDQpDb250
         ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InNpemUiDQoNCjI1
-        NngyNTYNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tVFhHdlhUaUwyeER1
-        Zl9tUS0tDQo=
+        NngyNTYNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tVzZhRk9WRnN0SmJZ
+        WXJlRS0tDQo=
     headers:
       Content-Type:
-      - multipart/form-data; boundary=------------------------TXGvXTiL2xDuf_mQ
+      - multipart/form-data; boundary=------------------------W6aFOVFstJbYYreE
       Authorization:
       - Bearer <OPENAI_API_KEY>
       Accept-Encoding:
@@ -66,7 +66,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 18 Jan 2023 05:37:27 GMT
+      - Fri, 20 Jan 2023 05:08:20 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -78,9 +78,9 @@ http_interactions:
       Openai-Organization:
       - user-v7rioy6cjkgtatbz00ynxiny
       X-Request-Id:
-      - 763bee77a15fb080236ab6becb326163
+      - 259263c33242145a6b33ec32a005cf28
       Openai-Processing-Ms:
-      - '8574'
+      - '8483'
       Access-Control-Allow-Origin:
       - "*"
       Strict-Transport-Security:
@@ -88,18 +88,18 @@ http_interactions:
     body:
       encoding: UTF-8
       base64_string: |
-        ewogICJjcmVhdGVkIjogMTY3NDAyMDI0NywKICAiZGF0YSI6IFsKICAgIHsK
+        ewogICJjcmVhdGVkIjogMTY3NDE5MTMwMCwKICAiZGF0YSI6IFsKICAgIHsK
         ICAgICAgInVybCI6ICJodHRwczovL29haWRhbGxlYXBpcHJvZHNjdXMuYmxv
         Yi5jb3JlLndpbmRvd3MubmV0L3ByaXZhdGUvb3JnLWNCTjB5OWdMMnY2alVj
         aVNEczIzU25Xcy91c2VyLXY3UmlPWTZDSmtndGF0YlowMHluWEluWS9pbWct
-        cXl5OVVyMGtYTWZvRUVGZThXWEhiTnVmLnBuZz9zdD0yMDIzLTAxLTE4VDA0
-        JTNBMzclM0EyN1omc2U9MjAyMy0wMS0xOFQwNiUzQTM3JTNBMjdaJnNwPXIm
+        SnJxRERnV3ZhcHJEOUFvdktZbUtjMjA4LnBuZz9zdD0yMDIzLTAxLTIwVDA0
+        JTNBMDglM0EyMFomc2U9MjAyMy0wMS0yMFQwNiUzQTA4JTNBMjBaJnNwPXIm
         c3Y9MjAyMS0wOC0wNiZzcj1iJnJzY2Q9aW5saW5lJnJzY3Q9aW1hZ2UvcG5n
         JnNrb2lkPTZhYWFkZWRlLTRmYjMtNDY5OC1hOGY2LTY4NGQ3Nzg2YjA2NyZz
         a3RpZD1hNDhjY2E1Ni1lNmRhLTQ4NGUtYTgxNC05Yzg0OTY1MmJjYjMmc2t0
-        PTIwMjMtMDEtMThUMDQlM0E0NiUzQTExWiZza2U9MjAyMy0wMS0xOVQwNCUz
-        QTQ2JTNBMTFaJnNrcz1iJnNrdj0yMDIxLTA4LTA2JnNpZz13ZWVvU3JNUGRi
-        Q2NzVDU2QUNIUGlSRGxGTlU4OUtSTVVlL21HbUhReDl3JTNEIgogICAgfQog
+        PTIwMjMtMDEtMTlUMjMlM0EzOSUzQTM2WiZza2U9MjAyMy0wMS0yMFQyMyUz
+        QTM5JTNBMzZaJnNrcz1iJnNrdj0yMDIxLTA4LTA2JnNpZz00VzBBbFRYV2ZZ
+        MWxJaWYxQUV3cVJ0QWtRZnE3cDV3RWx0N2lEczU4Nlc0JTNEIgogICAgfQog
         IF0KfQo=
-  recorded_at: Wed, 18 Jan 2023 05:37:27 GMT
+  recorded_at: Fri, 20 Jan 2023 05:08:20 GMT
 recorded_with: VCR 6.1.0

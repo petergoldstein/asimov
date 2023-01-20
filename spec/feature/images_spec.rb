@@ -1,18 +1,20 @@
 require_relative "../spec_helper"
 
 RSpec.describe "Images API", type: :feature do
+  let(:prompt) { "an android detective in a futuristic underground city, as digital art" }
+  let(:size) { "256x256" }
+  let(:client) { Asimov::Client.new }
+
   describe "create an image with valid parameters", :vcr do
     let(:response) do
-      Asimov::Client.new.images.create(
+      client.images.create(
         parameters: {
           prompt: prompt,
           size: size
         }
       )
     end
-    let(:cassette) { "images generate #{prompt}" }
-    let(:prompt) { "A baby sea otter cooking pasta wearing a hat of some sort" }
-    let(:size) { "256x256" }
+    let(:cassette) { "images create #{prompt}" }
 
     it "succeeds" do
       VCR.use_cassette(cassette) do
@@ -22,14 +24,10 @@ RSpec.describe "Images API", type: :feature do
   end
 
   describe "create an image with too large a value for n", :vcr do
-    let(:cassette) { "images create with too large an n" }
-    let(:prompt) { "A baby sea otter cooking pasta wearing a hat of some sort" }
-    let(:size) { "256x256" }
-
     it "raises the expected error" do
-      VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
+      VCR.use_cassette("images create with too large an n", preserve_exact_body_bytes: true) do
         expect do
-          Asimov::Client.new.images.create(
+          client.images.create(
             parameters: {
               prompt: prompt,
               size: size,
@@ -42,14 +40,10 @@ RSpec.describe "Images API", type: :feature do
   end
 
   describe "create an image with too small a value for n", :vcr do
-    let(:cassette) { "images create with too small an n" }
-    let(:prompt) { "A baby sea otter cooking pasta wearing a hat of some sort" }
-    let(:size) { "256x256" }
-
     it "raises the expected error" do
-      VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
+      VCR.use_cassette("images create with too small an n", preserve_exact_body_bytes: true) do
         expect do
-          Asimov::Client.new.images.create(
+          client.images.create(
             parameters: {
               prompt: prompt,
               size: size,
@@ -62,16 +56,6 @@ RSpec.describe "Images API", type: :feature do
   end
 
   describe "create an image edit with valid parameters", :vcr do
-    let(:response) do
-      Asimov::Client.new.images.create_edit(
-        parameters: {
-          image: image,
-          mask: mask,
-          prompt: prompt,
-          size: size
-        }
-      )
-    end
     let(:cassette) { "images edit #{image_filename} #{prompt}" }
     let(:prompt) { "A solid red Ruby on a blue background" }
     let(:image) { Utils.fixture_filename(filename: image_filename) }
@@ -82,6 +66,15 @@ RSpec.describe "Images API", type: :feature do
 
     it "succeeds" do
       VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
+        response = client.images.create_edit(
+          parameters: {
+            image: image,
+            mask: mask,
+            prompt: prompt,
+            size: size
+          }
+        )
+
         expect(response.dig("data", 0, "url")).to include("dalle")
       end
     end
@@ -99,7 +92,7 @@ RSpec.describe "Images API", type: :feature do
     it "raises the expected error" do
       VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
         expect do
-          Asimov::Client.new.images.create_edit(
+          client.images.create_edit(
             parameters: {
               image: image,
               mask: mask,
@@ -125,7 +118,7 @@ RSpec.describe "Images API", type: :feature do
     it "raises the expected error" do
       VCR.use_cassette(cassette, preserve_exact_body_bytes: true) do
         expect do
-          Asimov::Client.new.images.create_edit(
+          client.images.create_edit(
             parameters: {
               image: image,
               mask: mask,
@@ -140,7 +133,7 @@ RSpec.describe "Images API", type: :feature do
 
   describe "#create_variation", :vcr do
     let(:response) do
-      Asimov::Client.new.images.create_variation(
+      client.images.create_variation(
         parameters: {
           image: image,
           n: 2,

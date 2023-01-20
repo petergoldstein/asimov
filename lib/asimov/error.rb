@@ -9,6 +9,10 @@ module Asimov
   ##
   class ConfigurationError < Error; end
 
+  ##
+  # Error that occurs when there is no configured
+  # API key for a newly created Asimov::Client.
+  ##
   class MissingApiKeyError < ConfigurationError; end
 
   ##
@@ -105,20 +109,45 @@ module Asimov
     end
   end
 
+  ##
+  # Error that occurs when a JSONL file is expected
+  # and it cannot be parsed.
+  ##
   class JsonlFileCannotBeParsedError < FileDataError; end
 
+  ##
+  # Error that occurs when an invalid training example
+  # is found in a training file.
+  ##
   class InvalidTrainingExampleError < FileDataError; end
 
+  ##
+  # Error that occurs when an invalid text entry
+  # is found in a text entry file.
+  ##
   class InvalidTextEntryError < FileDataError; end
 
+  ##
+  # Error that occurs when an invalid classification
+  # is found in a classifications file.
+  ##
   class InvalidClassificationError < FileDataError; end
 
+  ##
+  # Error that occurs when an invalid value is provided
+  # for an expected parameter in a request.
+  ##
   class InvalidParameterValueError < RequestError; end
 
+  ##
+  # Error that occurs when an unexpected parameter is
+  # provided in a request.
+  ##
   class UnsupportedParameterError < RequestError; end
 
   ##
-  #
+  # Error raised when a required parameter is not included
+  # in the request.
   ##
   class MissingRequiredParameterError < RequestError
     def initialize(parameter_name)
@@ -138,6 +167,33 @@ module Asimov
   # an object in the OpenAI system.
   ##
   class NotFoundError < RequestError; end
+
+  ##
+  # Errors that occur because the OpenAI API returned
+  # an HTTP code 429.  This typically occurs because
+  # you have hit a rate limit or quota limit, or
+  # because the engine is overloaded.
+  ##
+  class TooManyRequestsError < RequestError; end
+
+  ##
+  # Error that occurs when the quota for an API key
+  # is exceeded.
+  ##
+  class QuotaExceededError < TooManyRequestsError; end
+
+  ##
+  # Error that occurs when the rate limit for requests
+  # is exceeded.
+  ##
+  class RateLimitError < TooManyRequestsError; end
+
+  ##
+  # Error that occurs when the API itself is
+  # overloaded and temporarily cannot accept additional
+  # requests.
+  ##
+  class ApiOverloadedError < TooManyRequestsError; end
 
   ##
   # Raised when a non-false stream parameter is passed

@@ -13,9 +13,15 @@ module Asimov
       # subclass if the response corresponds to an HTTP error.
       ##
       def self.translate(resp)
+        return if resp.code == 200
+
         match_400(resp)
         match_401(resp)
         match_404(resp)
+        match_409(resp)
+        match_429(resp)
+
+        raise Asimov::RequestError, error_message(resp)
       end
 
       # rubocop:disable Naming/VariableNumber
@@ -59,6 +65,38 @@ module Asimov
         end
 
         raise Asimov::RequestError, msg
+      end
+
+      def self.match_409(resp)
+        return unless resp.code == 409
+
+        raise Asimov::RequestError, error_message(resp)
+      end
+
+      QUOTA_EXCEEDED_MESSAGE = "You exceeded your current quota".freeze
+      RATE_LIMIT_REACHED_MESSAGE = "Rate limit reached".freeze
+      ENGINE_OVERLOADED_MESSAGE = "The engine is currently overloaded".freeze
+      def self.match_429(resp)
+        return unless resp.code == 429
+
+        msg = error_message(resp)
+
+        if msg.start_with?(QUOTA_EXCEEDED_MESSAGE)
+          raise Asimov::QuotaExceededError,
+                msg
+        end
+
+        if msg.start_with?(RATE_LIMIT_REACHED_MESSAGE)
+          raise Asimov::RateLimitError,
+                msg
+        end
+
+        if msg.start_with?(ENGINE_OVERLOADED_MESSAGE)
+          raise Asimov::ApiOverloadedError,
+                msg
+        end
+
+        raise Asimov::TooManyRequestsError, msg
       end
 
       def self.match_invalid_parameter_value?(msg)

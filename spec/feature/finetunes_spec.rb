@@ -54,7 +54,7 @@ RSpec.describe "Finetunes API", type: :feature do
         end
 
         # Give the file time to process if running against the real API
-        sleep 2 if ENV["RUN_LIVE"]
+        sleep 20 if ENV["RUN_LIVE"]
 
         # Delete the uploaded file
         client.files.delete(file_id: file_id)
