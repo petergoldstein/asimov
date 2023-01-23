@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Fixed
+
+- Fixed handling of authentication errors
+
+### Changed
+
+- Renamed events to list_events for consistency
+- Updated file arguments to take path strings or File-like objects
+- Adjusted endpoints to make required parameters more explicit
+
+### Added
+
+- Error for the unsupported stream: true case
+- Error mapping for 409 and 429 errors
+- Specs for authentication
+
 ## [0.1.0] - 2023-01-14
 
 This initial version of the gem is now suitable for use.  API endpoint method naming may shift slightly, 
