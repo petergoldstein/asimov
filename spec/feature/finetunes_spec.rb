@@ -17,8 +17,8 @@ RSpec.describe "Finetunes API", type: :feature do
 
         # Create a fine tuned model
         r = client.finetunes.create(
+          training_file: file_id,
           parameters: {
-            training_file: file_id,
             model: model
           }
         )

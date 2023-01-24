@@ -19,10 +19,10 @@ module Asimov
       #
       # @param [Hash] parameters the parameters passed with the fine tuning job
       ##
-      def create(parameters:)
-        raise MissingRequiredParameterError.new(:training_file) unless parameters[:training_file]
+      def create(training_file:, parameters: {})
+        raise MissingRequiredParameterError.new(:training_file) unless training_file
 
-        json_post(path: URI_PREFIX, parameters: parameters)
+        json_post(path: URI_PREFIX, parameters: parameters.merge(training_file: training_file))
       end
 
       ##

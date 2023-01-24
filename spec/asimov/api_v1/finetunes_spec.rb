@@ -21,24 +21,28 @@ RSpec.describe Asimov::ApiV1::Finetunes do
   end
 
   describe "#create" do
+    let(:training_file_id) { SecureRandom.hex(5) }
+
     context "when the required training_file parameter is present" do
-      let(:parameters) do
-        { SecureRandom.hex(4).to_sym => SecureRandom.hex(4), training_file: SecureRandom.hex(4) }
+      let(:merged_parameters) do
+        parameters.merge(training_file: training_file_id)
       end
 
       it "calls json_post on the client with the expected arguments" do
         allow(finetunes).to receive(:json_post).with(path: "/fine-tunes",
-                                                     parameters: parameters).and_return(ret_val)
-        expect(finetunes.create(parameters: parameters)).to eq(ret_val)
+                                                     parameters: merged_parameters)
+                                               .and_return(ret_val)
+        expect(finetunes.create(training_file: training_file_id,
+                                parameters: parameters)).to eq(ret_val)
         expect(finetunes).to have_received(:json_post).with(path: "/fine-tunes",
-                                                            parameters: parameters)
+                                                            parameters: merged_parameters)
       end
     end
 
     context "when the required training_file parameter is missing" do
       it "raises a MissingRequiredParameterError" do
         expect do
-          finetunes.create(parameters: parameters)
+          finetunes.create(training_file: nil, parameters: parameters)
         end.to raise_error Asimov::MissingRequiredParameterError
       end
     end
