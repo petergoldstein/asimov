@@ -98,11 +98,8 @@ module Asimov
                          stream_body: true }.merge!(request_options)) do |fragment|
           fragment.code == 200 ? writer.write(fragment) : check_for_api_error(fragment)
         end
-      rescue Asimov::RequestError => e
-        # Raise any translated API errors
-        raise e
       rescue StandardError => e
-        # Otherwise translate the error to a network error
+        # Any error raised by the HTTP call is a network error
         NetworkErrorTranslator.translate(e)
       end
 
@@ -122,7 +119,6 @@ module Asimov
         return if resp.code == 200
 
         ApiErrorTranslator.translate(resp)
-        resp
       end
     end
   end

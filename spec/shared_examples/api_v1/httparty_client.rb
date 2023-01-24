@@ -653,4 +653,181 @@ shared_examples_for "sends requests to the v1 API" do
       end
     end
   end
+
+  describe "#http_streamed_download" do
+    let(:fragment) do
+      f = instance_double(HTTParty::ResponseFragment)
+      allow(f).to receive(:code).and_return(code)
+      f
+    end
+
+    let(:writer) { instance_double(File) }
+
+    context "when there are no request options" do
+      context "when the underlying HTTP call does not return an error" do
+        let(:code) { 200 }
+
+        before do
+          allow(described_class).to receive(:get).with(full_path, { headers: headers,
+                                                                    stream_body: true })
+                                                 .and_yield(fragment)
+          allow(writer).to receive(:write).with(fragment)
+        end
+
+        after do
+          expect(described_class).to have_received(:get).with(full_path,
+                                                              { headers: headers,
+                                                                stream_body: true })
+          expect(writer).to have_received(:write).with(fragment)
+        end
+
+        it "passes the path to the stream download get method of HTTParty" do
+          expect do
+            instance.http_streamed_download(path: path, writer: writer)
+          end.not_to raise_error
+        end
+      end
+
+      context "when the underlying HTTP call has an error code" do
+        let(:code) { 500 }
+
+        before do
+          allow(described_class).to receive(:get).with(full_path, { headers: headers,
+                                                                    stream_body: true })
+                                                 .and_yield(fragment)
+          allow(writer).to receive(:write).with(fragment)
+        end
+
+        after do
+          expect(described_class).to have_received(:get).with(full_path,
+                                                              { headers: headers,
+                                                                stream_body: true })
+          expect(writer).not_to have_received(:write).with(fragment)
+        end
+
+        it "passes the path to the stream download get method of HTTParty" do
+          expect do
+            instance.http_streamed_download(path: path, writer: writer)
+          end.to raise_error(Asimov::RequestError)
+        end
+      end
+    end
+
+    context "when request options are passed to the client" do
+      context "when the underlying HTTP call does not return an error" do
+        let(:code) { 200 }
+        let(:request_options) { { read_timeout: 1234 } }
+        let(:client) { Asimov::Client.new(api_key: api_key, request_options: request_options) }
+
+        before do
+          allow(described_class).to receive(:get).with(full_path, { headers: headers,
+                                                                    stream_body: true }
+                                                                    .merge(request_options))
+                                                 .and_yield(fragment)
+          allow(writer).to receive(:write).with(fragment)
+        end
+
+        after do
+          expect(described_class).to have_received(:get).with(full_path,
+                                                              { headers: headers,
+                                                                stream_body: true }
+                                                                .merge(request_options))
+          expect(writer).to have_received(:write).with(fragment)
+        end
+
+        it "passes the path to the stream download get method of HTTParty" do
+          expect do
+            instance.http_streamed_download(path: path, writer: writer)
+          end.not_to raise_error
+        end
+      end
+
+      context "when the underlying HTTP call raises a Net::OpenTimeout" do
+        let(:code) { 200 }
+        let(:request_options) { { read_timeout: 1234 } }
+        let(:client) { Asimov::Client.new(api_key: api_key, request_options: request_options) }
+
+        before do
+          allow(described_class).to receive(:get).with(full_path, { headers: headers,
+                                                                    stream_body: true }
+                                                                    .merge(request_options))
+                                                 .and_raise(Net::OpenTimeout)
+          allow(writer).to receive(:write).with(fragment)
+        end
+
+        after do
+          expect(described_class).to have_received(:get).with(full_path,
+                                                              { headers: headers,
+                                                                stream_body: true }
+                                                                .merge(request_options))
+          expect(writer).not_to have_received(:write).with(fragment)
+        end
+
+        it "passes the path to the stream download get method of HTTParty" do
+          expect do
+            instance.http_streamed_download(path: path, writer: writer)
+          end.to raise_error(Asimov::OpenTimeout)
+        end
+      end
+
+      context "when the underlying HTTP call raises a Net::ReadTimeout" do
+        let(:code) { 200 }
+        let(:request_options) { { read_timeout: 1234 } }
+        let(:client) { Asimov::Client.new(api_key: api_key, request_options: request_options) }
+
+        before do
+          allow(described_class).to receive(:get).with(full_path, { headers: headers,
+                                                                    stream_body: true }
+                                                                    .merge(request_options))
+                                                 .and_raise(Net::ReadTimeout)
+          allow(writer).to receive(:write).with(fragment)
+        end
+
+        after do
+          expect(described_class).to have_received(:get).with(full_path,
+                                                              { headers: headers,
+                                                                stream_body: true }
+                                                                .merge(request_options))
+          expect(writer).not_to have_received(:write).with(fragment)
+        end
+
+        it "passes the path to the stream download get method of HTTParty" do
+          expect do
+            instance.http_streamed_download(path: path, writer: writer)
+          end.to raise_error(Asimov::ReadTimeout)
+        end
+      end
+
+      [Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse,
+       Net::HTTPHeaderSyntaxError, Net::ProtocolError].each do |e|
+        context "when the underlying HTTP call raises a #{e.name}" do
+          let(:code) { 200 }
+          let(:request_options) { { read_timeout: 1234 } }
+          let(:client) { Asimov::Client.new(api_key: api_key, request_options: request_options) }
+
+          before do
+            allow(described_class).to receive(:get).with(full_path, { headers: headers,
+                                                                      stream_body: true }
+                                                                      .merge(request_options))
+                                                   .and_raise(e)
+            allow(writer).to receive(:write).with(fragment)
+          end
+
+          after do
+            expect(described_class).to have_received(:get).with(full_path,
+                                                                { headers: headers,
+                                                                  stream_body: true }
+                                                                  .merge(request_options))
+            expect(writer).not_to have_received(:write).with(fragment)
+          end
+
+          it "passes the path to the stream download get method of HTTParty" do
+            expect do
+              instance.http_streamed_download(path: path, writer: writer)
+            end.to raise_error(Asimov::NetworkError)
+          end
+        end
+      end
+    end
+  end
 end
