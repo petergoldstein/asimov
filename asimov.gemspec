@@ -6,7 +6,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Peter M. Goldstein"]
   spec.email         = ["peter.m.goldstein@gmail.com"]
 
-  spec.summary       = "A Ruby client for the OpenAI API"
+  spec.summary       = "A Ruby client for the OpenAI API support for multiple API " \
+                       "configurations in a single app, robust and simple error handling, " \
+                       "and network-level configuration."
   spec.description   = spec.summary
   spec.homepage      = "https://github.com/petergoldstein/asimov"
   spec.license       = "MIT"

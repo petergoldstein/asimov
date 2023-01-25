@@ -17,6 +17,7 @@ module Asimov
       ##
       # Creates a new fine-tuning job with the specified parameters.
       #
+      # @param [String] training_file the id of the training file to use for fine tuning
       # @param [Hash] parameters the parameters passed with the fine tuning job
       ##
       def create(training_file:, parameters: {})

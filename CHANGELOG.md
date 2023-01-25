@@ -7,25 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.0.0] - 2023-01-24
+
+This version has complete coverage of the OpenAI API (except for stream: true behavior), has
+no known errors and has full test coverage.  At this point there are no anticipated changes
+to existing endpoints.
+
 ### Fixed
 
 - Fixed handling of authentication errors
 
 ### Changed
 
+- Properly distinguished public and private methods to ensure proper documentation.
 - Renamed events to list_events for consistency
 - Updated file arguments to take path strings or File-like objects
 - Adjusted endpoints to make required parameters more explicit
 
 ### Added
 
+- Code level documentation for all public classes and methods.
 - Error for the unsupported stream: true case
 - Error mapping for 409 and 429 errors
 - Specs for authentication
 
 ## [0.1.0] - 2023-01-14
 
-This initial version of the gem is now suitable for use.  API endpoint method naming may shift slightly, 
+This initial version of the gem is now suitable for use.  API endpoint method naming may shift slightly.
 
 ### Changed
 
