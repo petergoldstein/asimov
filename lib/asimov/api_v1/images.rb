@@ -54,7 +54,7 @@ module Asimov
         raise MissingRequiredParameterError.new(:image) unless parameters[:image]
 
         parameters = parameters.merge(image: Utils::FileManager.open(parameters[:image]))
-        parameters.merge!(mask: Utils::FileManager.open(parameters[:mask])) if parameters[:mask]
+        parameters[:mask] = Utils::FileManager.open(parameters[:mask]) if parameters[:mask]
         parameters
       end
     end
