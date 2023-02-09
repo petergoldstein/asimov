@@ -15,12 +15,10 @@ module Asimov
       extend Forwardable
       include HTTParty
 
-      base_uri "https://api.openai.com/v1"
-
       def initialize(client: nil)
         @client = client
       end
-      def_delegators :@client, :headers, :request_options
+      def_delegators :@client, :headers, :request_options, :base_uri
 
       ##
       # Executes an HTTP DELETE on the specified path.
@@ -31,7 +29,7 @@ module Asimov
       def http_delete(path:)
         wrap_response_with_error_handling do
           self.class.delete(
-            path,
+            absolute_path(path),
             { headers: headers }.merge!(request_options)
           )
         end
@@ -46,7 +44,7 @@ module Asimov
       def http_get(path:)
         wrap_response_with_error_handling do
           self.class.get(
-            path,
+            absolute_path(path),
             { headers: headers }.merge!(request_options)
           )
         end
@@ -61,7 +59,7 @@ module Asimov
       def json_post(path:, parameters:)
         wrap_response_with_error_handling do
           self.class.post(
-            path,
+            absolute_path(path),
             { headers: headers,
               body: parameters&.to_json }.merge!(request_options)
           )
@@ -77,7 +75,7 @@ module Asimov
       def multipart_post(path:, parameters: nil)
         wrap_response_with_error_handling do
           self.class.post(
-            path,
+            absolute_path(path),
             { headers: headers("multipart/form-data"),
               body: parameters }.merge!(request_options)
           )
@@ -93,7 +91,7 @@ module Asimov
       # @param [Writer] writer an object, typically a File, that responds to a `write` method
       ##
       def http_streamed_download(path:, writer:)
-        self.class.get(path,
+        self.class.get(absolute_path(path),
                        { headers: headers,
                          stream_body: true }.merge!(request_options)) do |fragment|
           fragment.code == 200 ? writer.write(fragment) : check_for_api_error(fragment)
@@ -104,6 +102,10 @@ module Asimov
       end
 
       private
+
+      def absolute_path(path)
+        "#{base_uri}#{path}"
+      end
 
       def wrap_response_with_error_handling
         resp = begin

@@ -20,7 +20,7 @@ module Asimov
   class Client
     extend Forwardable
 
-    attr_reader :api_key, :organization_id, :api_version, :request_options
+    attr_reader :api_key, :organization_id, :api_version, :request_options, :base_uri
 
     ##
     # Creates a new Asimov::Client. Includes several optional named parameters:
@@ -29,14 +29,19 @@ module Asimov
     #           defaults to the application-wide configuration
     # organization_id - The OpenAI organization identifier that this Asimov::Client instance
     #                   will use. If unspecified, defaults to the application-wide configuration.
+    # request_options - HTTParty request options that will be passed to the underlying network
+    #                   client.  Merges (and overrides) global configuration value.
+    # base_uri - Custom base URI for the API calls made by this client. Defaults to global
+    #            configuration value.
     ##
     def initialize(api_key: nil, organization_id: HeadersFactory::NULL_ORGANIZATION_ID,
-                   request_options: {})
+                   request_options: {}, base_uri: nil)
       @headers_factory = HeadersFactory.new(api_key,
                                             organization_id)
       @request_options = Asimov.configuration.request_options
                                .merge(Utils::RequestOptionsValidator.validate(request_options))
                                .freeze
+      initialize_base_uri(base_uri)
     end
     def_delegators :@headers_factory, :api_key, :organization_id, :headers
 
@@ -94,6 +99,18 @@ module Asimov
     ##
     def moderations
       @moderations ||= Asimov::ApiV1::Moderations.new(client: self)
+    end
+
+    private
+
+    def initialize_base_uri(base_uri)
+      @base_uri = base_uri || Asimov.configuration.base_uri
+      if @base_uri
+        @base_uri = HTTParty.normalize_base_uri(@base_uri)
+      else
+        raise Asimov::MissingBaseUriError,
+              "No API Base URI was provided for this client."
+      end
     end
   end
 end

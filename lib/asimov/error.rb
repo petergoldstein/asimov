@@ -16,6 +16,12 @@ module Asimov
   class MissingApiKeyError < ConfigurationError; end
 
   ##
+  # Error that occurs when there is no configured
+  # base URI for a newly created Asimov::Client.
+  ##
+  class MissingBaseUriError < ConfigurationError; end
+
+  ##
   # Errors that occur when making an API request.  They
   # can occur either through local validation or
   # as a result of an error returned by the OpenAI API.

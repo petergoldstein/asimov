@@ -5,13 +5,20 @@ shared_examples_for "sends requests to the v1 API" do
   let(:client) { Asimov::Client.new(api_key: api_key) }
   let(:headers) { client.headers }
   let(:path) { "/#{SecureRandom.hex(4)}/#{SecureRandom.hex(4)}" }
-  let(:full_path) { path }
+  let(:full_path) { "#{client.base_uri}#{path}" }
   let(:parsed_body) { { SecureRandom.hex(4) => SecureRandom.hex(4) } }
   let(:ret_val) do
     resp = instance_double(HTTParty::Response)
     allow(resp).to receive(:code).and_return(200)
     allow(resp).to receive(:parsed_response).and_return(parsed_body)
     resp
+  end
+
+  describe "full_path" do
+    it "does not equal the path and starts with the https:// prefix" do
+      expect(full_path).not_to eq(path)
+      expect(full_path).to start_with("https://")
+    end
   end
 
   describe "#http_delete" do
