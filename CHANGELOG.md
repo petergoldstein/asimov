@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- Made API base URI configurable to support services that proxy API calls (like Helicone)
+
+
 ## [1.0.0] - 2023-01-24
 
 This version has complete coverage of the OpenAI API (except for stream: true behavior), has

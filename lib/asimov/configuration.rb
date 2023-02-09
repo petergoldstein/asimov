@@ -9,7 +9,9 @@ module Asimov
   class Configuration
     attr_accessor :api_key, :organization_id
 
-    attr_reader :request_options
+    attr_reader :request_options, :base_uri
+
+    DEFAULT_BASE_URI = "https://api.openai.com/v1".freeze
 
     ##
     # Initializes the Configuration object and resets it to default values.
@@ -25,6 +27,15 @@ module Asimov
       @api_key = nil
       @organization_id = nil
       @request_options = {}
+      @base_uri = DEFAULT_BASE_URI
+    end
+
+    ##
+    # Sets the base_uri on the Configuration.  Typically not invoked
+    # directly, but rather through use of `Asimov.configure`.
+    ##
+    def base_uri=(val)
+      @base_uri = val ? HTTParty.normalize_base_uri(val) : nil
     end
 
     ##
