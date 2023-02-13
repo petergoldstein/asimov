@@ -20,7 +20,7 @@ module Asimov
   class Client
     extend Forwardable
 
-    attr_reader :api_key, :organization_id, :api_version, :request_options, :base_uri
+    attr_reader :api_key, :organization_id, :api_version, :request_options, :openai_api_base
 
     ##
     # Creates a new Asimov::Client. Includes several optional named parameters:
@@ -31,17 +31,17 @@ module Asimov
     #                   will use. If unspecified, defaults to the application-wide configuration.
     # request_options - HTTParty request options that will be passed to the underlying network
     #                   client.  Merges (and overrides) global configuration value.
-    # base_uri - Custom base URI for the API calls made by this client. Defaults to global
+    # openai_api_base - Custom base URI for the API calls made by this client. Defaults to global
     #            configuration value.
     ##
     def initialize(api_key: nil, organization_id: HeadersFactory::NULL_ORGANIZATION_ID,
-                   request_options: {}, base_uri: nil)
+                   request_options: {}, openai_api_base: nil)
       @headers_factory = HeadersFactory.new(api_key,
                                             organization_id)
       @request_options = Asimov.configuration.request_options
                                .merge(Utils::RequestOptionsValidator.validate(request_options))
                                .freeze
-      initialize_base_uri(base_uri)
+      initialize_openai_api_base(openai_api_base)
     end
     def_delegators :@headers_factory, :api_key, :organization_id, :headers
 
@@ -103,10 +103,10 @@ module Asimov
 
     private
 
-    def initialize_base_uri(base_uri)
-      @base_uri = base_uri || Asimov.configuration.base_uri
-      if @base_uri
-        @base_uri = HTTParty.normalize_base_uri(@base_uri)
+    def initialize_openai_api_base(openai_api_base)
+      @openai_api_base = openai_api_base || Asimov.configuration.openai_api_base
+      if @openai_api_base
+        @openai_api_base = HTTParty.normalize_base_uri(@openai_api_base)
       else
         raise Asimov::MissingBaseUriError,
               "No API Base URI was provided for this client."

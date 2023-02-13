@@ -11,7 +11,7 @@ RSpec.describe Asimov do
         expect(described_class.configuration.api_key).to be_nil
         expect(described_class.configuration.organization_id).to be_nil
         expect(described_class.configuration.request_options).to eq({})
-        expect(described_class.configuration.base_uri).to eq("https://api.openai.com/v1")
+        expect(described_class.configuration.openai_api_base).to eq("https://api.openai.com/v1")
       end
     end
 
@@ -49,23 +49,23 @@ RSpec.describe Asimov do
     context "when configuring a base URI" do
       before do
         described_class.configure do |config|
-          config.base_uri = base_uri
+          config.openai_api_base = openai_api_base
         end
       end
 
       context "when the base URI is normalized" do
-        let(:base_uri) { "https://api.example.org/api/v2" }
+        let(:openai_api_base) { "https://api.example.org/api/v2" }
 
         it "returns the normalized value" do
-          expect(described_class.configuration.base_uri).to eq(base_uri)
+          expect(described_class.configuration.openai_api_base).to eq(openai_api_base)
         end
       end
 
       context "when the base URI is not normalized" do
-        let(:base_uri) { "api.example.ai" }
+        let(:openai_api_base) { "api.example.ai" }
 
         it "returns the normalized value with http:// prepended" do
-          expect(described_class.configuration.base_uri).to eq("http://#{base_uri}")
+          expect(described_class.configuration.openai_api_base).to eq("http://#{openai_api_base}")
         end
       end
     end

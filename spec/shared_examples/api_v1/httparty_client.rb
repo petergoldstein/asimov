@@ -5,7 +5,7 @@ shared_examples_for "sends requests to the v1 API" do
   let(:client) { Asimov::Client.new(api_key: api_key) }
   let(:headers) { client.headers }
   let(:path) { "/#{SecureRandom.hex(4)}/#{SecureRandom.hex(4)}" }
-  let(:full_path) { "#{client.base_uri}#{path}" }
+  let(:full_path) { "#{client.openai_api_base}#{path}" }
   let(:parsed_body) { { SecureRandom.hex(4) => SecureRandom.hex(4) } }
   let(:ret_val) do
     resp = instance_double(HTTParty::Response)

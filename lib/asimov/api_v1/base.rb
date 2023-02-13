@@ -18,13 +18,13 @@ module Asimov
       def initialize(client: nil)
         @client = client
       end
-      def_delegators :@client, :headers, :request_options, :base_uri
+      def_delegators :@client, :headers, :request_options, :openai_api_base
 
       ##
       # Executes an HTTP DELETE on the specified path.
       #
       # @param [String] path the URI (when combined with the
-      # base_uri) against which the DELETE is executed.
+      # openai_api_base) against which the DELETE is executed.
       ##
       def http_delete(path:)
         wrap_response_with_error_handling do
@@ -39,7 +39,7 @@ module Asimov
       # Executes an HTTP GET on the specified path.
       #
       # @param [String] path the URI (when combined with the
-      # base_uri) against which the GET is executed.
+      # openai_api_base) against which the GET is executed.
       ##
       def http_get(path:)
         wrap_response_with_error_handling do
@@ -54,7 +54,7 @@ module Asimov
       # Executes an HTTP POST with JSON-encoded parameters on the specified path.
       #
       # @param [String] path the URI (when combined with the
-      # base_uri) against which the POST is executed.
+      # openai_api_base) against which the POST is executed.
       ##
       def json_post(path:, parameters:)
         wrap_response_with_error_handling do
@@ -70,7 +70,7 @@ module Asimov
       # Executes an HTTP POST with multipart encoded parameters on the specified path.
       #
       # @param [String] path the URI (when combined with the
-      # base_uri) against which the POST is executed.
+      # openai_api_base) against which the POST is executed.
       ##
       def multipart_post(path:, parameters: nil)
         wrap_response_with_error_handling do
@@ -87,7 +87,7 @@ module Asimov
       # to the writer in case of success.
       #
       # @param [String] path the URI (when combined with the
-      # base_uri) against which the POST is executed.
+      # openai_api_base) against which the POST is executed.
       # @param [Writer] writer an object, typically a File, that responds to a `write` method
       ##
       def http_streamed_download(path:, writer:)
@@ -104,7 +104,7 @@ module Asimov
       private
 
       def absolute_path(path)
-        "#{base_uri}#{path}"
+        "#{openai_api_base}#{path}"
       end
 
       def wrap_response_with_error_handling

@@ -224,81 +224,81 @@ RSpec.describe Asimov::Client do
 
       before do
         Asimov.configure do |config|
-          config.base_uri = base_uri
+          config.openai_api_base = openai_api_base
         end
       end
 
       context "when the configured base URI is nil" do
-        let(:base_uri) { nil }
+        let(:openai_api_base) { nil }
 
         it "raises an error" do
           expect { client }.to raise_error Asimov::MissingBaseUriError
         end
 
-        context "when the client is passed an explicit normalized base_uri" do
-          let(:base_uri) { "https://exampleapi.org/v2" }
+        context "when the client is passed an explicit normalized openai_api_base" do
+          let(:openai_api_base) { "https://exampleapi.org/v2" }
 
           it "returns the override base URI" do
-            expect(client.base_uri).to eq(base_uri)
+            expect(client.openai_api_base).to eq(openai_api_base)
           end
         end
 
-        context "when the client is passed an not normalized base_uri" do
-          let(:base_uri) { "exampleapi.org/v2" }
-          let(:normalized_base_uri) { HTTParty.normalize_base_uri(base_uri) }
+        context "when the client is passed an not normalized openai_api_base" do
+          let(:openai_api_base) { "exampleapi.org/v2" }
+          let(:normalized_openai_api_base) { HTTParty.normalize_base_uri(openai_api_base) }
 
           it "returns the normalized override base URI" do
-            expect(client.base_uri).to eq(normalized_base_uri)
+            expect(client.openai_api_base).to eq(normalized_openai_api_base)
           end
         end
       end
 
       context "when the configured base URI is a normalized URI" do
-        let(:base_uri) { "https://moose.squirrel.net/v1/api" }
+        let(:openai_api_base) { "https://moose.squirrel.net/v1/api" }
 
         it "sets the URI in the client" do
-          expect(client.base_uri).to eq(base_uri)
+          expect(client.openai_api_base).to eq(openai_api_base)
         end
 
-        context "when the client is passed an explicit normalized base_uri" do
-          let(:base_uri) { "https://exampleapi.org/v2" }
+        context "when the client is passed an explicit normalized openai_api_base" do
+          let(:openai_api_base) { "https://exampleapi.org/v2" }
 
           it "returns the override base URI" do
-            expect(client.base_uri).to eq(base_uri)
+            expect(client.openai_api_base).to eq(openai_api_base)
           end
         end
 
-        context "when the client is passed an not normalized base_uri" do
-          let(:base_uri) { "exampleapi.org/v2" }
-          let(:normalized_base_uri) { HTTParty.normalize_base_uri(base_uri) }
+        context "when the client is passed an not normalized openai_api_base" do
+          let(:openai_api_base) { "exampleapi.org/v2" }
+          let(:normalized_openai_api_base) { HTTParty.normalize_base_uri(openai_api_base) }
 
           it "returns the normalized override base URI" do
-            expect(client.base_uri).to eq(normalized_base_uri)
+            expect(client.openai_api_base).to eq(normalized_openai_api_base)
           end
         end
       end
 
       context "when the configured base URI is not a normalized URI" do
-        let(:base_uri) { "rocky.bullwinkle.net/v1/api" }
+        let(:openai_api_base) { "rocky.bullwinkle.net/v1/api" }
 
         it "normalizes the URI and sets in the client" do
-          expect(client.base_uri).to eq("http://#{base_uri}")
+          expect(client.openai_api_base).to eq("http://#{openai_api_base}")
         end
 
-        context "when the client is passed an explicit normalized base_uri" do
-          let(:base_uri) { "https://exampleapi.org/v2" }
+        context "when the client is passed an explicit normalized openai_api_base" do
+          let(:openai_api_base) { "https://exampleapi.org/v2" }
 
           it "returns the override base URI" do
-            expect(client.base_uri).to eq(base_uri)
+            expect(client.openai_api_base).to eq(openai_api_base)
           end
         end
 
-        context "when the client is passed an not normalized base_uri" do
-          let(:base_uri) { "exampleapi.org/v2" }
-          let(:normalized_base_uri) { HTTParty.normalize_base_uri(base_uri) }
+        context "when the client is passed an not normalized openai_api_base" do
+          let(:openai_api_base) { "exampleapi.org/v2" }
+          let(:normalized_openai_api_base) { HTTParty.normalize_base_uri(openai_api_base) }
 
           it "returns the normalized override base URI" do
-            expect(client.base_uri).to eq(normalized_base_uri)
+            expect(client.openai_api_base).to eq(normalized_openai_api_base)
           end
         end
       end
