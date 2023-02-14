@@ -155,15 +155,16 @@ RSpec.describe Asimov::ApiV1::Files do
 
   describe "#content" do
     let(:file_id) { SecureRandom.hex(4) }
-    let(:path_string) { "/files/#{file_id}/content" }
     let(:writer) { instance_double(Tempfile) }
 
     it "calls get on the client with the expected arguments" do
-      allow(files).to receive(:http_streamed_download).with(path: path_string,
-                                                            writer: writer).and_return(ret_val)
+      allow(files).to receive(:rest_get_streamed_download)
+        .with(resource: [resource, file_id, "content"],
+              writer: writer).and_return(ret_val)
       expect(files.content(file_id: file_id, writer: writer)).to eq(ret_val)
-      expect(files).to have_received(:http_streamed_download).with(path: path_string,
-                                                                   writer: writer)
+      expect(files).to have_received(:rest_get_streamed_download)
+        .with(resource: [resource, file_id, "content"],
+              writer: writer)
     end
   end
 

@@ -10,14 +10,14 @@ module Asimov
     # Class interface for API methods in the "/files" URI subspace.
     ##
     class Files < Base
-      URI_PREFIX = "/files".freeze
-      private_constant :URI_PREFIX
+      RESOURCE = "files".freeze
+      private_constant :RESOURCE
 
       ##
       # Lists files that have been uploaded to OpenAI
       ##
       def list
-        rest_index(resource: "files")
+        rest_index(resource: RESOURCE)
       end
 
       ##
@@ -33,7 +33,7 @@ module Asimov
         validate(file, purpose)
 
         multipart_post(
-          path: URI_PREFIX,
+          path: "/#{RESOURCE}",
           parameters: parameters.merge(file: Utils::FileManager.open(file), purpose: purpose)
         )
       end
@@ -44,7 +44,7 @@ module Asimov
       # @param [String] file_id the id of the file to be retrieved
       ##
       def retrieve(file_id:)
-        rest_get(resource: "files", id: file_id)
+        rest_get(resource: RESOURCE, id: file_id)
       end
 
       ##
@@ -53,7 +53,7 @@ module Asimov
       # @param [String] file_id the id of the file to be deleted
       ##
       def delete(file_id:)
-        rest_delete(resource: "files", id: file_id)
+        rest_delete(resource: RESOURCE, id: file_id)
       end
 
       ##
@@ -65,7 +65,7 @@ module Asimov
       # as it is received from the API
       ##
       def content(file_id:, writer:)
-        http_streamed_download(path: "#{URI_PREFIX}/#{file_id}/content", writer: writer)
+        rest_get_streamed_download(resource: [RESOURCE, file_id, "content"], writer: writer)
       end
 
       private
