@@ -11,9 +11,9 @@ RSpec.describe Asimov::ApiV1::Models do
 
   describe "#list" do
     it "calls get on the client with the expected argument" do
-      allow(models).to receive(:http_get).with(path: "/models").and_return(ret_val)
+      allow(models).to receive(:rest_index).with(resource: "models").and_return(ret_val)
       expect(models.list).to eq(ret_val)
-      expect(models).to have_received(:http_get).with(path: "/models")
+      expect(models).to have_received(:rest_index).with(resource: "models")
     end
   end
 
@@ -32,10 +32,10 @@ RSpec.describe Asimov::ApiV1::Models do
     let(:model_id) { SecureRandom.hex(4) }
 
     it "calls delete on the client with the expected arguments" do
-      allow(models).to receive(:http_delete).with(resource: "models", id: model_id)
+      allow(models).to receive(:rest_delete).with(resource: "models", id: model_id)
                                             .and_return(ret_val)
       expect(models.delete(model_id: model_id)).to eq(ret_val)
-      expect(models).to have_received(:http_delete).with(resource: "models", id: model_id)
+      expect(models).to have_received(:rest_delete).with(resource: "models", id: model_id)
     end
   end
 end

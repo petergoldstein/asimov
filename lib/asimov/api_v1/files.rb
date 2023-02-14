@@ -17,7 +17,7 @@ module Asimov
       # Lists files that have been uploaded to OpenAI
       ##
       def list
-        http_get(path: URI_PREFIX)
+        rest_index(resource: "files")
       end
 
       ##
@@ -53,7 +53,7 @@ module Asimov
       # @param [String] file_id the id of the file to be deleted
       ##
       def delete(file_id:)
-        http_delete(resource: "files", id: file_id)
+        rest_delete(resource: "files", id: file_id)
       end
 
       ##

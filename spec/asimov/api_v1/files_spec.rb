@@ -15,9 +15,9 @@ RSpec.describe Asimov::ApiV1::Files do
     let(:path_string) { "/files" }
 
     it "calls get on the client with the expected arguments" do
-      allow(files).to receive(:http_get).with(path: path_string).and_return(ret_val)
+      allow(files).to receive(:rest_index).with(resource: "files").and_return(ret_val)
       expect(files.list).to eq(ret_val)
-      expect(files).to have_received(:http_get).with(path: path_string)
+      expect(files).to have_received(:rest_index).with(resource: "files")
     end
   end
 
@@ -173,9 +173,9 @@ RSpec.describe Asimov::ApiV1::Files do
     let(:file_id) { SecureRandom.hex(4) }
 
     it "calls get on the client with the expected arguments" do
-      allow(files).to receive(:http_delete).with(resource: "files", id: file_id).and_return(ret_val)
+      allow(files).to receive(:rest_delete).with(resource: "files", id: file_id).and_return(ret_val)
       expect(files.delete(file_id: file_id)).to eq(ret_val)
-      expect(files).to have_received(:http_delete).with(resource: "files", id: file_id)
+      expect(files).to have_received(:rest_delete).with(resource: "files", id: file_id)
     end
   end
 end
