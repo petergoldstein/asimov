@@ -32,7 +32,7 @@ module Asimov
       # @param [String] fine_tune_id the id of fine tuning job
       ##
       def retrieve(fine_tune_id:)
-        http_get(path: "#{URI_PREFIX}/#{fine_tune_id}")
+        rest_get(resource: "fine-tunes", id: fine_tune_id)
       end
 
       ##

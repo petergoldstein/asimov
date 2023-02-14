@@ -44,7 +44,7 @@ module Asimov
       # @param [String] file_id the id of the file to be retrieved
       ##
       def retrieve(file_id:)
-        http_get(path: "#{URI_PREFIX}/#{file_id}")
+        rest_get(resource: "files", id: file_id)
       end
 
       ##

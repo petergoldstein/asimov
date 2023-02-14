@@ -50,15 +50,15 @@ module Asimov
       end
 
       ##
-      # Executes an HTTP GET on the specified path.
+      # Executes a REST get on the specified resource.
       #
-      # @param [String] path the URI (when combined with the
-      # openai_api_base) against which the GET is executed.
+      # @param [String] resource the pluralized resource name
+      # @param [String] id the id of the resource get
       ##
-      def http_get(path:)
+      def rest_get(resource:, id:)
         wrap_response_with_error_handling do
           self.class.get(
-            absolute_path(path),
+            absolute_path("/#{resource}/#{CGI.escape(id)}"),
             { headers: headers }.merge!(request_options)
           )
         end
