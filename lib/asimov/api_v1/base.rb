@@ -97,15 +97,14 @@ module Asimov
       end
 
       ##
-      # Executes an HTTP GET on the specified path, streaming the resulting body
+      # Executes an REST get on the specified path, streaming the resulting body
       # to the writer in case of success.
       #
-      # @param [String] path the URI (when combined with the
-      # openai_api_base) against which the POST is executed.
+      # @param [Array] resource the resource path elements as an array
       # @param [Writer] writer an object, typically a File, that responds to a `write` method
       ##
-      def http_streamed_download(path:, writer:)
-        self.class.get(absolute_path(path),
+      def rest_get_streamed_download(resource:, writer:)
+        self.class.get(absolute_path("/#{Array(resource).join('/')}"),
                        { headers: headers,
                          stream_body: true }.merge!(request_options)) do |fragment|
           fragment.code == 200 ? writer.write(fragment) : check_for_api_error(fragment)

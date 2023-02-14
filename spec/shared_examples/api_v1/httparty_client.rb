@@ -773,13 +773,15 @@ shared_examples_for "sends requests to the v1 API" do
     end
   end
 
-  describe "#http_streamed_download" do
+  describe "#rest_get_streamed_download" do
     let(:fragment) do
       f = instance_double(HTTParty::ResponseFragment)
       allow(f).to receive(:code).and_return(code)
       f
     end
-    let(:path) { "/#{resource}/#{id}" }
+    let(:ext) { "content" }
+    let(:path) { "/#{resource}/#{id}/#{ext}" }
+    let(:resource_args) { [resource, id, ext] }
 
     let(:writer) { instance_double(File) }
 
@@ -803,7 +805,7 @@ shared_examples_for "sends requests to the v1 API" do
 
         it "passes the path to the stream download get method of HTTParty" do
           expect do
-            instance.http_streamed_download(path: path, writer: writer)
+            instance.rest_get_streamed_download(resource: resource_args, writer: writer)
           end.not_to raise_error
         end
       end
@@ -827,7 +829,7 @@ shared_examples_for "sends requests to the v1 API" do
 
         it "passes the path to the stream download get method of HTTParty" do
           expect do
-            instance.http_streamed_download(path: path, writer: writer)
+            instance.rest_get_streamed_download(resource: resource_args, writer: writer)
           end.to raise_error(Asimov::RequestError)
         end
       end
@@ -857,7 +859,7 @@ shared_examples_for "sends requests to the v1 API" do
 
         it "passes the path to the stream download get method of HTTParty" do
           expect do
-            instance.http_streamed_download(path: path, writer: writer)
+            instance.rest_get_streamed_download(resource: resource_args, writer: writer)
           end.not_to raise_error
         end
       end
@@ -885,7 +887,7 @@ shared_examples_for "sends requests to the v1 API" do
 
         it "passes the path to the stream download get method of HTTParty" do
           expect do
-            instance.http_streamed_download(path: path, writer: writer)
+            instance.rest_get_streamed_download(resource: resource_args, writer: writer)
           end.to raise_error(Asimov::OpenTimeout)
         end
       end
@@ -913,7 +915,7 @@ shared_examples_for "sends requests to the v1 API" do
 
         it "passes the path to the stream download get method of HTTParty" do
           expect do
-            instance.http_streamed_download(path: path, writer: writer)
+            instance.rest_get_streamed_download(resource: resource_args, writer: writer)
           end.to raise_error(Asimov::ReadTimeout)
         end
       end
@@ -943,7 +945,7 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "passes the path to the stream download get method of HTTParty" do
             expect do
-              instance.http_streamed_download(path: path, writer: writer)
+              instance.rest_get_streamed_download(resource: resource_args, writer: writer)
             end.to raise_error(Asimov::NetworkError)
           end
         end
