@@ -21,12 +21,26 @@ module Asimov
       def_delegators :@client, :headers, :request_options, :openai_api_base
 
       ##
-      # Executes an HTTP DELETE on the specified path.
+      # Executes a REST index for the specified resource
       #
-      # @param [String] path the URI (when combined with the
-      # openai_api_base) against which the DELETE is executed.
+      # @param [String] resource the pluralized resource name
       ##
-      def http_delete(resource:, id:)
+      def rest_index(resource:)
+        wrap_response_with_error_handling do
+          self.class.get(
+            absolute_path("/#{Array(resource).join('/')}"),
+            { headers: headers }.merge!(request_options)
+          )
+        end
+      end
+
+      ##
+      # Executes a REST delete on the specified resource.
+      #
+      # @param [String] resource the pluralized resource name
+      # @param [String] id the id of the resource to delete
+      ##
+      def rest_delete(resource:, id:)
         wrap_response_with_error_handling do
           self.class.delete(
             absolute_path("/#{resource}/#{CGI.escape(id)}"),

@@ -12,7 +12,7 @@ module Asimov
       # key and organization id.
       ##
       def list
-        http_get(path: URI_PREFIX)
+        rest_index(resource: "models")
       end
 
       ##
@@ -32,7 +32,7 @@ module Asimov
       # @param [String] model_id the id of the model to be deleted
       ##
       def delete(model_id:)
-        http_delete(resource: "models", id: model_id)
+        rest_delete(resource: "models", id: model_id)
       end
     end
   end

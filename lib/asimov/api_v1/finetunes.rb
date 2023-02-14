@@ -11,7 +11,7 @@ module Asimov
       # Lists the set of fine-tuning jobs for this API key and (optionally) organization.
       ##
       def list
-        http_get(path: URI_PREFIX)
+        rest_index(resource: "fine-tunes")
       end
 
       ##
@@ -50,7 +50,7 @@ module Asimov
       # @param [String] fine_tune_id the id of fine tuning job
       ##
       def list_events(fine_tune_id:)
-        http_get(path: "#{URI_PREFIX}/#{fine_tune_id}/events")
+        rest_index(resource: ["fine-tunes", fine_tune_id, "events"])
       end
     end
   end

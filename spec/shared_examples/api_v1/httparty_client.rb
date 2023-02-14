@@ -6,7 +6,6 @@ shared_examples_for "sends requests to the v1 API" do
   let(:headers) { client.headers }
   let(:resource) { SecureRandom.hex(4) }
   let(:id) { SecureRandom.hex(4) }
-  let(:path) { "/#{resource}/#{id}" }
   let(:full_path) { "#{client.openai_api_base}#{path}" }
   let(:parsed_body) { { SecureRandom.hex(4) => SecureRandom.hex(4) } }
   let(:ret_val) do
@@ -17,13 +16,119 @@ shared_examples_for "sends requests to the v1 API" do
   end
 
   describe "full_path" do
+    let(:path) { "/#{SecureRandom.hex(4)}/#{SecureRandom.hex(4)}" }
+
     it "does not equal the path and starts with the https:// prefix" do
       expect(full_path).not_to eq(path)
       expect(full_path).to start_with("https://")
     end
   end
 
-  describe "#http_delete" do
+  describe "#rest_index" do
+    let(:resource) { SecureRandom.hex(4) }
+    let(:path) { "/#{resource}" }
+
+    context "when there are no request options" do
+      context "when the underlying HTTP call does not return an error" do
+        before do
+          allow(described_class).to receive(:get).with(full_path,
+                                                       { headers: headers }).and_return(ret_val)
+        end
+
+        after do
+          expect(described_class).to have_received(:get).with(full_path, { headers: headers })
+        end
+
+        it "passes the path and headers to the get method of HTTParty" do
+          expect(instance.rest_index(resource: resource)).to eq(parsed_body)
+        end
+      end
+
+      context "when there is an error in the HTTP stack" do
+        context "when the underlying HTTP call raises a Net::OpenTimeout" do
+          before do
+            allow(described_class).to receive(:get).with(full_path,
+                                                         { headers: headers })
+                                                   .and_raise(Net::OpenTimeout)
+          end
+
+          after do
+            expect(described_class).to have_received(:get).with(full_path, { headers: headers })
+          end
+
+          it "raises an Asimov::OpenTimeout" do
+            expect do
+              instance.rest_index(resource: resource)
+            end.to raise_error(Asimov::OpenTimeout)
+          end
+        end
+
+        context "when the underlying HTTP call raises a Net::ReadTimeout" do
+          before do
+            allow(described_class).to receive(:get).with(full_path,
+                                                         { headers: headers })
+                                                   .and_raise(Net::ReadTimeout)
+          end
+
+          after do
+            expect(described_class).to have_received(:get).with(full_path, { headers: headers })
+          end
+
+          it "raises an Asimov::OpenTimeout" do
+            expect do
+              instance.rest_index(resource: resource)
+            end.to raise_error(Asimov::ReadTimeout)
+          end
+        end
+
+        [Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse,
+         Net::HTTPHeaderSyntaxError, Net::ProtocolError].each do |e|
+          context "when the underlying HTTP call raises a #{e.name}" do
+            before do
+              allow(described_class).to receive(:get).with(full_path,
+                                                           { headers: headers })
+                                                     .and_raise(e)
+            end
+
+            after do
+              expect(described_class).to have_received(:get).with(full_path, { headers: headers })
+            end
+
+            it "raises an Asimov::NetworkError" do
+              expect do
+                instance.rest_index(resource: resource)
+              end.to raise_error(Asimov::NetworkError)
+            end
+          end
+        end
+      end
+    end
+
+    context "when request options are passed to the client" do
+      let(:request_options) { { read_timeout: 1234 } }
+      let(:client) { Asimov::Client.new(api_key: api_key, request_options: request_options) }
+
+      before do
+        allow(described_class).to receive(:get).with(full_path,
+                                                     { headers: headers }.merge(request_options))
+                                               .and_return(ret_val)
+      end
+
+      after do
+        expect(described_class).to have_received(:get)
+          .with(full_path,
+                { headers: headers }.merge(request_options))
+      end
+
+      it "passes the path, headers, and request options to the get method of HTTParty" do
+        expect(instance.rest_index(resource: resource)).to eq(parsed_body)
+      end
+    end
+  end
+
+  describe "#rest_delete" do
+    let(:path) { "/#{resource}/#{id}" }
+
     context "when there are no request options" do
       context "when the underlying HTTP call does not return an error" do
         before do
@@ -36,7 +141,7 @@ shared_examples_for "sends requests to the v1 API" do
         end
 
         it "passes the path and headers to the delete method of HTTParty" do
-          expect(instance.http_delete(resource: resource, id: id)).to eq(parsed_body)
+          expect(instance.rest_delete(resource: resource, id: id)).to eq(parsed_body)
         end
       end
 
@@ -54,7 +159,7 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "raises an Asimov::OpenTimeout" do
             expect do
-              instance.http_delete(resource: resource, id: id)
+              instance.rest_delete(resource: resource, id: id)
             end.to raise_error(Asimov::OpenTimeout)
           end
         end
@@ -72,7 +177,7 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "raises an Asimov::ReadTimeout" do
             expect do
-              instance.http_delete(resource: resource, id: id)
+              instance.rest_delete(resource: resource, id: id)
             end.to raise_error(Asimov::ReadTimeout)
           end
         end
@@ -90,7 +195,7 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "raises an Asimov::ReadTimeout" do
             expect do
-              instance.http_delete(resource: resource, id: id)
+              instance.rest_delete(resource: resource, id: id)
             end.to raise_error(Asimov::TimeoutError)
           end
         end
@@ -111,7 +216,7 @@ shared_examples_for "sends requests to the v1 API" do
 
             it "raises an Asimov::NetworkError" do
               expect do
-                instance.http_delete(resource: resource, id: id)
+                instance.rest_delete(resource: resource, id: id)
               end.to raise_error(Asimov::NetworkError)
             end
           end
@@ -136,12 +241,14 @@ shared_examples_for "sends requests to the v1 API" do
       end
 
       it "passes the path, headers, and request options to the get method of HTTParty" do
-        expect(instance.http_delete(resource: resource, id: id)).to eq(parsed_body)
+        expect(instance.rest_delete(resource: resource, id: id)).to eq(parsed_body)
       end
     end
   end
 
   describe "#http_get" do
+    let(:path) { "/#{resource}/#{id}" }
+
     context "when there are no request options" do
       context "when the underlying HTTP call does not return an error" do
         before do
@@ -241,6 +348,8 @@ shared_examples_for "sends requests to the v1 API" do
   end
 
   describe "#json_post" do
+    let(:path) { "/#{resource}" }
+
     context "when there are no request options" do
       context "when the underlying HTTP call does not return an error" do
         before do
@@ -454,6 +563,7 @@ shared_examples_for "sends requests to the v1 API" do
 
   describe "#multipart_post" do
     let(:headers) { client.headers("multipart/form-data") }
+    let(:path) { "/#{resource}/#{id}" }
 
     context "when there are no request options" do
       context "when the underlying HTTP call does not return an error" do
@@ -669,6 +779,7 @@ shared_examples_for "sends requests to the v1 API" do
       allow(f).to receive(:code).and_return(code)
       f
     end
+    let(:path) { "/#{resource}/#{id}" }
 
     let(:writer) { instance_double(File) }
 

@@ -11,12 +11,10 @@ RSpec.describe Asimov::ApiV1::Finetunes do
   it_behaves_like "sends requests to the v1 API"
 
   describe "#list" do
-    let(:path_string) { "/fine-tunes" }
-
     it "calls get on the client with the expected arguments" do
-      allow(finetunes).to receive(:http_get).with(path: path_string).and_return(ret_val)
+      allow(finetunes).to receive(:rest_index).with(resource: "fine-tunes").and_return(ret_val)
       expect(finetunes.list).to eq(ret_val)
-      expect(finetunes).to have_received(:http_get).with(path: path_string)
+      expect(finetunes).to have_received(:rest_index).with(resource: "fine-tunes")
     end
   end
 
@@ -72,12 +70,13 @@ RSpec.describe Asimov::ApiV1::Finetunes do
 
   describe "#events" do
     let(:fine_tune_id) { SecureRandom.hex(4) }
-    let(:path_string) { "/fine-tunes/#{fine_tune_id}/events" }
 
     it "calls get on the client with the expected argument" do
-      allow(finetunes).to receive(:http_get).with(path: path_string).and_return(ret_val)
+      allow(finetunes).to receive(:rest_index).with(resource: ["fine-tunes", fine_tune_id,
+                                                               "events"]).and_return(ret_val)
       expect(finetunes.list_events(fine_tune_id: fine_tune_id)).to eq(ret_val)
-      expect(finetunes).to have_received(:http_get).with(path: path_string)
+      expect(finetunes).to have_received(:rest_index).with(resource: ["fine-tunes", fine_tune_id,
+                                                                      "events"])
     end
   end
 end
