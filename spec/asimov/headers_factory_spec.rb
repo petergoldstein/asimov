@@ -1,6 +1,8 @@
 require_relative "../spec_helper"
 
 RSpec.describe Asimov::HeadersFactory do
+  let(:api_type) { Asimov::ApiType::DEFAULT }
+
   describe ".initialize" do
     let(:per_client_api_key) { SecureRandom.hex(4) }
     let(:per_client_organization_id) { SecureRandom.hex(4) }
@@ -19,7 +21,8 @@ RSpec.describe Asimov::HeadersFactory do
         it "uses the global api_key when passed nil" do
           hf = nil
           expect do
-            hf = described_class.new(nil,
+            hf = described_class.new(api_type,
+                                     nil,
                                      described_class::NULL_ORGANIZATION_ID)
           end.not_to raise_error
           expect(hf.api_key).to eq(global_api_key)
@@ -29,7 +32,7 @@ RSpec.describe Asimov::HeadersFactory do
         it "allows override of the global API key" do
           hf = nil
           expect do
-            hf = described_class.new(per_client_api_key,
+            hf = described_class.new(api_type, per_client_api_key,
                                      described_class::NULL_ORGANIZATION_ID)
           end.not_to raise_error
           expect(hf.api_key).to eq(per_client_api_key)
@@ -39,7 +42,7 @@ RSpec.describe Asimov::HeadersFactory do
         it "allows setting of an organization_id with the api_key" do
           hf = nil
           expect do
-            hf = described_class.new(per_client_api_key,
+            hf = described_class.new(api_type, per_client_api_key,
                                      per_client_organization_id)
           end.not_to raise_error
           expect(hf.api_key).to eq(per_client_api_key)
@@ -59,7 +62,7 @@ RSpec.describe Asimov::HeadersFactory do
            "with a per client API key" do
           hf = nil
           expect do
-            hf = described_class.new(per_client_api_key, nil)
+            hf = described_class.new(api_type, per_client_api_key, nil)
           end.not_to raise_error
           expect(hf.api_key).to eq(per_client_api_key)
           expect(hf.organization_id).to be_nil
@@ -69,7 +72,7 @@ RSpec.describe Asimov::HeadersFactory do
            "a per client API key" do
           hf = nil
           expect do
-            hf = described_class.new(per_client_api_key,
+            hf = described_class.new(api_type, per_client_api_key,
                                      per_client_organization_id)
           end.not_to raise_error
           expect(hf.api_key).to eq(per_client_api_key)
@@ -81,7 +84,7 @@ RSpec.describe Asimov::HeadersFactory do
     context "when the global configuration does not include an API key" do
       it "raises an error when initialized with no arguments" do
         expect do
-          described_class.new(nil,
+          described_class.new(api_type, nil,
                               described_class::NULL_ORGANIZATION_ID)
         end.to raise_error(Asimov::MissingApiKeyError)
       end
@@ -89,7 +92,7 @@ RSpec.describe Asimov::HeadersFactory do
       it "initializes successfully when passed an api_key and a null object organization_id" do
         hf = nil
         expect do
-          hf = described_class.new(per_client_api_key,
+          hf = described_class.new(api_type, per_client_api_key,
                                    described_class::NULL_ORGANIZATION_ID)
         end.not_to raise_error
         expect(hf.api_key).to eq(per_client_api_key)
@@ -99,7 +102,7 @@ RSpec.describe Asimov::HeadersFactory do
       it "initializes successfully when passed an api_key and a nil organization_id" do
         hf = nil
         expect do
-          hf = described_class.new(per_client_api_key,
+          hf = described_class.new(api_type, per_client_api_key,
                                    nil)
         end.not_to raise_error
         expect(hf.api_key).to eq(per_client_api_key)
@@ -109,7 +112,7 @@ RSpec.describe Asimov::HeadersFactory do
       it "allows the client to set a per-client organization_id" do
         hf = nil
         expect do
-          hf = described_class.new(per_client_api_key,
+          hf = described_class.new(api_type, per_client_api_key,
                                    per_client_organization_id)
         end.not_to raise_error
         expect(hf.api_key).to eq(per_client_api_key)
@@ -123,7 +126,7 @@ RSpec.describe Asimov::HeadersFactory do
 
     context "when called with no arguments" do
       subject(:headers) do
-        described_class.new(api_key, organization_id).headers
+        described_class.new(api_type, api_key, organization_id).headers
       end
 
       context "when the organization_id is nil" do
@@ -150,7 +153,7 @@ RSpec.describe Asimov::HeadersFactory do
 
     context "when called with an explicit content_type" do
       subject(:headers) do
-        described_class.new(api_key,
+        described_class.new(api_type, api_key,
                             organization_id).headers(content_type)
       end
 

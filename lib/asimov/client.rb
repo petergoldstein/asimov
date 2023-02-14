@@ -1,6 +1,8 @@
 require "forwardable"
 require "httparty"
+require_relative "azure_uri_factory"
 require_relative "headers_factory"
+require_relative "open_ai_uri_factory"
 require_relative "utils/request_options_validator"
 require_relative "api_v1/base"
 require_relative "api_v1/audio"
@@ -22,11 +24,13 @@ module Asimov
   class Client
     extend Forwardable
 
-    attr_reader :api_key, :organization_id, :api_version, :request_options, :openai_api_base
+    attr_reader :api_type, :request_options
 
     ##
     # Creates a new Asimov::Client. Includes several optional named parameters:
     #
+    # api_type - The type of API that this Asimov::Client will use.  If unspecified,
+    #            defaults to the application-wide default that defaults to 'open_ai'
     # api_key - The OpenAI API key that this Asimov::Client instance will use.  If unspecified,
     #           defaults to the application-wide configuration
     # organization_id - The OpenAI organization identifier that this Asimov::Client instance
@@ -36,16 +40,24 @@ module Asimov
     # openai_api_base - Custom base URI for the API calls made by this client. Defaults to global
     #            configuration value.
     ##
-    def initialize(api_key: nil, organization_id: HeadersFactory::NULL_ORGANIZATION_ID,
+    # rubocop:disable Metrics/ParameterLists
+    def initialize(api_type: nil, api_version: nil, api_key: nil,
+                   organization_id: HeadersFactory::NULL_ORGANIZATION_ID,
                    request_options: {}, openai_api_base: nil)
-      @headers_factory = HeadersFactory.new(api_key,
+      initialize_api_type(api_type, api_version)
+      @headers_factory = HeadersFactory.new(@api_type,
+                                            api_key,
                                             organization_id)
       @request_options = Asimov.configuration.request_options
                                .merge(Utils::RequestOptionsValidator.validate(request_options))
                                .freeze
-      initialize_openai_api_base(openai_api_base)
+      @uri_factory = OpenAIUriFactory.new(@api_type, @api_version, openai_api_base)
     end
     def_delegators :@headers_factory, :api_key, :organization_id, :headers
+    def_delegators :@uri_factory, :openai_api_base, :api_version, :resource_singular_uri,
+                   :resource_class_uri, :resource_instance_uri
+
+    # rubocop:enable Metrics/ParameterLists
 
     ##
     # Use the audio method to access API calls in the /audio URI space.
@@ -117,16 +129,26 @@ module Asimov
       @moderations ||= Asimov::ApiV1::Moderations.new(client: self)
     end
 
+    def azure?
+      ApiType.azure?(api_type)
+    end
+
     private
 
-    def initialize_openai_api_base(openai_api_base)
-      @openai_api_base = openai_api_base || Asimov.configuration.openai_api_base
-      if @openai_api_base
-        @openai_api_base = HTTParty.normalize_base_uri(@openai_api_base)
-      else
-        raise Asimov::MissingBaseUriError,
-              "No API Base URI was provided for this client."
-      end
+    def build_uri_factory(openai_api_base)
+      @uri_factory = if azure?
+                       AzureUriFactory.new(api_type, api_version, openai_api_base)
+                     else
+                       OpenAIUriFactory.new(api_type, api_version, openai_api_base)
+                     end
+    end
+
+    def initialize_api_type(api_type, api_version)
+      @api_type = Asimov::ApiType.normalize(api_type || Asimov.configuration.api_type)
+
+      raise Asimov::UnknownApiTypeError unless @api_type
+
+      @api_version = api_version || Asimov.configuration.api_version(api_type)
     end
   end
 end

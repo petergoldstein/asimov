@@ -44,6 +44,7 @@ module Asimov
       # @param [String] file_id the id of the file to be retrieved
       ##
       def retrieve(file_id:)
+        disallow_azure
         rest_get(resource: RESOURCE, id: file_id)
       end
 
