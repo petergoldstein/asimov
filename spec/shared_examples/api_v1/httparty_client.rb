@@ -246,7 +246,7 @@ shared_examples_for "sends requests to the v1 API" do
     end
   end
 
-  describe "#http_get" do
+  describe "#rest_get" do
     let(:path) { "/#{resource}/#{id}" }
 
     context "when there are no request options" do
@@ -261,7 +261,7 @@ shared_examples_for "sends requests to the v1 API" do
         end
 
         it "passes the path and headers to the get method of HTTParty" do
-          expect(instance.http_get(path: path)).to eq(parsed_body)
+          expect(instance.rest_get(resource: resource, id: id)).to eq(parsed_body)
         end
       end
 
@@ -279,7 +279,7 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "raises an Asimov::OpenTimeout" do
             expect do
-              instance.http_get(path: path)
+              instance.rest_get(resource: resource, id: id)
             end.to raise_error(Asimov::OpenTimeout)
           end
         end
@@ -297,7 +297,7 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "raises an Asimov::OpenTimeout" do
             expect do
-              instance.http_get(path: path)
+              instance.rest_get(resource: resource, id: id)
             end.to raise_error(Asimov::ReadTimeout)
           end
         end
@@ -317,7 +317,7 @@ shared_examples_for "sends requests to the v1 API" do
 
             it "raises an Asimov::NetworkError" do
               expect do
-                instance.http_get(path: path)
+                instance.rest_get(resource: resource, id: id)
               end.to raise_error(Asimov::NetworkError)
             end
           end
@@ -342,7 +342,7 @@ shared_examples_for "sends requests to the v1 API" do
       end
 
       it "passes the path, headers, and request options to the get method of HTTParty" do
-        expect(instance.http_get(path: path)).to eq(parsed_body)
+        expect(instance.rest_get(resource: resource, id: id)).to eq(parsed_body)
       end
     end
   end

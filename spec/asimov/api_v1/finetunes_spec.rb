@@ -7,14 +7,15 @@ RSpec.describe Asimov::ApiV1::Finetunes do
   let(:client) { Asimov::Client.new(api_key: api_key) }
   let(:ret_val) { SecureRandom.hex(4) }
   let(:parameters) { { SecureRandom.hex(4).to_sym => SecureRandom.hex(4) } }
+  let(:resource) { "fine-tunes" }
 
   it_behaves_like "sends requests to the v1 API"
 
   describe "#list" do
     it "calls get on the client with the expected arguments" do
-      allow(finetunes).to receive(:rest_index).with(resource: "fine-tunes").and_return(ret_val)
+      allow(finetunes).to receive(:rest_index).with(resource: resource).and_return(ret_val)
       expect(finetunes.list).to eq(ret_val)
-      expect(finetunes).to have_received(:rest_index).with(resource: "fine-tunes")
+      expect(finetunes).to have_received(:rest_index).with(resource: resource)
     end
   end
 
@@ -48,12 +49,12 @@ RSpec.describe Asimov::ApiV1::Finetunes do
 
   describe "#retrieve" do
     let(:fine_tune_id) { SecureRandom.hex(4) }
-    let(:path_string) { "/fine-tunes/#{fine_tune_id}" }
 
     it "calls get on the client with the expected arguments" do
-      allow(finetunes).to receive(:http_get).with(path: path_string).and_return(ret_val)
+      allow(finetunes).to receive(:rest_get).with(resource: resource,
+                                                  id: fine_tune_id).and_return(ret_val)
       expect(finetunes.retrieve(fine_tune_id: fine_tune_id)).to eq(ret_val)
-      expect(finetunes).to have_received(:http_get).with(path: path_string)
+      expect(finetunes).to have_received(:rest_get).with(resource: resource, id: fine_tune_id)
     end
   end
 
@@ -72,10 +73,10 @@ RSpec.describe Asimov::ApiV1::Finetunes do
     let(:fine_tune_id) { SecureRandom.hex(4) }
 
     it "calls get on the client with the expected argument" do
-      allow(finetunes).to receive(:rest_index).with(resource: ["fine-tunes", fine_tune_id,
+      allow(finetunes).to receive(:rest_index).with(resource: [resource, fine_tune_id,
                                                                "events"]).and_return(ret_val)
       expect(finetunes.list_events(fine_tune_id: fine_tune_id)).to eq(ret_val)
-      expect(finetunes).to have_received(:rest_index).with(resource: ["fine-tunes", fine_tune_id,
+      expect(finetunes).to have_received(:rest_index).with(resource: [resource, fine_tune_id,
                                                                       "events"])
     end
   end
