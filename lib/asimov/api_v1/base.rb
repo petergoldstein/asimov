@@ -26,10 +26,10 @@ module Asimov
       # @param [String] path the URI (when combined with the
       # openai_api_base) against which the DELETE is executed.
       ##
-      def http_delete(path:)
+      def http_delete(resource:, id:)
         wrap_response_with_error_handling do
           self.class.delete(
-            absolute_path(path),
+            absolute_path("/#{resource}/#{CGI.escape(id)}"),
             { headers: headers }.merge!(request_options)
           )
         end

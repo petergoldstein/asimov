@@ -53,7 +53,7 @@ module Asimov
       # @param [String] file_id the id of the file to be deleted
       ##
       def delete(file_id:)
-        http_delete(path: "#{URI_PREFIX}/#{file_id}")
+        http_delete(resource: "files", id: file_id)
       end
 
       ##

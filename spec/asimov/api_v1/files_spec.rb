@@ -171,12 +171,11 @@ RSpec.describe Asimov::ApiV1::Files do
 
   describe "#delete" do
     let(:file_id) { SecureRandom.hex(4) }
-    let(:path_string) { "/files/#{file_id}" }
 
     it "calls get on the client with the expected arguments" do
-      allow(files).to receive(:http_delete).with(path: path_string).and_return(ret_val)
+      allow(files).to receive(:http_delete).with(resource: "files", id: file_id).and_return(ret_val)
       expect(files.delete(file_id: file_id)).to eq(ret_val)
-      expect(files).to have_received(:http_delete).with(path: path_string)
+      expect(files).to have_received(:http_delete).with(resource: "files", id: file_id)
     end
   end
 end
