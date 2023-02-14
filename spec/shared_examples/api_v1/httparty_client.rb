@@ -4,7 +4,9 @@ shared_examples_for "sends requests to the v1 API" do
   let(:api_key) { SecureRandom.hex(4) }
   let(:client) { Asimov::Client.new(api_key: api_key) }
   let(:headers) { client.headers }
-  let(:path) { "/#{SecureRandom.hex(4)}/#{SecureRandom.hex(4)}" }
+  let(:resource) { SecureRandom.hex(4) }
+  let(:id) { SecureRandom.hex(4) }
+  let(:path) { "/#{resource}/#{id}" }
   let(:full_path) { "#{client.openai_api_base}#{path}" }
   let(:parsed_body) { { SecureRandom.hex(4) => SecureRandom.hex(4) } }
   let(:ret_val) do
@@ -34,7 +36,7 @@ shared_examples_for "sends requests to the v1 API" do
         end
 
         it "passes the path and headers to the delete method of HTTParty" do
-          expect(instance.http_delete(path: path)).to eq(parsed_body)
+          expect(instance.http_delete(resource: resource, id: id)).to eq(parsed_body)
         end
       end
 
@@ -52,7 +54,7 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "raises an Asimov::OpenTimeout" do
             expect do
-              instance.http_delete(path: path)
+              instance.http_delete(resource: resource, id: id)
             end.to raise_error(Asimov::OpenTimeout)
           end
         end
@@ -70,7 +72,7 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "raises an Asimov::ReadTimeout" do
             expect do
-              instance.http_delete(path: path)
+              instance.http_delete(resource: resource, id: id)
             end.to raise_error(Asimov::ReadTimeout)
           end
         end
@@ -88,7 +90,7 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "raises an Asimov::ReadTimeout" do
             expect do
-              instance.http_delete(path: path)
+              instance.http_delete(resource: resource, id: id)
             end.to raise_error(Asimov::TimeoutError)
           end
         end
@@ -109,7 +111,7 @@ shared_examples_for "sends requests to the v1 API" do
 
             it "raises an Asimov::NetworkError" do
               expect do
-                instance.http_delete(path: path)
+                instance.http_delete(resource: resource, id: id)
               end.to raise_error(Asimov::NetworkError)
             end
           end
@@ -122,19 +124,19 @@ shared_examples_for "sends requests to the v1 API" do
       let(:client) { Asimov::Client.new(api_key: api_key, request_options: request_options) }
 
       before do
-        allow(described_class).to receive(:get).with(full_path,
-                                                     { headers: headers }.merge(request_options))
-                                               .and_return(ret_val)
+        allow(described_class).to receive(:delete).with(full_path,
+                                                        { headers: headers }.merge(request_options))
+                                                  .and_return(ret_val)
       end
 
       after do
-        expect(described_class).to have_received(:get)
+        expect(described_class).to have_received(:delete)
           .with(full_path,
                 { headers: headers }.merge(request_options))
       end
 
       it "passes the path, headers, and request options to the get method of HTTParty" do
-        expect(instance.http_get(path: path)).to eq(parsed_body)
+        expect(instance.http_delete(resource: resource, id: id)).to eq(parsed_body)
       end
     end
   end
