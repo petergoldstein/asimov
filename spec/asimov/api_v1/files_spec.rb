@@ -43,8 +43,8 @@ RSpec.describe Asimov::ApiV1::Files do
             before do
               allow(File).to receive(:open).with(filename).and_return(file_instance1,
                                                                       file_instance2)
-              allow(files).to receive(:multipart_post)
-                .with(path: "/files",
+              allow(files).to receive(:rest_create_w_multipart_params)
+                .with(resource: resource,
                       parameters: merged_parameters)
                 .and_return(ret_val)
               allow(validator_class).to receive(:new).and_return(validator_instance)
@@ -62,8 +62,9 @@ RSpec.describe Asimov::ApiV1::Files do
                 expect(val).to eq(ret_val)
                 expect(validator_instance).to have_received(:validate)
                   .with(file_instance1)
-                expect(files).to have_received(:multipart_post).with(path: "/files",
-                                                                     parameters: merged_parameters)
+                expect(files).to have_received(:rest_create_w_multipart_params)
+                  .with(resource: resource,
+                        parameters: merged_parameters)
               end
             end
 
@@ -80,7 +81,7 @@ RSpec.describe Asimov::ApiV1::Files do
                 end.to raise_error(Asimov::JsonlFileCannotBeParsedError)
                 expect(validator_instance).to have_received(:validate)
                   .with(file_instance1)
-                expect(files).not_to have_received(:multipart_post).with(anything)
+                expect(files).not_to have_received(:rest_create_w_multipart_params).with(anything)
               end
             end
           end

@@ -61,12 +61,14 @@ RSpec.describe Asimov::ApiV1::Finetunes do
 
   describe "#cancel" do
     let(:fine_tune_id) { SecureRandom.hex(4) }
-    let(:path_string) { "/fine-tunes/#{fine_tune_id}/cancel" }
+    let(:resource_args) { ["fine-tunes", fine_tune_id, "cancel"] }
 
-    it "calls multipart_post on the client with the expected argument" do
-      allow(finetunes).to receive(:multipart_post).with(path: path_string).and_return(ret_val)
+    it "calls rest_create_w_multipart_params on the client with the expected argument" do
+      allow(finetunes).to receive(:rest_create_w_multipart_params).with(resource: resource_args)
+                                                                  .and_return(ret_val)
       expect(finetunes.cancel(fine_tune_id: fine_tune_id)).to eq(ret_val)
-      expect(finetunes).to have_received(:multipart_post).with(path: path_string)
+      expect(finetunes).to have_received(:rest_create_w_multipart_params)
+        .with(resource: resource_args)
     end
   end
 

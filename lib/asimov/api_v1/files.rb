@@ -32,8 +32,8 @@ module Asimov
 
         validate(file, purpose)
 
-        multipart_post(
-          path: "/#{RESOURCE}",
+        rest_create_w_multipart_params(
+          resource: RESOURCE,
           parameters: parameters.merge(file: Utils::FileManager.open(file), purpose: purpose)
         )
       end

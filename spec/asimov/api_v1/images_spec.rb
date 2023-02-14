@@ -71,14 +71,16 @@ RSpec.describe Asimov::ApiV1::Images do
               parameters.merge({ image: image_file, prompt: prompt })
             end
 
-            it "calls multipart_post on the client with the expected arguments" do
-              allow(images).to receive(:multipart_post).with(path: path_string,
-                                                             parameters: merged_params)
-                                                       .and_return(ret_val)
+            it "calls rest_create_w_multipart_params on the client with the expected arguments" do
+              allow(images).to receive(:rest_create_w_multipart_params)
+                .with(resource: [resource, "edits"],
+                      parameters: merged_params)
+                .and_return(ret_val)
               expect(images.create_edit(image: image_filename, prompt: prompt,
                                         parameters: parameters)).to eq(ret_val)
-              expect(images).to have_received(:multipart_post).with(path: path_string,
-                                                                    parameters: merged_params)
+              expect(images).to have_received(:rest_create_w_multipart_params)
+                .with(resource: [resource, "edits"],
+                      parameters: merged_params)
             end
           end
 
@@ -102,14 +104,16 @@ RSpec.describe Asimov::ApiV1::Images do
                 expect(File).to have_received(:open).with(mask_filename)
               end
 
-              it "calls multipart_post on the client with the expected arguments" do
-                allow(images).to receive(:multipart_post).with(path: path_string,
-                                                               parameters: merged_params)
-                                                         .and_return(ret_val)
+              it "calls rest_create_w_multipart_params on the client with the expected arguments" do
+                allow(images).to receive(:rest_create_w_multipart_params)
+                  .with(resource: [resource, "edits"],
+                        parameters: merged_params)
+                  .and_return(ret_val)
                 expect(images.create_edit(image: image_filename, prompt: prompt,
                                           parameters: parameters)).to eq(ret_val)
-                expect(images).to have_received(:multipart_post).with(path: path_string,
-                                                                      parameters: merged_params)
+                expect(images).to have_received(:rest_create_w_multipart_params)
+                  .with(resource: [resource, "edits"],
+                        parameters: merged_params)
               end
             end
 
@@ -192,14 +196,16 @@ RSpec.describe Asimov::ApiV1::Images do
             parameters.merge({ image: image_file })
           end
 
-          it "calls multipart_post on the client with the expected arguments" do
-            allow(images).to receive(:multipart_post).with(path: path_string,
-                                                           parameters: merged_params)
-                                                     .and_return(ret_val)
+          it "calls rest_create_w_multipart_params on the client with the expected arguments" do
+            allow(images).to receive(:rest_create_w_multipart_params)
+              .with(resource: [resource, "variations"],
+                    parameters: merged_params)
+              .and_return(ret_val)
             expect(images.create_variation(image: image_filename,
                                            parameters: parameters)).to eq(ret_val)
-            expect(images).to have_received(:multipart_post).with(path: path_string,
-                                                                  parameters: merged_params)
+            expect(images).to have_received(:rest_create_w_multipart_params)
+              .with(resource: [resource, "variations"],
+                    parameters: merged_params)
           end
         end
 
@@ -225,13 +231,15 @@ RSpec.describe Asimov::ApiV1::Images do
             end
 
             it "calls multipart_post on the client with the expected arguments" do
-              allow(images).to receive(:multipart_post).with(path: path_string,
-                                                             parameters: merged_params)
-                                                       .and_return(ret_val)
+              allow(images).to receive(:rest_create_w_multipart_params)
+                .with(resource: [resource, "variations"],
+                      parameters: merged_params)
+                .and_return(ret_val)
               expect(images.create_variation(image: image_filename,
                                              parameters: parameters)).to eq(ret_val)
-              expect(images).to have_received(:multipart_post).with(path: path_string,
-                                                                    parameters: merged_params)
+              expect(images).to have_received(:rest_create_w_multipart_params)
+                .with(resource: [resource, "variations"],
+                      parameters: merged_params)
             end
           end
 

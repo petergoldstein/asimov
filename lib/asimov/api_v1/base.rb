@@ -83,15 +83,17 @@ module Asimov
       end
 
       ##
-      # Executes an HTTP POST with multipart encoded parameters on the specified path.
+      # Executes a REST create with multipart-encoded parameters for the specified
+      # resource.
       #
-      # @param [String] path the URI (when combined with the
-      # openai_api_base) against which the POST is executed.
+      # @param [String] the resource to be created.
+      # @param [Hash] parameters the optional parameters to include with the request
+      # to create the resource
       ##
-      def multipart_post(path:, parameters: nil)
+      def rest_create_w_multipart_params(resource:, parameters: nil)
         wrap_response_with_error_handling do
           self.class.post(
-            absolute_path(path),
+            absolute_path("/#{Array(resource).join('/')}"),
             { headers: headers("multipart/form-data"),
               body: parameters }.merge!(request_options)
           )

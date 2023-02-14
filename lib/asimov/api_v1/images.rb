@@ -32,8 +32,11 @@ module Asimov
       def create_edit(image:, prompt:, parameters: {})
         raise MissingRequiredParameterError.new(:prompt) unless prompt
 
-        multipart_post(path: "/#{RESOURCE}/edits",
-                       parameters: open_files(parameters.merge({ image: image, prompt: prompt })))
+        rest_create_w_multipart_params(resource: [RESOURCE, "edits"],
+                                       parameters: open_files(parameters.merge({
+                                                                                 image: image,
+                                                                                 prompt: prompt
+                                                                               })))
       end
 
       ##
@@ -44,8 +47,8 @@ module Asimov
       # @option parameters [String] :mask mask file name or a File-like object
       ##
       def create_variation(image:, parameters: {})
-        multipart_post(path: "/#{RESOURCE}/variations",
-                       parameters: open_files(parameters.merge({ image: image })))
+        rest_create_w_multipart_params(resource: [RESOURCE, "variations"],
+                                       parameters: open_files(parameters.merge({ image: image })))
       end
 
       private

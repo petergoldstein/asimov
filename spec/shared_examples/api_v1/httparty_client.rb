@@ -564,9 +564,9 @@ shared_examples_for "sends requests to the v1 API" do
     end
   end
 
-  describe "#multipart_post" do
+  describe "#rest_create_w_multipart_params" do
     let(:headers) { client.headers("multipart/form-data") }
-    let(:path) { "/#{resource}/#{id}" }
+    let(:path) { "/#{resource}" }
 
     context "when there are no request options" do
       context "when the underlying HTTP call does not return an error" do
@@ -587,7 +587,9 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "passes the path, headers (with correct content type), and unaltered parameters " \
              "to the post method of HTTParty" do
-            expect(instance.multipart_post(path: path, parameters: parameters)).to eq(parsed_body)
+            expect(instance.rest_create_w_multipart_params(resource: resource,
+                                                           parameters: parameters))
+              .to eq(parsed_body)
           end
         end
 
@@ -596,7 +598,7 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "passes the path, headers (with correct content type), and nil to the post " \
              "method of HTTParty" do
-            expect(instance.multipart_post(path: path)).to eq(parsed_body)
+            expect(instance.rest_create_w_multipart_params(resource: resource)).to eq(parsed_body)
           end
         end
       end
@@ -621,7 +623,7 @@ shared_examples_for "sends requests to the v1 API" do
             it "passes the path, headers (with correct content type), and unaltered parameters " \
                "to the post method of HTTParty" do
               expect do
-                instance.multipart_post(path: path, parameters: parameters)
+                instance.rest_create_w_multipart_params(resource: resource, parameters: parameters)
               end.to raise_error(Asimov::OpenTimeout)
             end
           end
@@ -632,7 +634,7 @@ shared_examples_for "sends requests to the v1 API" do
             it "passes the path, headers (with correct content type), and nil to the post " \
                "method of HTTParty" do
               expect do
-                instance.multipart_post(path: path)
+                instance.rest_create_w_multipart_params(resource: resource)
               end.to raise_error(Asimov::OpenTimeout)
             end
           end
@@ -657,7 +659,7 @@ shared_examples_for "sends requests to the v1 API" do
             it "passes the path, headers (with correct content type), and unaltered parameters " \
                "to the post method of HTTParty" do
               expect do
-                instance.multipart_post(path: path, parameters: parameters)
+                instance.rest_create_w_multipart_params(resource: resource, parameters: parameters)
               end.to raise_error(Asimov::ReadTimeout)
             end
           end
@@ -668,7 +670,7 @@ shared_examples_for "sends requests to the v1 API" do
             it "passes the path, headers (with correct content type), and nil to the post " \
                "method of HTTParty" do
               expect do
-                instance.multipart_post(path: path)
+                instance.rest_create_w_multipart_params(resource: resource)
               end.to raise_error(Asimov::ReadTimeout)
             end
           end
@@ -693,7 +695,7 @@ shared_examples_for "sends requests to the v1 API" do
             it "passes the path, headers (with correct content type), and unaltered parameters " \
                "to the post method of HTTParty" do
               expect do
-                instance.multipart_post(path: path, parameters: parameters)
+                instance.rest_create_w_multipart_params(resource: resource, parameters: parameters)
               end.to raise_error(Asimov::WriteTimeout)
             end
           end
@@ -704,7 +706,7 @@ shared_examples_for "sends requests to the v1 API" do
             it "passes the path, headers (with correct content type), and nil to the post " \
                "method of HTTParty" do
               expect do
-                instance.multipart_post(path: path)
+                instance.rest_create_w_multipart_params(resource: resource)
               end.to raise_error(Asimov::WriteTimeout)
             end
           end
@@ -730,7 +732,8 @@ shared_examples_for "sends requests to the v1 API" do
               it "passes the path, headers (with correct content type), and unaltered parameters " \
                  "to the post method of HTTParty" do
                 expect do
-                  instance.multipart_post(path: path, parameters: parameters)
+                  instance.rest_create_w_multipart_params(resource: resource,
+                                                          parameters: parameters)
                 end.to raise_error(Asimov::NetworkError)
               end
             end
@@ -741,7 +744,7 @@ shared_examples_for "sends requests to the v1 API" do
               it "passes the path, headers (with correct content type), and nil to the post " \
                  "method of HTTParty" do
                 expect do
-                  instance.multipart_post(path: path)
+                  instance.rest_create_w_multipart_params(resource: resource)
                 end.to raise_error(Asimov::NetworkError)
               end
             end
@@ -771,7 +774,8 @@ shared_examples_for "sends requests to the v1 API" do
 
       it "passes the path, headers (with correct content type), and unaltered parameters " \
          "to the post method of HTTParty" do
-        expect(instance.multipart_post(path: path, parameters: parameters)).to eq(parsed_body)
+        expect(instance.rest_create_w_multipart_params(resource: resource,
+                                                       parameters: parameters)).to eq(parsed_body)
       end
     end
   end
