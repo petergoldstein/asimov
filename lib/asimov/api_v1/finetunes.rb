@@ -42,7 +42,7 @@ module Asimov
       # @param [String] fine_tune_id the id of fine tuning job
       ##
       def cancel(fine_tune_id:)
-        multipart_post(path: "/#{RESOURCE}/#{fine_tune_id}/cancel")
+        rest_create_w_multipart_params(resource: [RESOURCE, fine_tune_id, "cancel"])
       end
 
       ##
