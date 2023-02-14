@@ -5,7 +5,7 @@ module Asimov
     ##
     class Completions < Base
       ##
-      # Calls the /completions POST endpoint with the specified parameters.
+      # Creates a completion request with the specified parameters.
       #
       # @param [String] model the model to use for the completion
       # @param [Hash] parameters the set of parameters being passed to the API
@@ -14,7 +14,8 @@ module Asimov
         raise MissingRequiredParameterError.new(:model) unless model
         raise StreamingResponseNotSupportedError if parameters[:stream]
 
-        json_post(path: "/completions", parameters: parameters.merge({ model: model }))
+        rest_create_w_json_params(resource: "completions",
+                                  parameters: parameters.merge({ model: model }))
       end
     end
   end

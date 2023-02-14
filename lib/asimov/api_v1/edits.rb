@@ -5,7 +5,7 @@ module Asimov
     ##
     class Edits < Base
       ##
-      # Calls the /edits POST endpoint with the specified parameters.
+      # Creates an edit resource with the specified parameters.
       #
       # @param [Hash] parameters the set of parameters being passed to the API
       ##
@@ -13,9 +13,9 @@ module Asimov
         raise MissingRequiredParameterError.new(:model) unless model
         raise MissingRequiredParameterError.new(:instruction) unless instruction
 
-        json_post(path: "/edits",
-                  parameters: parameters.merge({ model: model,
-                                                 instruction: instruction }))
+        rest_create_w_json_params(resource: "edits",
+                                  parameters: parameters.merge({ model: model,
+                                                                 instruction: instruction }))
       end
     end
   end

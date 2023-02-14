@@ -14,18 +14,19 @@ RSpec.describe Asimov::ApiV1::Edits do
 
   describe "#create" do
     context "when the required model and instruction parameters are present" do
-      let(:merged_parameters) do
+      let(:merged_params) do
         parameters.merge({ model: model,
                            instruction: instruction })
       end
 
-      it "calls json_post on the client with the expected arguments" do
-        allow(edits).to receive(:json_post).with(path: "/edits",
-                                                 parameters: merged_parameters).and_return(ret_val)
+      it "calls rest_create_w_json_params on the client with the expected arguments" do
+        allow(edits).to receive(:rest_create_w_json_params).with(resource: "edits",
+                                                                 parameters: merged_params)
+                                                           .and_return(ret_val)
         expect(edits.create(model: model, instruction: instruction,
                             parameters: parameters)).to eq(ret_val)
-        expect(edits).to have_received(:json_post).with(path: "/edits",
-                                                        parameters: merged_parameters)
+        expect(edits).to have_received(:rest_create_w_json_params).with(resource: "edits",
+                                                                        parameters: merged_params)
       end
     end
 

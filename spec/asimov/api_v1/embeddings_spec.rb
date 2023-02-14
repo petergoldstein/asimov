@@ -14,20 +14,22 @@ RSpec.describe Asimov::ApiV1::Embeddings do
 
   describe "#create" do
     context "when the required model and input parameters are present" do
-      let(:merged_parameters) do
+      let(:merged_params) do
         parameters.merge({
                            model: model,
                            input: input
                          })
       end
 
-      it "calls json_post on the client with the expected arguments" do
-        allow(embeddings).to receive(:json_post).with(path: "/embeddings",
-                                                      parameters: merged_parameters)
-                                                .and_return(ret_val)
+      it "calls rest_create_w_json_params on the client with the expected arguments" do
+        allow(embeddings).to receive(:rest_create_w_json_params)
+          .with(resource: "embeddings",
+                parameters: merged_params)
+          .and_return(ret_val)
         expect(embeddings.create(model: model, input: input, parameters: parameters)).to eq(ret_val)
-        expect(embeddings).to have_received(:json_post).with(path: "/embeddings",
-                                                             parameters: merged_parameters)
+        expect(embeddings).to have_received(:rest_create_w_json_params)
+          .with(resource: "embeddings",
+                parameters: merged_params)
       end
     end
 

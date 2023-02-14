@@ -6,8 +6,8 @@ module Asimov
     # Class interface for API methods in the "/images" URI subspace.
     ##
     class Images < Base
-      URI_PREFIX = "/images".freeze
-      private_constant :URI_PREFIX
+      RESOURCE = "images".freeze
+      private_constant :RESOURCE
 
       ##
       # Creates an image using the specified prompt.
@@ -18,8 +18,8 @@ module Asimov
       def create(prompt:, parameters: {})
         raise MissingRequiredParameterError.new(:prompt) unless prompt
 
-        json_post(path: "#{URI_PREFIX}/generations",
-                  parameters: parameters.merge({ prompt: prompt }))
+        rest_create_w_json_params(resource: [RESOURCE, "generations"],
+                                  parameters: parameters.merge({ prompt: prompt }))
       end
 
       ##
@@ -32,7 +32,7 @@ module Asimov
       def create_edit(image:, prompt:, parameters: {})
         raise MissingRequiredParameterError.new(:prompt) unless prompt
 
-        multipart_post(path: "#{URI_PREFIX}/edits",
+        multipart_post(path: "/#{RESOURCE}/edits",
                        parameters: open_files(parameters.merge({ image: image, prompt: prompt })))
       end
 
@@ -44,7 +44,7 @@ module Asimov
       # @option parameters [String] :mask mask file name or a File-like object
       ##
       def create_variation(image:, parameters: {})
-        multipart_post(path: "#{URI_PREFIX}/variations",
+        multipart_post(path: "/#{RESOURCE}/variations",
                        parameters: open_files(parameters.merge({ image: image })))
       end
 

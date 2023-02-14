@@ -13,17 +13,19 @@ RSpec.describe Asimov::ApiV1::Completions do
 
   describe "#create" do
     context "when the required model parameter is present" do
-      let(:merged_parameters) do
+      let(:merged_params) do
         parameters.merge({ model: model })
       end
 
-      it "calls json_post on the client with the expected arguments" do
-        allow(completions).to receive(:json_post).with(path: "/completions",
-                                                       parameters: merged_parameters)
-                                                 .and_return(ret_val)
+      it "calls rest_create_w_json_params on the client with the expected arguments" do
+        allow(completions).to receive(:rest_create_w_json_params)
+          .with(resource: "completions",
+                parameters: merged_params)
+          .and_return(ret_val)
         expect(completions.create(model: model, parameters: parameters)).to eq(ret_val)
-        expect(completions).to have_received(:json_post).with(path: "/completions",
-                                                              parameters: merged_parameters)
+        expect(completions).to have_received(:rest_create_w_json_params)
+          .with(resource: "completions",
+                parameters: merged_params)
       end
     end
 

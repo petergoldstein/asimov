@@ -347,7 +347,7 @@ shared_examples_for "sends requests to the v1 API" do
     end
   end
 
-  describe "#json_post" do
+  describe "#rest_create_w_json_params" do
     let(:path) { "/#{resource}" }
 
     context "when there are no request options" do
@@ -369,7 +369,8 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "passes the path, headers (with correct content type) and JSON-ified parameters to " \
              "the post method of HTTParty" do
-            expect(instance.json_post(path: path, parameters: parameters)).to eq(parsed_body)
+            expect(instance.rest_create_w_json_params(resource: resource,
+                                                      parameters: parameters)).to eq(parsed_body)
           end
         end
 
@@ -378,7 +379,8 @@ shared_examples_for "sends requests to the v1 API" do
 
           it "passes the path, headers (with correct content type) and nil to the post method of " \
              "HTTParty" do
-            expect(instance.json_post(path: path, parameters: nil)).to eq(parsed_body)
+            expect(instance.rest_create_w_json_params(resource: resource,
+                                                      parameters: nil)).to eq(parsed_body)
           end
         end
       end
@@ -403,7 +405,7 @@ shared_examples_for "sends requests to the v1 API" do
             it "passes the path, headers (with correct content type) and JSON-ified parameters " \
                "to the post method of HTTParty and raises an Asimov::OpenTimeout" do
               expect do
-                instance.json_post(path: path, parameters: parameters)
+                instance.rest_create_w_json_params(resource: resource, parameters: parameters)
               end.to raise_error(Asimov::OpenTimeout)
             end
           end
@@ -414,7 +416,7 @@ shared_examples_for "sends requests to the v1 API" do
             it "passes the path, headers (with correct content type) and nil to the post method " \
                "of HTTParty and raises an Asimov::OpenTimeout" do
               expect do
-                instance.json_post(path: path, parameters: nil)
+                instance.rest_create_w_json_params(resource: resource, parameters: nil)
               end.to raise_error(Asimov::OpenTimeout)
             end
           end
@@ -439,7 +441,7 @@ shared_examples_for "sends requests to the v1 API" do
             it "passes the path, headers (with correct content type) and JSON-ified parameters " \
                "to the post method of HTTParty and raises an Asimov::ReadTimeout" do
               expect do
-                instance.json_post(path: path, parameters: parameters)
+                instance.rest_create_w_json_params(resource: resource, parameters: parameters)
               end.to raise_error(Asimov::ReadTimeout)
             end
           end
@@ -450,7 +452,7 @@ shared_examples_for "sends requests to the v1 API" do
             it "passes the path, headers (with correct content type) and nil to the post method " \
                "of HTTParty and raises an Asimov::ReadTimeout" do
               expect do
-                instance.json_post(path: path, parameters: nil)
+                instance.rest_create_w_json_params(resource: resource, parameters: nil)
               end.to raise_error(Asimov::ReadTimeout)
             end
           end
@@ -475,7 +477,7 @@ shared_examples_for "sends requests to the v1 API" do
             it "passes the path, headers (with correct content type) and JSON-ified parameters " \
                "to the post method of HTTParty and raises an Asimov::WriteTimeout" do
               expect do
-                instance.json_post(path: path, parameters: parameters)
+                instance.rest_create_w_json_params(resource: resource, parameters: parameters)
               end.to raise_error(Asimov::WriteTimeout)
             end
           end
@@ -486,7 +488,7 @@ shared_examples_for "sends requests to the v1 API" do
             it "passes the path, headers (with correct content type) and nil to the post method " \
                "of HTTParty and raises an Asimov::WriteTimeout" do
               expect do
-                instance.json_post(path: path, parameters: nil)
+                instance.rest_create_w_json_params(resource: resource, parameters: nil)
               end.to raise_error(Asimov::WriteTimeout)
             end
           end
@@ -512,7 +514,7 @@ shared_examples_for "sends requests to the v1 API" do
               it "passes the path, headers (with correct content type) and JSON-ified parameters " \
                  "to the post method of HTTParty and raises an Asimov::NetworkError" do
                 expect do
-                  instance.json_post(path: path, parameters: parameters)
+                  instance.rest_create_w_json_params(resource: resource, parameters: parameters)
                 end.to raise_error(Asimov::NetworkError)
               end
             end
@@ -523,7 +525,7 @@ shared_examples_for "sends requests to the v1 API" do
               it "passes the path, headers (with correct content type) and nil to the post " \
                  "method of HTTParty and raises an Asimov::NetworkError" do
                 expect do
-                  instance.json_post(path: path, parameters: nil)
+                  instance.rest_create_w_json_params(resource: resource, parameters: nil)
                 end.to raise_error(Asimov::NetworkError)
               end
             end
@@ -555,7 +557,8 @@ shared_examples_for "sends requests to the v1 API" do
 
         it "passes the path, headers (with correct content type), JSON-ified parameters, " \
            "and request options the post method of HTTParty" do
-          expect(instance.json_post(path: path, parameters: parameters)).to eq(parsed_body)
+          expect(instance.rest_create_w_json_params(resource: resource,
+                                                    parameters: parameters)).to eq(parsed_body)
         end
       end
     end

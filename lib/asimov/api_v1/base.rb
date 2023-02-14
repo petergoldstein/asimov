@@ -65,15 +65,17 @@ module Asimov
       end
 
       ##
-      # Executes an HTTP POST with JSON-encoded parameters on the specified path.
+      # Executes a REST create with JSON-encoded parameters for the specified
+      # resource.
       #
-      # @param [String] path the URI (when combined with the
-      # openai_api_base) against which the POST is executed.
+      # @param [String] the resource to be created.
+      # @param [Hash] parameters the parameters to include with the request
+      # to create the resource
       ##
-      def json_post(path:, parameters:)
+      def rest_create_w_json_params(resource:, parameters:)
         wrap_response_with_error_handling do
           self.class.post(
-            absolute_path(path),
+            absolute_path("/#{Array(resource).join('/')}"),
             { headers: headers,
               body: parameters&.to_json }.merge!(request_options)
           )
