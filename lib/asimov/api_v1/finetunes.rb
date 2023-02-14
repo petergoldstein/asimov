@@ -4,14 +4,14 @@ module Asimov
     # Class interface for API methods in the "/fine-tunes" URI subspace.
     ##
     class Finetunes < Base
-      URI_PREFIX = "/fine-tunes".freeze
-      private_constant :URI_PREFIX
+      RESOURCE = "fine-tunes".freeze
+      private_constant :RESOURCE
 
       ##
       # Lists the set of fine-tuning jobs for this API key and (optionally) organization.
       ##
       def list
-        rest_index(resource: "fine-tunes")
+        rest_index(resource: RESOURCE)
       end
 
       ##
@@ -23,7 +23,8 @@ module Asimov
       def create(training_file:, parameters: {})
         raise MissingRequiredParameterError.new(:training_file) unless training_file
 
-        json_post(path: URI_PREFIX, parameters: parameters.merge(training_file: training_file))
+        rest_create_w_json_params(resource: RESOURCE,
+                                  parameters: parameters.merge(training_file: training_file))
       end
 
       ##
@@ -32,7 +33,7 @@ module Asimov
       # @param [String] fine_tune_id the id of fine tuning job
       ##
       def retrieve(fine_tune_id:)
-        rest_get(resource: "fine-tunes", id: fine_tune_id)
+        rest_get(resource: RESOURCE, id: fine_tune_id)
       end
 
       ##
@@ -41,7 +42,7 @@ module Asimov
       # @param [String] fine_tune_id the id of fine tuning job
       ##
       def cancel(fine_tune_id:)
-        multipart_post(path: "#{URI_PREFIX}/#{fine_tune_id}/cancel")
+        multipart_post(path: "/#{RESOURCE}/#{fine_tune_id}/cancel")
       end
 
       ##
@@ -50,7 +51,7 @@ module Asimov
       # @param [String] fine_tune_id the id of fine tuning job
       ##
       def list_events(fine_tune_id:)
-        rest_index(resource: ["fine-tunes", fine_tune_id, "events"])
+        rest_index(resource: [RESOURCE, fine_tune_id, "events"])
       end
     end
   end

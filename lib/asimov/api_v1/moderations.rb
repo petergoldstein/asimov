@@ -13,7 +13,8 @@ module Asimov
       def create(input:, parameters: {})
         raise MissingRequiredParameterError.new(:input) unless input
 
-        json_post(path: "/moderations", parameters: parameters.merge({ input: input }))
+        rest_create_w_json_params(resource: "moderations",
+                                  parameters: parameters.merge({ input: input }))
       end
     end
   end

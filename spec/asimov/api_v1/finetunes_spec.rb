@@ -23,18 +23,19 @@ RSpec.describe Asimov::ApiV1::Finetunes do
     let(:training_file_id) { SecureRandom.hex(5) }
 
     context "when the required training_file parameter is present" do
-      let(:merged_parameters) do
+      let(:merged_params) do
         parameters.merge(training_file: training_file_id)
       end
 
-      it "calls json_post on the client with the expected arguments" do
-        allow(finetunes).to receive(:json_post).with(path: "/fine-tunes",
-                                                     parameters: merged_parameters)
-                                               .and_return(ret_val)
+      it "calls rest_create_w_json_params on the client with the expected arguments" do
+        allow(finetunes).to receive(:rest_create_w_json_params).with(resource: "fine-tunes",
+                                                                     parameters: merged_params)
+                                                               .and_return(ret_val)
         expect(finetunes.create(training_file: training_file_id,
                                 parameters: parameters)).to eq(ret_val)
-        expect(finetunes).to have_received(:json_post).with(path: "/fine-tunes",
-                                                            parameters: merged_parameters)
+        expect(finetunes).to have_received(:rest_create_w_json_params)
+          .with(resource: "fine-tunes",
+                parameters: merged_params)
       end
     end
 

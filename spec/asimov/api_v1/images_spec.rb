@@ -7,6 +7,7 @@ RSpec.describe Asimov::ApiV1::Images do
   let(:client) { Asimov::Client.new(api_key: api_key) }
   let(:ret_val) { SecureRandom.hex(4) }
   let(:parameters) { { SecureRandom.hex(4).to_sym => SecureRandom.hex(4) } }
+  let(:resource) { "images" }
 
   it_behaves_like "sends requests to the v1 API"
 
@@ -15,16 +16,18 @@ RSpec.describe Asimov::ApiV1::Images do
     let(:prompt) { SecureRandom.hex(4) }
 
     context "when the required prompt parameter is present" do
-      let(:merged_parameters) do
+      let(:merged_params) do
         parameters.merge({ prompt: prompt })
       end
 
-      it "calls json_post on the client with the expected arguments" do
-        allow(images).to receive(:json_post).with(path: path_string,
-                                                  parameters: merged_parameters).and_return(ret_val)
+      it "calls rest_create_w_json_params on the client with the expected arguments" do
+        allow(images).to receive(:rest_create_w_json_params)
+          .with(resource: [resource, "generations"],
+                parameters: merged_params).and_return(ret_val)
         expect(images.create(prompt: prompt, parameters: parameters)).to eq(ret_val)
-        expect(images).to have_received(:json_post).with(path: path_string,
-                                                         parameters: merged_parameters)
+        expect(images).to have_received(:rest_create_w_json_params)
+          .with(resource: [resource, "generations"],
+                parameters: merged_params)
       end
     end
 
@@ -64,18 +67,18 @@ RSpec.describe Asimov::ApiV1::Images do
           end
 
           context "when the optional mask parameter is not present" do
-            let(:merged_parameters) do
+            let(:merged_params) do
               parameters.merge({ image: image_file, prompt: prompt })
             end
 
             it "calls multipart_post on the client with the expected arguments" do
               allow(images).to receive(:multipart_post).with(path: path_string,
-                                                             parameters: merged_parameters)
+                                                             parameters: merged_params)
                                                        .and_return(ret_val)
               expect(images.create_edit(image: image_filename, prompt: prompt,
                                         parameters: parameters)).to eq(ret_val)
               expect(images).to have_received(:multipart_post).with(path: path_string,
-                                                                    parameters: merged_parameters)
+                                                                    parameters: merged_params)
             end
           end
 
@@ -87,7 +90,7 @@ RSpec.describe Asimov::ApiV1::Images do
 
             context "when the mask file can be loaded" do
               let(:mask_file) { instance_double(File) }
-              let(:merged_parameters) do
+              let(:merged_params) do
                 parameters.merge({ image: image_file, mask: mask_file, prompt: prompt })
               end
 
@@ -101,12 +104,12 @@ RSpec.describe Asimov::ApiV1::Images do
 
               it "calls multipart_post on the client with the expected arguments" do
                 allow(images).to receive(:multipart_post).with(path: path_string,
-                                                               parameters: merged_parameters)
+                                                               parameters: merged_params)
                                                          .and_return(ret_val)
                 expect(images.create_edit(image: image_filename, prompt: prompt,
                                           parameters: parameters)).to eq(ret_val)
                 expect(images).to have_received(:multipart_post).with(path: path_string,
-                                                                      parameters: merged_parameters)
+                                                                      parameters: merged_params)
               end
             end
 
@@ -185,18 +188,18 @@ RSpec.describe Asimov::ApiV1::Images do
         end
 
         context "when the optional mask parameter is not present" do
-          let(:merged_parameters) do
+          let(:merged_params) do
             parameters.merge({ image: image_file })
           end
 
           it "calls multipart_post on the client with the expected arguments" do
             allow(images).to receive(:multipart_post).with(path: path_string,
-                                                           parameters: merged_parameters)
+                                                           parameters: merged_params)
                                                      .and_return(ret_val)
             expect(images.create_variation(image: image_filename,
                                            parameters: parameters)).to eq(ret_val)
             expect(images).to have_received(:multipart_post).with(path: path_string,
-                                                                  parameters: merged_parameters)
+                                                                  parameters: merged_params)
           end
         end
 
@@ -209,7 +212,7 @@ RSpec.describe Asimov::ApiV1::Images do
 
           context "when the mask file can be loaded" do
             let(:mask_file) { instance_double(File) }
-            let(:merged_parameters) do
+            let(:merged_params) do
               parameters.merge({ image: image_file, mask: mask_file })
             end
 
@@ -223,12 +226,12 @@ RSpec.describe Asimov::ApiV1::Images do
 
             it "calls multipart_post on the client with the expected arguments" do
               allow(images).to receive(:multipart_post).with(path: path_string,
-                                                             parameters: merged_parameters)
+                                                             parameters: merged_params)
                                                        .and_return(ret_val)
               expect(images.create_variation(image: image_filename,
                                              parameters: parameters)).to eq(ret_val)
               expect(images).to have_received(:multipart_post).with(path: path_string,
-                                                                    parameters: merged_parameters)
+                                                                    parameters: merged_params)
             end
           end
 
