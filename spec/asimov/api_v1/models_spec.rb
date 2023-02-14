@@ -30,12 +30,12 @@ RSpec.describe Asimov::ApiV1::Models do
 
   describe "#delete" do
     let(:model_id) { SecureRandom.hex(4) }
-    let(:path_string) { "/models/#{model_id}" }
 
     it "calls delete on the client with the expected arguments" do
-      allow(models).to receive(:http_delete).with(path: path_string).and_return(ret_val)
+      allow(models).to receive(:http_delete).with(resource: "models", id: model_id)
+                                            .and_return(ret_val)
       expect(models.delete(model_id: model_id)).to eq(ret_val)
-      expect(models).to have_received(:http_delete).with(path: path_string)
+      expect(models).to have_received(:http_delete).with(resource: "models", id: model_id)
     end
   end
 end

@@ -32,7 +32,7 @@ module Asimov
       # @param [String] model_id the id of the model to be deleted
       ##
       def delete(model_id:)
-        http_delete(path: "#{URI_PREFIX}/#{model_id}")
+        http_delete(resource: "models", id: model_id)
       end
     end
   end
