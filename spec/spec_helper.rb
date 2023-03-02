@@ -3,6 +3,7 @@ require "simplecov"
 SimpleCov.start
 
 require "asimov"
+require "faker"
 require "securerandom"
 require "vcr"
 
