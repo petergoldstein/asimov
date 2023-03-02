@@ -10,7 +10,6 @@ module Asimov
       # @param [String] model the id for the model used to create the embedding
       # @param [String] parameters the (optional) additional parameters being
       # provided to inform embedding creation.
-      # @param [Hash] parameters the set of parameters being passed to the API
       ##
       def create(model:, input:, parameters: {})
         raise MissingRequiredParameterError.new(:model) unless model

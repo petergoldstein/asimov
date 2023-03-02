@@ -68,7 +68,7 @@ module Asimov
       # Executes a REST create with JSON-encoded parameters for the specified
       # resource.
       #
-      # @param [String] the resource to be created.
+      # @param [String] resource the resource to be created.
       # @param [Hash] parameters the parameters to include with the request
       # to create the resource
       ##
@@ -86,7 +86,7 @@ module Asimov
       # Executes a REST create with multipart-encoded parameters for the specified
       # resource.
       #
-      # @param [String] the resource to be created.
+      # @param [String] resource the resource to be created.
       # @param [Hash] parameters the optional parameters to include with the request
       # to create the resource
       ##
