@@ -143,6 +143,12 @@ module Asimov
   class InvalidClassificationError < FileDataError; end
 
   ##
+  # Error that occurs when the provided chat messages
+  # parameter is not valid.
+  ##
+  class InvalidChatMessagesError < RequestError; end
+
+  ##
   # Error that occurs when an invalid value is provided
   # for an expected parameter in a request.
   ##

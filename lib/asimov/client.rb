@@ -3,6 +3,8 @@ require "httparty"
 require_relative "headers_factory"
 require_relative "utils/request_options_validator"
 require_relative "api_v1/base"
+require_relative "api_v1/audio"
+require_relative "api_v1/chat"
 require_relative "api_v1/completions"
 require_relative "api_v1/edits"
 require_relative "api_v1/embeddings"
@@ -44,6 +46,20 @@ module Asimov
       initialize_openai_api_base(openai_api_base)
     end
     def_delegators :@headers_factory, :api_key, :organization_id, :headers
+
+    ##
+    # Use the audio method to access API calls in the /audio URI space.
+    ##
+    def audio
+      @audio ||= Asimov::ApiV1::Audio.new(client: self)
+    end
+
+    ##
+    # Use the chat method to access API calls in the /chat URI space.
+    ##
+    def chat
+      @chat ||= Asimov::ApiV1::Chat.new(client: self)
+    end
 
     ##
     # Use the completions method to access API calls in the /completions URI space.
