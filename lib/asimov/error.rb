@@ -10,10 +10,23 @@ module Asimov
   class ConfigurationError < Error; end
 
   ##
+  # Error that occurs when the specified
+  # API type is unknown
+  ##
+  class UnknownApiTypeError < ConfigurationError; end
+
+  ##
   # Error that occurs when there is no configured
   # API key for a newly created Asimov::Client.
   ##
   class MissingApiKeyError < ConfigurationError; end
+
+  ##
+  # Error that occurs when there is no configured
+  # API version for a newly created Asimov::Client
+  # when it is required by the APIT type
+  ##
+  class MissingApiVersionError < ConfigurationError; end
 
   ##
   # Error that occurs when there is no configured
@@ -27,6 +40,12 @@ module Asimov
   # as a result of an error returned by the OpenAI API.
   ##
   class RequestError < Error; end
+
+  ##
+  # Error that occurs because the configured API
+  # type does not support the requested operation.
+  ##
+  class InvalidApiTypeError < RequestError; end
 
   ##
   # Errors that occur as a result of an error raised

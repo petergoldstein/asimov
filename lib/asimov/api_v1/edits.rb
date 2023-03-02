@@ -10,6 +10,7 @@ module Asimov
       # @param [Hash] parameters the set of parameters being passed to the API
       ##
       def create(model:, instruction:, parameters: {})
+        disallow_azure
         raise MissingRequiredParameterError.new(:model) unless model
         raise MissingRequiredParameterError.new(:instruction) unless instruction
 

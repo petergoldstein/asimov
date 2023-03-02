@@ -16,6 +16,7 @@ module Asimov
       # @param [Hash] parameters additional parameters passed to the API
       ##
       def create(prompt:, parameters: {})
+        disallow_azure
         raise MissingRequiredParameterError.new(:prompt) unless prompt
 
         rest_create_w_json_params(resource: [RESOURCE, "generations"],
@@ -30,6 +31,7 @@ module Asimov
       # @param [Hash] parameters additional parameters passed to the API
       ##
       def create_edit(image:, prompt:, parameters: {})
+        disallow_azure
         raise MissingRequiredParameterError.new(:prompt) unless prompt
 
         rest_create_w_multipart_params(resource: [RESOURCE, "edits"],
@@ -47,6 +49,7 @@ module Asimov
       # @option parameters [String] :mask mask file name or a File-like object
       ##
       def create_variation(image:, parameters: {})
+        disallow_azure
         rest_create_w_multipart_params(resource: [RESOURCE, "variations"],
                                        parameters: open_files(parameters.merge({ image: image })))
       end

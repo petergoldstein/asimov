@@ -6,9 +6,10 @@
 
 Asimov is a gem that enables the use of OpenAI's ML capabilities within SaaS applications.  With that in mind it includes:
 
-* The ability to use multiple OpenAI configurations (API keys and organization ids) within a single application.
-* Support for configuring connections with timeouts and proxies to make applications robust against failure and to support complex network environments.
 * Methods for all non-streaming endpoints in the [OpenAI API](https://openai.com/blog/openai-api/).  (Streaming support is under consideration).
+* Support for multiple OpenAI endpoints and types - including OpenAI (api.openai.com), Azure endpoints, and proxying services (e.g. Helicone).
+* The ability to use multiple OpenAI configurations (API keys and organization ids) as well as different endpoints (OpenAI, Azure) within a single application.
+* Support for configuring connections with timeouts and proxies to make applications robust against failure and to support complex network environments.
 
 
 You can use this gem to write applications that generate text with GPT-3, create images with DALL·E, or write code with Codex.

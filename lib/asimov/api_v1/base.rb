@@ -18,7 +18,8 @@ module Asimov
       def initialize(client: nil)
         @client = client
       end
-      def_delegators :@client, :headers, :request_options, :openai_api_base
+      def_delegators :@client, :headers, :request_options, :azure?,
+                     :resource_singular_uri, :resource_class_uri, :resource_instance_uri
 
       ##
       # Executes a REST index for the specified resource
@@ -27,8 +28,9 @@ module Asimov
       ##
       def rest_index(resource:)
         wrap_response_with_error_handling do
+          uri = resource_class_uri(resource)
           self.class.get(
-            absolute_path("/#{Array(resource).join('/')}"),
+            uri,
             { headers: headers }.merge!(request_options)
           )
         end
@@ -42,8 +44,9 @@ module Asimov
       ##
       def rest_delete(resource:, id:)
         wrap_response_with_error_handling do
+          uri = resource_instance_uri(resource, id)
           self.class.delete(
-            absolute_path("/#{resource}/#{CGI.escape(id)}"),
+            uri,
             { headers: headers }.merge!(request_options)
           )
         end
@@ -57,8 +60,9 @@ module Asimov
       ##
       def rest_get(resource:, id:)
         wrap_response_with_error_handling do
+          uri = resource_instance_uri(resource, id)
           self.class.get(
-            absolute_path("/#{resource}/#{CGI.escape(id)}"),
+            uri,
             { headers: headers }.merge!(request_options)
           )
         end
@@ -73,9 +77,11 @@ module Asimov
       # to create the resource
       ##
       def rest_create_w_json_params(resource:, parameters:)
+        puts "In rest_create_with_json_params"
         wrap_response_with_error_handling do
+          uri = resource_class_uri(resource)
           self.class.post(
-            absolute_path("/#{Array(resource).join('/')}"),
+            uri,
             { headers: headers,
               body: parameters&.to_json }.merge!(request_options)
           )
@@ -92,8 +98,9 @@ module Asimov
       ##
       def rest_create_w_multipart_params(resource:, parameters: nil)
         wrap_response_with_error_handling do
+          uri = resource_class_uri(resource)
           self.class.post(
-            absolute_path("/#{Array(resource).join('/')}"),
+            uri,
             { headers: headers("multipart/form-data"),
               body: parameters }.merge!(request_options)
           )
@@ -108,9 +115,12 @@ module Asimov
       # @param [Writer] writer an object, typically a File, that responds to a `write` method
       ##
       def rest_get_streamed_download(resource:, writer:)
-        self.class.get(absolute_path("/#{Array(resource).join('/')}"),
-                       { headers: headers,
-                         stream_body: true }.merge!(request_options)) do |fragment|
+        uri = resource_class_uri(resource)
+        self.class.get(
+          uri,
+          { headers: headers,
+            stream_body: true }.merge!(request_options)
+        ) do |fragment|
           fragment.code == 200 ? writer.write(fragment) : check_for_api_error(fragment)
         end
       rescue StandardError => e
@@ -118,11 +128,19 @@ module Asimov
         NetworkErrorTranslator.translate(e)
       end
 
-      private
+      def disallow_azure
+        return unless azure?
 
-      def absolute_path(path)
-        "#{openai_api_base}#{path}"
+        raise InvalidApiTypeError, "This operation is not supported by the Azure OpenAI API yet."
       end
+
+      def disallow_openai
+        return if azure?
+
+        raise InvalidApiTypeError, "This operation is not supported by the OpenAI API."
+      end
+
+      private
 
       def wrap_response_with_error_handling
         resp = begin

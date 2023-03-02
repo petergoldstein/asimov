@@ -9,7 +9,8 @@ module Asimov
   class Configuration
     attr_accessor :api_key, :organization_id
 
-    attr_reader :request_options, :openai_api_base
+    attr_reader :request_options, :openai_api_base, :api_type
+    attr_writer :api_version
 
     DEFAULT_OPENAI_BASE_URI = "https://api.openai.com/v1".freeze
 
@@ -24,10 +25,32 @@ module Asimov
     # Reset the configuration to default values.  Mostly used for testing.
     ##
     def reset
+      @api_type = ApiType::DEFAULT
+      @api_version = nil
       @api_key = nil
       @organization_id = nil
       @request_options = {}
       @openai_api_base = DEFAULT_OPENAI_BASE_URI
+    end
+
+    def api_type=(val)
+      @api_type = if val.nil?
+                    ApiType::DEFAULT
+                  else
+                    ApiType.normalize(val)
+                  end
+
+      raise Asimov::UnknownApiTypeError unless @api_type
+    end
+
+    def api_version(client_api_type = nil)
+      # Return explicitly specifed value if there is one
+      return @api_version unless @api_version.nil?
+
+      api_type_for_version = client_api_type || @api_type
+      return nil unless ApiType.azure?(api_type_for_version)
+
+      ApiType::DEFAULT_AZURE_VERSION
     end
 
     ##

@@ -1,4 +1,5 @@
 require_relative "asimov/version"
+require_relative "asimov/api_type"
 require_relative "asimov/configuration"
 require_relative "asimov/error"
 require_relative "asimov/client"
