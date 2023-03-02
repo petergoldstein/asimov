@@ -11,8 +11,10 @@ module Asimov
       ##
       # Creates a transcription request with the specified parameters.
       #
-      # @param [String] model the model to use for the completion
-      # @param [Hash] parameters the set of parameters being passed to the API
+      # @param [String] file the name of the file to transcribe
+      # @param [String] model the model to use for the transcription
+      # @param [Hash] parameters the (optional) additional parameters
+      #               being passed to the API
       ##
       def create_transcription(file:, model:, parameters: {})
         raise MissingRequiredParameterError.new(:model) unless model
@@ -25,10 +27,12 @@ module Asimov
       end
 
       ##
-      # Creates a transcription request with the specified parameters.
+      # Creates a translation request with the specified parameters.
       #
-      # @param [String] model the model to use for the completion
-      # @param [Hash] parameters the set of parameters being passed to the API
+      # @param [String] file the name of the file to translate
+      # @param [String] model the model to use for the translation
+      # @param [Hash] parameters the (optional) additional parameters
+      #               being passed to the API
       ##
       def create_translation(file:, model:, parameters: {})
         raise MissingRequiredParameterError.new(:model) unless model

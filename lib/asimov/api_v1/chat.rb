@@ -12,7 +12,8 @@ module Asimov
       # Creates a completion request with the specified parameters.
       #
       # @param [String] model the model to use for the completion
-      # @param [Hash] parameters the set of parameters being passed to the API
+      # @param [Array<Hash>] messages the messages to use for the completion
+      # @param [Hash] parameters any additional parameters being passed to the API
       ##
       def create_completions(model:, messages:, parameters: {})
         raise MissingRequiredParameterError.new(:model) unless model
