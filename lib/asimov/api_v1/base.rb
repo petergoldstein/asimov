@@ -1,5 +1,5 @@
-require_relative "./api_error_translator"
-require_relative "./network_error_translator"
+require_relative "api_error_translator"
+require_relative "network_error_translator"
 
 module Asimov
   ##
