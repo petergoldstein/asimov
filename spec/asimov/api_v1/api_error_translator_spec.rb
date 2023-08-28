@@ -3,8 +3,7 @@ require_relative "../../spec_helper"
 RSpec.describe Asimov::ApiV1::ApiErrorTranslator do
   let(:resp) do
     r = instance_double(HTTParty::Response)
-    allow(r).to receive(:code).and_return(code)
-    allow(r).to receive(:parsed_response).and_return(parsed_response)
+    allow(r).to receive_messages(code: code, parsed_response: parsed_response)
     r
   end
 
