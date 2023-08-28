@@ -10,8 +10,7 @@ shared_examples_for "sends requests to the v1 API" do
   let(:parsed_body) { { SecureRandom.hex(4) => SecureRandom.hex(4) } }
   let(:ret_val) do
     resp = instance_double(HTTParty::Response)
-    allow(resp).to receive(:code).and_return(200)
-    allow(resp).to receive(:parsed_response).and_return(parsed_body)
+    allow(resp).to receive_messages(code: 200, parsed_response: parsed_body)
     resp
   end
 
