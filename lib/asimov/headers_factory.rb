@@ -12,9 +12,10 @@ module Asimov
     ##
     NULL_ORGANIZATION_ID = Object.new.freeze
 
-    attr_reader :api_key, :organization_id
+    attr_reader :api_type, :api_key, :organization_id
 
-    def initialize(api_key, organization_id)
+    def initialize(api_type, api_key, organization_id)
+      @api_type = api_type
       @api_key = api_key || Asimov.configuration.api_key
       initialize_organization_id(organization_id)
 
@@ -57,7 +58,15 @@ module Asimov
     end
 
     def auth_headers
-      @auth_headers ||= { "Authorization" => bearer_header(api_key) }
+      @auth_headers ||= ApiType.bearer_auth?(api_type) ? bearer_auth_headers : azure_auth_headers
+    end
+
+    def azure_auth_headers
+      { "api-key" => api_key }
+    end
+
+    def bearer_auth_headers
+      { "Authorization" => bearer_header(api_key) }
     end
 
     def bearer_header(api_key)

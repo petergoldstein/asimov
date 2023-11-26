@@ -68,4 +68,8 @@ module Utils
     end
   end
   # rubocop:enable Metrics/MethodLength
+
+  def self.randomize_case(str)
+    str.chars.map { |c| (rand 2) == 0 ? c.downcase : c.upcase }.join
+  end
 end
