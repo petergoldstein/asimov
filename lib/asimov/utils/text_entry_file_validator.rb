@@ -29,7 +29,7 @@ module Asimov
         return false unless parsed.is_a?(Hash)
 
         keys = parsed.keys
-        return false unless keys.size >= 1 && keys.size <= 2
+        return false unless keys.size.between?(1, 2)
         return false unless keys.include?("text")
         return false unless parsed["text"].is_a?(String)
 
