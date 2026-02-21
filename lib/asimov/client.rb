@@ -22,7 +22,7 @@ module Asimov
   class Client
     extend Forwardable
 
-    attr_reader :api_key, :organization_id, :api_version, :request_options, :openai_api_base
+    attr_reader :api_version, :request_options, :openai_api_base
 
     ##
     # Creates a new Asimov::Client. Includes several optional named parameters:

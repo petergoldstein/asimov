@@ -36,7 +36,7 @@ class VCRMultipartMatcher
     return request.headers unless multipart_request?(content_type)
 
     boundary = MULTIPART_HEADER_MATCHER.match(content_type)[1]
-    request.body.gsub(boundary, BOUNDARY_SUBSTITUTION)
+    request.body.dup.force_encoding("BINARY").gsub(boundary, BOUNDARY_SUBSTITUTION)
   end
 
   def multipart_request?(content_type)

@@ -1,10 +1,10 @@
-require:
+plugins:
   - rubocop-performance
   - rubocop-rake
   - rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.3
   NewCops: enable
 
 Layout/LineLength:
