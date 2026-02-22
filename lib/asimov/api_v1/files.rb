@@ -1,8 +1,5 @@
 require_relative "../utils/file_manager"
 require_relative "../utils/jsonl_validator"
-require_relative "../utils/training_file_validator"
-require_relative "../utils/classifications_file_validator"
-require_relative "../utils/text_entry_file_validator"
 
 module Asimov
   module ApiV1
@@ -44,6 +41,8 @@ module Asimov
       # @param [String] file_id the id of the file to be retrieved
       ##
       def retrieve(file_id:)
+        raise MissingRequiredParameterError.new(:file_id) unless file_id
+
         rest_get(resource: RESOURCE, id: file_id)
       end
 
@@ -53,6 +52,8 @@ module Asimov
       # @param [String] file_id the id of the file to be deleted
       ##
       def delete(file_id:)
+        raise MissingRequiredParameterError.new(:file_id) unless file_id
+
         rest_delete(resource: RESOURCE, id: file_id)
       end
 
@@ -65,24 +66,21 @@ module Asimov
       # as it is received from the API
       ##
       def content(file_id:, writer:)
+        raise MissingRequiredParameterError.new(:file_id) unless file_id
+
         rest_get_streamed_download(resource: [RESOURCE, file_id, "content"], writer: writer)
       end
 
       private
 
       def validate(filename, purpose)
-        validator_class(purpose).new.validate(Utils::FileManager.open(filename))
+        klass = validator_class(purpose)
+        klass&.new&.validate(Utils::FileManager.open(filename))
       end
 
       def validator_class(purpose)
         case purpose
-        when "fine-tune"
-          Utils::TrainingFileValidator
-        when "classifications"
-          Utils::ClassificationsFileValidator
-        when "answers", "search"
-          Utils::TextEntryFileValidator
-        else
+        when "fine-tune", "batch"
           Utils::JsonlValidator
         end
       end

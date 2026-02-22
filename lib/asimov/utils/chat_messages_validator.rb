@@ -1,7 +1,10 @@
 module Asimov
   module Utils
     ##
-    # Validator for OpenAI's chat message format
+    # Validator for OpenAI's chat message format.
+    # Performs basic structural validation: messages must be an array
+    # of hashes, each with a "role" key. Any role string and
+    # additional keys are accepted.
     ##
     class ChatMessagesValidator
       def self.validate_and_normalize(messages)
@@ -27,30 +30,15 @@ module Asimov
         raise InvalidChatMessagesError, "Chat messages must be hashes." unless message.is_a?(Hash)
 
         validate_role(message["role"])
-
-        content = message["content"]
-        raise InvalidChatMessagesError, "Chat messages must have content." if content.nil?
-
-        validate_keys(message)
         message
       end
 
-      def validate_keys(json)
-        additional_keys = json.keys - %w[role content]
-        return if additional_keys.empty?
-
-        raise InvalidChatMessagesError,
-              "Chat messages must not have additional keys - #{additional_keys.join(', ')}."
-      end
-
-      ALLOWED_ROLES = %w[assistant system user].freeze
       def validate_role(role)
         raise InvalidChatMessagesError, "Chat messages must have a role." if role.nil?
-
-        return true if ALLOWED_ROLES.include?(role)
+        return if role.is_a?(String) && !role.empty?
 
         raise InvalidChatMessagesError,
-              "The value '#{role}' is not a valid role for a chat message."
+              "Chat message role must be a non-empty string."
       end
 
       def normalize_parsed(message)

@@ -37,6 +37,18 @@ RSpec/NestedGroups:
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
 
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - "spec/asimov/api_v1/integration/**/*"
+
+RSpec/DescribeClass:
+  Exclude:
+    - "spec/asimov/api_v1/integration/**/*"
+
+RSpec/DescribeMethod:
+  Exclude:
+    - "spec/asimov/api_v1/integration/**/*"
+
 RSpec/SubjectStub:
   Exclude:
     - "spec/asimov/api_v1/**/*.rb"

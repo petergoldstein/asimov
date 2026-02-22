@@ -4,15 +4,24 @@ require_relative "headers_factory"
 require_relative "utils/request_options_validator"
 require_relative "api_v1/base"
 require_relative "api_v1/audio"
+require_relative "api_v1/batches"
 require_relative "api_v1/chat"
-require_relative "api_v1/completions"
-require_relative "api_v1/edits"
+require_relative "api_v1/containers"
+require_relative "api_v1/conversations"
 require_relative "api_v1/embeddings"
+require_relative "api_v1/evals"
 require_relative "api_v1/files"
-require_relative "api_v1/finetunes"
+require_relative "api_v1/fine_tuning"
 require_relative "api_v1/images"
 require_relative "api_v1/models"
 require_relative "api_v1/moderations"
+require_relative "api_v1/organization"
+require_relative "api_v1/realtime"
+require_relative "api_v1/responses"
+require_relative "api_v1/skills"
+require_relative "api_v1/uploads"
+require_relative "api_v1/videos"
+require_relative "api_v1/vector_stores"
 
 module Asimov
   ##
@@ -37,21 +46,30 @@ module Asimov
     #            configuration value.
     ##
     def initialize(api_key: nil, organization_id: HeadersFactory::NULL_ORGANIZATION_ID,
+                   project_id: HeadersFactory::NULL_PROJECT_ID,
                    request_options: {}, openai_api_base: nil)
       @headers_factory = HeadersFactory.new(api_key,
-                                            organization_id)
+                                            organization_id,
+                                            project_id)
       @request_options = Asimov.configuration.request_options
                                .merge(Utils::RequestOptionsValidator.validate(request_options))
                                .freeze
       initialize_openai_api_base(openai_api_base)
     end
-    def_delegators :@headers_factory, :api_key, :organization_id, :headers
+    def_delegators :@headers_factory, :api_key, :organization_id, :project_id, :headers
 
     ##
     # Use the audio method to access API calls in the /audio URI space.
     ##
     def audio
       @audio ||= Asimov::ApiV1::Audio.new(client: self)
+    end
+
+    ##
+    # Use the batches method to access API calls in the /batches URI space.
+    ##
+    def batches
+      @batches ||= Asimov::ApiV1::Batches.new(client: self)
     end
 
     ##
@@ -62,17 +80,17 @@ module Asimov
     end
 
     ##
-    # Use the completions method to access API calls in the /completions URI space.
+    # Use the containers method to access API calls in the /containers URI space.
     ##
-    def completions
-      @completions ||= Asimov::ApiV1::Completions.new(client: self)
+    def containers
+      @containers ||= Asimov::ApiV1::Containers.new(client: self)
     end
 
     ##
-    # Use the edits method to access API calls in the /edits URI space.
+    # Use the conversations method to access API calls in the /conversations URI space.
     ##
-    def edits
-      @edits ||= Asimov::ApiV1::Edits.new(client: self)
+    def conversations
+      @conversations ||= Asimov::ApiV1::Conversations.new(client: self)
     end
 
     ##
@@ -83,6 +101,13 @@ module Asimov
     end
 
     ##
+    # Use the evals method to access API calls in the /evals URI space.
+    ##
+    def evals
+      @evals ||= Asimov::ApiV1::Evals.new(client: self)
+    end
+
+    ##
     # Use the files method to access API calls in the /files URI space.
     ##
     def files
@@ -90,10 +115,10 @@ module Asimov
     end
 
     ##
-    # Use the finetunes method to access API calls in the /fine-tunes URI space.
+    # Use the fine_tuning method to access API calls in the /fine_tuning/jobs URI space.
     ##
-    def finetunes
-      @finetunes ||= Asimov::ApiV1::Finetunes.new(client: self)
+    def fine_tuning
+      @fine_tuning ||= Asimov::ApiV1::FineTuning.new(client: self)
     end
 
     ##
@@ -115,6 +140,55 @@ module Asimov
     ##
     def moderations
       @moderations ||= Asimov::ApiV1::Moderations.new(client: self)
+    end
+
+    ##
+    # Use the organization method to access API calls in the /organization URI space.
+    ##
+    def organization
+      @organization ||= Asimov::ApiV1::Organization.new(client: self)
+    end
+
+    ##
+    # Use the realtime method to access the WebSocket-based Realtime API.
+    ##
+    def realtime
+      @realtime ||= Asimov::ApiV1::Realtime.new(client: self)
+    end
+
+    ##
+    # Use the responses method to access API calls in the /responses URI space.
+    ##
+    def responses
+      @responses ||= Asimov::ApiV1::Responses.new(client: self)
+    end
+
+    ##
+    # Use the skills method to access API calls in the /skills URI space.
+    ##
+    def skills
+      @skills ||= Asimov::ApiV1::Skills.new(client: self)
+    end
+
+    ##
+    # Use the uploads method to access API calls in the /uploads URI space.
+    ##
+    def uploads
+      @uploads ||= Asimov::ApiV1::Uploads.new(client: self)
+    end
+
+    ##
+    # Use the videos method to access API calls in the /videos URI space.
+    ##
+    def videos
+      @videos ||= Asimov::ApiV1::Videos.new(client: self)
+    end
+
+    ##
+    # Use the vector_stores method to access API calls in the /vector_stores URI space.
+    ##
+    def vector_stores
+      @vector_stores ||= Asimov::ApiV1::VectorStores.new(client: self)
     end
 
     private

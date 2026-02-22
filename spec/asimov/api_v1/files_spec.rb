@@ -22,10 +22,8 @@ RSpec.describe Asimov::ApiV1::Files do
 
   describe "#upload" do
     {
-      "fine-tune" => Asimov::Utils::TrainingFileValidator,
-      "classifications" => Asimov::Utils::ClassificationsFileValidator,
-      "answers" => Asimov::Utils::TextEntryFileValidator,
-      "search" => Asimov::Utils::TextEntryFileValidator
+      "fine-tune" => Asimov::Utils::JsonlValidator,
+      "batch" => Asimov::Utils::JsonlValidator
     }.each do |type, validator|
       context "when the parameters include a :purpose value of #{type}" do
         let(:purpose) { type }
@@ -117,6 +115,29 @@ RSpec.describe Asimov::ApiV1::Files do
       end
     end
 
+    context "when the parameters include a :purpose value that skips validation" do
+      let(:purpose) { "assistants" }
+      let(:filename) { SecureRandom.hex(4) }
+      let(:file_instance) { instance_double(File) }
+      let(:merged_parameters) { parameters.merge({ file: file_instance, purpose: purpose }) }
+
+      before do
+        allow(File).to receive(:open).with(filename).and_return(file_instance)
+        allow(files).to receive(:rest_create_w_multipart_params)
+          .with(resource: resource,
+                parameters: merged_parameters)
+          .and_return(ret_val)
+      end
+
+      it "skips file validation and passes to the client" do
+        val = files.upload(file: filename, purpose: purpose, parameters: parameters)
+        expect(val).to eq(ret_val)
+        expect(files).to have_received(:rest_create_w_multipart_params)
+          .with(resource: resource,
+                parameters: merged_parameters)
+      end
+    end
+
     context "when the parameters do not include a :purpose value" do
       let(:filename) { SecureRandom.hex(4) }
 
@@ -147,6 +168,14 @@ RSpec.describe Asimov::ApiV1::Files do
   describe "#retrieve" do
     let(:file_id) { SecureRandom.hex(4) }
 
+    context "when file_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          files.retrieve(file_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls get on the client with the expected arguments" do
       allow(files).to receive(:rest_get).with(resource: resource, id: file_id).and_return(ret_val)
       expect(files.retrieve(file_id: file_id)).to eq(ret_val)
@@ -157,6 +186,14 @@ RSpec.describe Asimov::ApiV1::Files do
   describe "#content" do
     let(:file_id) { SecureRandom.hex(4) }
     let(:writer) { instance_double(Tempfile) }
+
+    context "when file_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          files.content(file_id: nil, writer: writer)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls get on the client with the expected arguments" do
       allow(files).to receive(:rest_get_streamed_download)
@@ -171,6 +208,14 @@ RSpec.describe Asimov::ApiV1::Files do
 
   describe "#delete" do
     let(:file_id) { SecureRandom.hex(4) }
+
+    context "when file_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          files.delete(file_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls get on the client with the expected arguments" do
       allow(files).to receive(:rest_delete).with(resource: resource,

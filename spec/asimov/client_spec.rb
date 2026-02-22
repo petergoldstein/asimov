@@ -305,28 +305,28 @@ RSpec.describe Asimov::Client do
     end
   end
 
-  describe "#completions" do
+  describe "#batches" do
     let(:api_key) { SecureRandom.hex(4) }
     let(:client) { described_class.new(api_key: api_key) }
-    let(:interface) { instance_double(Asimov::ApiV1::Completions) }
+    let(:interface) { instance_double(Asimov::ApiV1::Batches) }
 
-    it "loads an Asimov::ApiV1::Completions object initialized with the client" do
-      allow(Asimov::ApiV1::Completions).to receive(:new).with(client: client)
-                                                        .and_return(interface)
-      expect(client.completions).to eq(interface)
-      expect(Asimov::ApiV1::Completions).to have_received(:new).with(client: client)
+    it "loads an Asimov::ApiV1::Batches object initialized with the client" do
+      allow(Asimov::ApiV1::Batches).to receive(:new).with(client: client).and_return(interface)
+      expect(client.batches).to eq(interface)
+      expect(Asimov::ApiV1::Batches).to have_received(:new).with(client: client)
     end
   end
 
-  describe "#edits" do
+  describe "#containers" do
     let(:api_key) { SecureRandom.hex(4) }
     let(:client) { described_class.new(api_key: api_key) }
-    let(:interface) { instance_double(Asimov::ApiV1::Edits) }
+    let(:interface) { instance_double(Asimov::ApiV1::Containers) }
 
-    it "loads an Asimov::ApiV1::Edits object initialized with the client" do
-      allow(Asimov::ApiV1::Edits).to receive(:new).with(client: client).and_return(interface)
-      expect(client.edits).to eq(interface)
-      expect(Asimov::ApiV1::Edits).to have_received(:new).with(client: client)
+    it "loads an Asimov::ApiV1::Containers object initialized with the client" do
+      allow(Asimov::ApiV1::Containers).to receive(:new).with(client: client)
+                                                       .and_return(interface)
+      expect(client.containers).to eq(interface)
+      expect(Asimov::ApiV1::Containers).to have_received(:new).with(client: client)
     end
   end
 
@@ -343,6 +343,19 @@ RSpec.describe Asimov::Client do
     end
   end
 
+  describe "#evals" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Evals) }
+
+    it "loads an Asimov::ApiV1::Evals object initialized with the client" do
+      allow(Asimov::ApiV1::Evals).to receive(:new).with(client: client)
+                                                  .and_return(interface)
+      expect(client.evals).to eq(interface)
+      expect(Asimov::ApiV1::Evals).to have_received(:new).with(client: client)
+    end
+  end
+
   describe "#files" do
     let(:api_key) { SecureRandom.hex(4) }
     let(:client) { described_class.new(api_key: api_key) }
@@ -355,16 +368,16 @@ RSpec.describe Asimov::Client do
     end
   end
 
-  describe "#finetunes" do
+  describe "#fine_tuning" do
     let(:api_key) { SecureRandom.hex(4) }
     let(:client) { described_class.new(api_key: api_key) }
-    let(:interface) { instance_double(Asimov::ApiV1::Finetunes) }
+    let(:interface) { instance_double(Asimov::ApiV1::FineTuning) }
 
-    it "loads an Asimov::ApiV1::Finetunes object initialized with the client" do
-      allow(Asimov::ApiV1::Finetunes).to receive(:new).with(client: client)
-                                                      .and_return(interface)
-      expect(client.finetunes).to eq(interface)
-      expect(Asimov::ApiV1::Finetunes).to have_received(:new).with(client: client)
+    it "loads an Asimov::ApiV1::FineTuning object initialized with the client" do
+      allow(Asimov::ApiV1::FineTuning).to receive(:new).with(client: client)
+                                                       .and_return(interface)
+      expect(client.fine_tuning).to eq(interface)
+      expect(Asimov::ApiV1::FineTuning).to have_received(:new).with(client: client)
     end
   end
 
@@ -402,6 +415,110 @@ RSpec.describe Asimov::Client do
                                                         .and_return(interface)
       expect(client.moderations).to eq(interface)
       expect(Asimov::ApiV1::Moderations).to have_received(:new).with(client: client)
+    end
+  end
+
+  describe "#organization" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Organization) }
+
+    it "loads an Asimov::ApiV1::Organization object initialized with the client" do
+      allow(Asimov::ApiV1::Organization).to receive(:new).with(client: client)
+                                                         .and_return(interface)
+      expect(client.organization).to eq(interface)
+      expect(Asimov::ApiV1::Organization).to have_received(:new).with(client: client)
+    end
+  end
+
+  describe "#realtime" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Realtime) }
+
+    it "loads an Asimov::ApiV1::Realtime object initialized with the client" do
+      allow(Asimov::ApiV1::Realtime).to receive(:new).with(client: client)
+                                                     .and_return(interface)
+      expect(client.realtime).to eq(interface)
+      expect(Asimov::ApiV1::Realtime).to have_received(:new).with(client: client)
+    end
+  end
+
+  describe "#responses" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Responses) }
+
+    it "loads an Asimov::ApiV1::Responses object initialized with the client" do
+      allow(Asimov::ApiV1::Responses).to receive(:new).with(client: client)
+                                                      .and_return(interface)
+      expect(client.responses).to eq(interface)
+      expect(Asimov::ApiV1::Responses).to have_received(:new).with(client: client)
+    end
+  end
+
+  describe "#conversations" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Conversations) }
+
+    it "loads an Asimov::ApiV1::Conversations object initialized with the client" do
+      allow(Asimov::ApiV1::Conversations).to receive(:new).with(client: client)
+                                                          .and_return(interface)
+      expect(client.conversations).to eq(interface)
+      expect(Asimov::ApiV1::Conversations).to have_received(:new).with(client: client)
+    end
+  end
+
+  describe "#skills" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Skills) }
+
+    it "loads an Asimov::ApiV1::Skills object initialized with the client" do
+      allow(Asimov::ApiV1::Skills).to receive(:new).with(client: client)
+                                                   .and_return(interface)
+      expect(client.skills).to eq(interface)
+      expect(Asimov::ApiV1::Skills).to have_received(:new).with(client: client)
+    end
+  end
+
+  describe "#uploads" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Uploads) }
+
+    it "loads an Asimov::ApiV1::Uploads object initialized with the client" do
+      allow(Asimov::ApiV1::Uploads).to receive(:new).with(client: client)
+                                                    .and_return(interface)
+      expect(client.uploads).to eq(interface)
+      expect(Asimov::ApiV1::Uploads).to have_received(:new).with(client: client)
+    end
+  end
+
+  describe "#videos" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Videos) }
+
+    it "loads an Asimov::ApiV1::Videos object initialized with the client" do
+      allow(Asimov::ApiV1::Videos).to receive(:new).with(client: client)
+                                                   .and_return(interface)
+      expect(client.videos).to eq(interface)
+      expect(Asimov::ApiV1::Videos).to have_received(:new).with(client: client)
+    end
+  end
+
+  describe "#vector_stores" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::VectorStores) }
+
+    it "loads an Asimov::ApiV1::VectorStores object initialized with the client" do
+      allow(Asimov::ApiV1::VectorStores).to receive(:new).with(client: client)
+                                                         .and_return(interface)
+      expect(client.vector_stores).to eq(interface)
+      expect(Asimov::ApiV1::VectorStores).to have_received(:new).with(client: client)
     end
   end
 end

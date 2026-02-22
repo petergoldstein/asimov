@@ -12,11 +12,17 @@ module Asimov
     ##
     NULL_ORGANIZATION_ID = Object.new.freeze
 
-    attr_reader :api_key, :organization_id
+    ##
+    # Null object used to allow nil override of a default project_id.
+    ##
+    NULL_PROJECT_ID = Object.new.freeze
 
-    def initialize(api_key, organization_id)
+    attr_reader :api_key, :organization_id, :project_id
+
+    def initialize(api_key, organization_id, project_id)
       @api_key = api_key || Asimov.configuration.api_key
       initialize_organization_id(organization_id)
+      initialize_project_id(project_id)
 
       return if @api_key
 
@@ -45,15 +51,21 @@ module Asimov
                          end
     end
 
+    def initialize_project_id(project_id)
+      @project_id = if project_id == NULL_PROJECT_ID
+                      Asimov.configuration.project_id
+                    else
+                      project_id
+                    end
+    end
+
     def openai_headers
-      @openai_headers ||=
-        if organization_id.nil?
-          auth_headers
-        else
-          auth_headers.merge(
-            { "OpenAI-Organization" => organization_id }
-          )
-        end
+      @openai_headers ||= begin
+        h = auth_headers
+        h = h.merge({ "OpenAI-Organization" => organization_id }) unless organization_id.nil?
+        h = h.merge({ "OpenAI-Project" => project_id }) unless project_id.nil?
+        h
+      end
     end
 
     def auth_headers
