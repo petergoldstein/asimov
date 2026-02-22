@@ -39,6 +39,7 @@ module Asimov
       # @raise [Asimov::MissingRequiredParameterError] if data is missing
       ##
       def add_part(upload_id:, data:)
+        raise MissingRequiredParameterError.new(:upload_id) unless upload_id
         raise MissingRequiredParameterError.new(:data) unless data
 
         rest_create_w_multipart_params(
@@ -57,6 +58,7 @@ module Asimov
       # @raise [Asimov::MissingRequiredParameterError] if part_ids is missing
       ##
       def complete(upload_id:, part_ids:, parameters: {})
+        raise MissingRequiredParameterError.new(:upload_id) unless upload_id
         raise MissingRequiredParameterError.new(:part_ids) unless part_ids
 
         rest_create_w_json_params(
@@ -72,6 +74,8 @@ module Asimov
       # @return [Hash] the cancelled upload object
       ##
       def cancel(upload_id:)
+        raise MissingRequiredParameterError.new(:upload_id) unless upload_id
+
         rest_create_w_json_params(
           resource: [RESOURCE, upload_id, "cancel"],
           parameters: nil

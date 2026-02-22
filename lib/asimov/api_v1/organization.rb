@@ -72,6 +72,8 @@ module Asimov
       # @return [Hash] the admin API key object
       ##
       def retrieve_admin_api_key(key_id:)
+        raise MissingRequiredParameterError.new(:key_id) unless key_id
+
         rest_get(resource: resource_path(ADMIN_API_KEYS_RESOURCE), id: key_id)
       end
 
@@ -82,6 +84,8 @@ module Asimov
       # @return [Hash] deletion confirmation
       ##
       def delete_admin_api_key(key_id:)
+        raise MissingRequiredParameterError.new(:key_id) unless key_id
+
         rest_delete(resource: resource_path(ADMIN_API_KEYS_RESOURCE), id: key_id)
       end
     end

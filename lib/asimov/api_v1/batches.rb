@@ -36,6 +36,8 @@ module Asimov
       # @return [Hash] the batch object
       ##
       def retrieve(batch_id:)
+        raise MissingRequiredParameterError.new(:batch_id) unless batch_id
+
         rest_get(resource: RESOURCE, id: batch_id)
       end
 
@@ -46,6 +48,8 @@ module Asimov
       # @return [Hash] the cancelled batch object
       ##
       def cancel(batch_id:)
+        raise MissingRequiredParameterError.new(:batch_id) unless batch_id
+
         rest_create_w_json_params(
           resource: [RESOURCE, batch_id, "cancel"],
           parameters: nil

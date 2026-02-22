@@ -66,6 +66,14 @@ RSpec.describe Asimov::ApiV1::Batches do
   describe "#retrieve" do
     let(:batch_id) { "batch_#{SecureRandom.hex(4)}" }
 
+    context "when batch_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          batches.retrieve(batch_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_get with the expected arguments" do
       allow(batches).to receive(:rest_get)
         .with(resource: resource, id: batch_id)
@@ -76,6 +84,14 @@ RSpec.describe Asimov::ApiV1::Batches do
 
   describe "#cancel" do
     let(:batch_id) { "batch_#{SecureRandom.hex(4)}" }
+
+    context "when batch_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          batches.cancel(batch_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_create_w_json_params with the expected arguments" do
       allow(batches).to receive(:rest_create_w_json_params)

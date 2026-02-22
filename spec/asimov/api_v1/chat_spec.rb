@@ -89,4 +89,114 @@ RSpec.describe Asimov::ApiV1::Chat do
       end
     end
   end
+
+  describe "#retrieve" do
+    let(:completion_id) { "chatcmpl-#{SecureRandom.hex(4)}" }
+
+    context "when completion_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          chat.retrieve(completion_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    it "calls rest_get with the expected arguments" do
+      allow(chat).to receive(:rest_get)
+        .with(resource: "chat/completions", id: completion_id)
+        .and_return(ret_val)
+      expect(chat.retrieve(completion_id: completion_id)).to eq(ret_val)
+    end
+  end
+
+  describe "#update" do
+    let(:completion_id) { "chatcmpl-#{SecureRandom.hex(4)}" }
+
+    context "when completion_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          chat.update(completion_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    it "calls rest_create_w_json_params with the expected arguments" do
+      allow(chat).to receive(:rest_create_w_json_params)
+        .with(resource: [resource, "completions", completion_id], parameters: parameters)
+        .and_return(ret_val)
+      expect(chat.update(completion_id: completion_id, parameters: parameters)).to eq(ret_val)
+    end
+
+    it "defaults to empty parameters" do
+      allow(chat).to receive(:rest_create_w_json_params)
+        .with(resource: [resource, "completions", completion_id], parameters: {})
+        .and_return(ret_val)
+      expect(chat.update(completion_id: completion_id)).to eq(ret_val)
+    end
+  end
+
+  describe "#delete" do
+    let(:completion_id) { "chatcmpl-#{SecureRandom.hex(4)}" }
+
+    context "when completion_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          chat.delete(completion_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    it "calls rest_delete with the expected arguments" do
+      allow(chat).to receive(:rest_delete)
+        .with(resource: "chat/completions", id: completion_id)
+        .and_return(ret_val)
+      expect(chat.delete(completion_id: completion_id)).to eq(ret_val)
+    end
+  end
+
+  describe "#list" do
+    it "calls rest_index with the expected arguments" do
+      allow(chat).to receive(:rest_index)
+        .with(resource: [resource, "completions"], parameters: {})
+        .and_return(ret_val)
+      expect(chat.list).to eq(ret_val)
+    end
+
+    it "passes query parameters" do
+      query = { model: "gpt-4o", limit: 10 }
+      allow(chat).to receive(:rest_index)
+        .with(resource: [resource, "completions"], parameters: query)
+        .and_return(ret_val)
+      expect(chat.list(parameters: query)).to eq(ret_val)
+    end
+  end
+
+  describe "#list_messages" do
+    let(:completion_id) { "chatcmpl-#{SecureRandom.hex(4)}" }
+
+    context "when completion_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          chat.list_messages(completion_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    it "calls rest_index with the expected arguments" do
+      allow(chat).to receive(:rest_index)
+        .with(resource: [resource, "completions", completion_id, "messages"], parameters: {})
+        .and_return(ret_val)
+      expect(chat.list_messages(completion_id: completion_id)).to eq(ret_val)
+    end
+
+    it "passes pagination parameters" do
+      pagination = { after: "msg_abc123", limit: 20 }
+      allow(chat).to receive(:rest_index)
+        .with(resource: [resource, "completions", completion_id, "messages"],
+              parameters: pagination)
+        .and_return(ret_val)
+      expect(chat.list_messages(completion_id: completion_id,
+                                parameters: pagination)).to eq(ret_val)
+    end
+  end
 end

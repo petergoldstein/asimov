@@ -22,6 +22,14 @@ RSpec.describe Asimov::ApiV1::Models do
     let(:model_id) { SecureRandom.hex(4) }
     let(:path_string) { "/models/#{model_id}" }
 
+    context "when model_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          models.retrieve(model_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls get on the client with the expected argument" do
       allow(models).to receive(:rest_get).with(resource: resource, id: model_id)
                                          .and_return(ret_val)
@@ -32,6 +40,14 @@ RSpec.describe Asimov::ApiV1::Models do
 
   describe "#delete" do
     let(:model_id) { SecureRandom.hex(4) }
+
+    context "when model_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          models.delete(model_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls delete on the client with the expected arguments" do
       allow(models).to receive(:rest_delete).with(resource: resource, id: model_id)

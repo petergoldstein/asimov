@@ -168,6 +168,14 @@ RSpec.describe Asimov::ApiV1::Files do
   describe "#retrieve" do
     let(:file_id) { SecureRandom.hex(4) }
 
+    context "when file_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          files.retrieve(file_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls get on the client with the expected arguments" do
       allow(files).to receive(:rest_get).with(resource: resource, id: file_id).and_return(ret_val)
       expect(files.retrieve(file_id: file_id)).to eq(ret_val)
@@ -178,6 +186,14 @@ RSpec.describe Asimov::ApiV1::Files do
   describe "#content" do
     let(:file_id) { SecureRandom.hex(4) }
     let(:writer) { instance_double(Tempfile) }
+
+    context "when file_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          files.content(file_id: nil, writer: writer)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls get on the client with the expected arguments" do
       allow(files).to receive(:rest_get_streamed_download)
@@ -192,6 +208,14 @@ RSpec.describe Asimov::ApiV1::Files do
 
   describe "#delete" do
     let(:file_id) { SecureRandom.hex(4) }
+
+    context "when file_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          files.delete(file_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls get on the client with the expected arguments" do
       allow(files).to receive(:rest_delete).with(resource: resource,

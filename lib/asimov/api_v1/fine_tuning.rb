@@ -44,6 +44,8 @@ module Asimov
       # @return [Hash] the fine-tuning job object
       ##
       def retrieve(fine_tuning_job_id:)
+        raise MissingRequiredParameterError.new(:fine_tuning_job_id) unless fine_tuning_job_id
+
         rest_get(resource: resource_path(JOBS_RESOURCE), id: fine_tuning_job_id)
       end
 
@@ -54,6 +56,8 @@ module Asimov
       # @return [Hash] the cancelled fine-tuning job object
       ##
       def cancel(fine_tuning_job_id:)
+        raise MissingRequiredParameterError.new(:fine_tuning_job_id) unless fine_tuning_job_id
+
         rest_create_w_json_params(
           resource: JOBS_RESOURCE + [fine_tuning_job_id, "cancel"],
           parameters: nil
@@ -68,9 +72,41 @@ module Asimov
       # @return [Hash] a list object containing fine-tuning event objects
       ##
       def list_events(fine_tuning_job_id:, parameters: {})
+        raise MissingRequiredParameterError.new(:fine_tuning_job_id) unless fine_tuning_job_id
+
         rest_index(
           resource: JOBS_RESOURCE + [fine_tuning_job_id, "events"],
           parameters: parameters
+        )
+      end
+
+      ##
+      # Pauses a fine-tuning job that is in progress.
+      #
+      # @param [String] fine_tuning_job_id the ID of the fine-tuning job to pause
+      # @return [Hash] the paused fine-tuning job object
+      ##
+      def pause(fine_tuning_job_id:)
+        raise MissingRequiredParameterError.new(:fine_tuning_job_id) unless fine_tuning_job_id
+
+        rest_create_w_json_params(
+          resource: JOBS_RESOURCE + [fine_tuning_job_id, "pause"],
+          parameters: nil
+        )
+      end
+
+      ##
+      # Resumes a paused fine-tuning job.
+      #
+      # @param [String] fine_tuning_job_id the ID of the fine-tuning job to resume
+      # @return [Hash] the resumed fine-tuning job object
+      ##
+      def resume(fine_tuning_job_id:)
+        raise MissingRequiredParameterError.new(:fine_tuning_job_id) unless fine_tuning_job_id
+
+        rest_create_w_json_params(
+          resource: JOBS_RESOURCE + [fine_tuning_job_id, "resume"],
+          parameters: nil
         )
       end
 
@@ -82,6 +118,8 @@ module Asimov
       # @return [Hash] a list object containing checkpoint objects
       ##
       def list_checkpoints(fine_tuning_job_id:, parameters: {})
+        raise MissingRequiredParameterError.new(:fine_tuning_job_id) unless fine_tuning_job_id
+
         rest_index(
           resource: JOBS_RESOURCE + [fine_tuning_job_id, "checkpoints"],
           parameters: parameters

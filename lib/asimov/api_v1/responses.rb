@@ -36,6 +36,8 @@ module Asimov
       # @return [Hash] the response object
       ##
       def retrieve(response_id:)
+        raise MissingRequiredParameterError.new(:response_id) unless response_id
+
         rest_get(resource: RESOURCE, id: response_id)
       end
 
@@ -46,6 +48,8 @@ module Asimov
       # @return [Hash] deletion confirmation
       ##
       def delete(response_id:)
+        raise MissingRequiredParameterError.new(:response_id) unless response_id
+
         rest_delete(resource: RESOURCE, id: response_id)
       end
 
@@ -57,8 +61,52 @@ module Asimov
       # @return [Hash] a list object containing input item objects
       ##
       def list_input_items(response_id:, parameters: {})
+        raise MissingRequiredParameterError.new(:response_id) unless response_id
+
         rest_index(
           resource: [RESOURCE, response_id, "input_items"],
+          parameters: parameters
+        )
+      end
+
+      ##
+      # Cancels a response that is in progress.
+      #
+      # @param [String] response_id the ID of the response to cancel
+      # @return [Hash] the cancelled response object
+      ##
+      def cancel(response_id:)
+        raise MissingRequiredParameterError.new(:response_id) unless response_id
+
+        rest_create_w_json_params(
+          resource: [RESOURCE, response_id, "cancel"],
+          parameters: nil
+        )
+      end
+
+      ##
+      # Creates a compact version of a response by removing redundant content.
+      #
+      # @param [String] model the model to use for compaction
+      # @param [Hash] parameters additional parameters
+      # @return [Hash] the compacted response
+      ##
+      def compact(model:, parameters: {})
+        rest_create_w_json_params(
+          resource: [RESOURCE, "compact"],
+          parameters: { model: model }.merge(parameters)
+        )
+      end
+
+      ##
+      # Counts the input tokens for a set of parameters without creating a response.
+      #
+      # @param [Hash] parameters the parameters to count tokens for
+      # @return [Hash] the token count result
+      ##
+      def count_input_tokens(parameters: {})
+        rest_create_w_json_params(
+          resource: [RESOURCE, "input_tokens"],
           parameters: parameters
         )
       end

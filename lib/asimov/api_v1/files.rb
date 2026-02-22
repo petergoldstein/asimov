@@ -41,6 +41,8 @@ module Asimov
       # @param [String] file_id the id of the file to be retrieved
       ##
       def retrieve(file_id:)
+        raise MissingRequiredParameterError.new(:file_id) unless file_id
+
         rest_get(resource: RESOURCE, id: file_id)
       end
 
@@ -50,6 +52,8 @@ module Asimov
       # @param [String] file_id the id of the file to be deleted
       ##
       def delete(file_id:)
+        raise MissingRequiredParameterError.new(:file_id) unless file_id
+
         rest_delete(resource: RESOURCE, id: file_id)
       end
 
@@ -62,6 +66,8 @@ module Asimov
       # as it is received from the API
       ##
       def content(file_id:, writer:)
+        raise MissingRequiredParameterError.new(:file_id) unless file_id
+
         rest_get_streamed_download(resource: [RESOURCE, file_id, "content"], writer: writer)
       end
 

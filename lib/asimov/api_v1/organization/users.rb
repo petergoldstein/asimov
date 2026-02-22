@@ -22,6 +22,8 @@ module Asimov
         # @return [Hash] the user object
         ##
         def retrieve_user(user_id:)
+          raise MissingRequiredParameterError.new(:user_id) unless user_id
+
           rest_get(resource: resource_path(USERS_RESOURCE), id: user_id)
         end
 
@@ -35,6 +37,7 @@ module Asimov
         # @raise [Asimov::MissingRequiredParameterError] if role is missing
         ##
         def update_user(user_id:, role:, parameters: {})
+          raise MissingRequiredParameterError.new(:user_id) unless user_id
           raise MissingRequiredParameterError.new(:role) unless role
 
           rest_create_w_json_params(
@@ -50,6 +53,8 @@ module Asimov
         # @return [Hash] deletion confirmation
         ##
         def delete_user(user_id:)
+          raise MissingRequiredParameterError.new(:user_id) unless user_id
+
           rest_delete(resource: resource_path(USERS_RESOURCE), id: user_id)
         end
       end

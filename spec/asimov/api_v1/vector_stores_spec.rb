@@ -40,6 +40,14 @@ RSpec.describe Asimov::ApiV1::VectorStores do
   describe "#retrieve" do
     let(:vector_store_id) { "vs_#{SecureRandom.hex(4)}" }
 
+    context "when vector_store_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.retrieve(vector_store_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_get with the expected arguments" do
       allow(vector_stores).to receive(:rest_get)
         .with(resource: resource, id: vector_store_id)
@@ -50,6 +58,14 @@ RSpec.describe Asimov::ApiV1::VectorStores do
 
   describe "#update" do
     let(:vector_store_id) { "vs_#{SecureRandom.hex(4)}" }
+
+    context "when vector_store_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.update(vector_store_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_create_w_json_params with the expected arguments" do
       allow(vector_stores).to receive(:rest_create_w_json_params)
@@ -63,6 +79,14 @@ RSpec.describe Asimov::ApiV1::VectorStores do
   describe "#delete" do
     let(:vector_store_id) { "vs_#{SecureRandom.hex(4)}" }
 
+    context "when vector_store_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.delete(vector_store_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_delete with the expected arguments" do
       allow(vector_stores).to receive(:rest_delete)
         .with(resource: resource, id: vector_store_id)
@@ -74,6 +98,14 @@ RSpec.describe Asimov::ApiV1::VectorStores do
   describe "#search" do
     let(:vector_store_id) { "vs_#{SecureRandom.hex(4)}" }
     let(:query) { "search query" }
+
+    context "when vector_store_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.search(vector_store_id: nil, query: query)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     context "when query is present" do
       it "calls rest_create_w_json_params with the expected arguments" do
@@ -99,6 +131,14 @@ RSpec.describe Asimov::ApiV1::VectorStores do
     let(:vector_store_id) { "vs_#{SecureRandom.hex(4)}" }
     let(:file_id) { "file-#{SecureRandom.hex(4)}" }
 
+    context "when vector_store_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.create_file(vector_store_id: nil, file_id: file_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     context "when file_id is present" do
       it "calls rest_create_w_json_params with the expected arguments" do
         merged = parameters.merge(file_id: file_id)
@@ -122,6 +162,14 @@ RSpec.describe Asimov::ApiV1::VectorStores do
   describe "#list_files" do
     let(:vector_store_id) { "vs_#{SecureRandom.hex(4)}" }
 
+    context "when vector_store_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.list_files(vector_store_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_index with the expected arguments" do
       allow(vector_stores).to receive(:rest_index)
         .with(resource: [resource, vector_store_id, "files"], parameters: {})
@@ -133,6 +181,22 @@ RSpec.describe Asimov::ApiV1::VectorStores do
   describe "#retrieve_file" do
     let(:vector_store_id) { "vs_#{SecureRandom.hex(4)}" }
     let(:file_id) { "file-#{SecureRandom.hex(4)}" }
+
+    context "when vector_store_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.retrieve_file(vector_store_id: nil, file_id: file_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when file_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.retrieve_file(vector_store_id: vector_store_id, file_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_get with the expected arguments" do
       allow(vector_stores).to receive(:rest_get)
@@ -146,6 +210,22 @@ RSpec.describe Asimov::ApiV1::VectorStores do
   describe "#delete_file" do
     let(:vector_store_id) { "vs_#{SecureRandom.hex(4)}" }
     let(:file_id) { "file-#{SecureRandom.hex(4)}" }
+
+    context "when vector_store_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.delete_file(vector_store_id: nil, file_id: file_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when file_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.delete_file(vector_store_id: vector_store_id, file_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_delete with the expected arguments" do
       allow(vector_stores).to receive(:rest_delete)
@@ -193,6 +273,22 @@ RSpec.describe Asimov::ApiV1::VectorStores do
     let(:vector_store_id) { "vs_#{SecureRandom.hex(4)}" }
     let(:file_batch_id) { "vsfb_#{SecureRandom.hex(4)}" }
 
+    context "when vector_store_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.retrieve_file_batch(vector_store_id: nil, file_batch_id: file_batch_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when file_batch_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.retrieve_file_batch(vector_store_id: vector_store_id, file_batch_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_get with the expected arguments" do
       allow(vector_stores).to receive(:rest_get)
         .with(resource: "#{resource}/#{vector_store_id}/file_batches", id: file_batch_id)
@@ -205,6 +301,22 @@ RSpec.describe Asimov::ApiV1::VectorStores do
   describe "#cancel_file_batch" do
     let(:vector_store_id) { "vs_#{SecureRandom.hex(4)}" }
     let(:file_batch_id) { "vsfb_#{SecureRandom.hex(4)}" }
+
+    context "when vector_store_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.cancel_file_batch(vector_store_id: nil, file_batch_id: file_batch_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when file_batch_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.cancel_file_batch(vector_store_id: vector_store_id, file_batch_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_create_w_json_params with the expected arguments" do
       allow(vector_stores).to receive(:rest_create_w_json_params)
@@ -221,6 +333,23 @@ RSpec.describe Asimov::ApiV1::VectorStores do
   describe "#list_file_batch_files" do
     let(:vector_store_id) { "vs_#{SecureRandom.hex(4)}" }
     let(:file_batch_id) { "vsfb_#{SecureRandom.hex(4)}" }
+
+    context "when vector_store_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.list_file_batch_files(vector_store_id: nil, file_batch_id: file_batch_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when file_batch_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          vector_stores.list_file_batch_files(vector_store_id: vector_store_id,
+                                              file_batch_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_index with the expected arguments" do
       allow(vector_stores).to receive(:rest_index)

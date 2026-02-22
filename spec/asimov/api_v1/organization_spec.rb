@@ -72,6 +72,14 @@ RSpec.describe Asimov::ApiV1::Organization do
   describe "#retrieve_admin_api_key" do
     let(:key_id) { "key_#{SecureRandom.hex(4)}" }
 
+    context "when key_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.retrieve_admin_api_key(key_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_get with the expected arguments" do
       allow(organization).to receive(:rest_get)
         .with(resource: "#{resource}/admin_api_keys", id: key_id)
@@ -82,6 +90,14 @@ RSpec.describe Asimov::ApiV1::Organization do
 
   describe "#delete_admin_api_key" do
     let(:key_id) { "key_#{SecureRandom.hex(4)}" }
+
+    context "when key_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.delete_admin_api_key(key_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_delete with the expected arguments" do
       allow(organization).to receive(:rest_delete)
@@ -112,6 +128,14 @@ RSpec.describe Asimov::ApiV1::Organization do
   describe "#retrieve_user" do
     let(:user_id) { "user_#{SecureRandom.hex(4)}" }
 
+    context "when user_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.retrieve_user(user_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_get with the expected arguments" do
       allow(organization).to receive(:rest_get)
         .with(resource: "#{resource}/users", id: user_id)
@@ -123,6 +147,14 @@ RSpec.describe Asimov::ApiV1::Organization do
   describe "#update_user" do
     let(:user_id) { "user_#{SecureRandom.hex(4)}" }
     let(:role) { "reader" }
+
+    context "when user_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.update_user(user_id: nil, role: role)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     context "when role is present" do
       it "calls rest_create_w_json_params with the expected arguments" do
@@ -146,6 +178,14 @@ RSpec.describe Asimov::ApiV1::Organization do
 
   describe "#delete_user" do
     let(:user_id) { "user_#{SecureRandom.hex(4)}" }
+
+    context "when user_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.delete_user(user_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_delete with the expected arguments" do
       allow(organization).to receive(:rest_delete)
@@ -208,6 +248,14 @@ RSpec.describe Asimov::ApiV1::Organization do
   describe "#retrieve_invite" do
     let(:invite_id) { "inv_#{SecureRandom.hex(4)}" }
 
+    context "when invite_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.retrieve_invite(invite_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_get with the expected arguments" do
       allow(organization).to receive(:rest_get)
         .with(resource: "#{resource}/invites", id: invite_id)
@@ -218,6 +266,14 @@ RSpec.describe Asimov::ApiV1::Organization do
 
   describe "#delete_invite" do
     let(:invite_id) { "inv_#{SecureRandom.hex(4)}" }
+
+    context "when invite_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.delete_invite(invite_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_delete with the expected arguments" do
       allow(organization).to receive(:rest_delete)
@@ -270,6 +326,14 @@ RSpec.describe Asimov::ApiV1::Organization do
   describe "#retrieve_project" do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
 
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.retrieve_project(project_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_get with the expected arguments" do
       allow(organization).to receive(:rest_get)
         .with(resource: "#{resource}/projects", id: project_id)
@@ -280,6 +344,14 @@ RSpec.describe Asimov::ApiV1::Organization do
 
   describe "#update_project" do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
+
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.update_project(project_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_create_w_json_params with the expected arguments" do
       allow(organization).to receive(:rest_create_w_json_params)
@@ -292,6 +364,14 @@ RSpec.describe Asimov::ApiV1::Organization do
 
   describe "#archive_project" do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
+
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.archive_project(project_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_create_w_json_params with nil parameters" do
       allow(organization).to receive(:rest_create_w_json_params)
@@ -307,6 +387,14 @@ RSpec.describe Asimov::ApiV1::Organization do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
     let(:user_id) { "user_#{SecureRandom.hex(4)}" }
     let(:role) { "member" }
+
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.create_project_user(project_id: nil, user_id: user_id, role: role)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     context "when user_id and role are present" do
       it "calls rest_create_w_json_params with the expected arguments" do
@@ -340,6 +428,14 @@ RSpec.describe Asimov::ApiV1::Organization do
   describe "#list_project_users" do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
 
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.list_project_users(project_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_index with the expected arguments" do
       allow(organization).to receive(:rest_index)
         .with(resource: [resource, "projects", project_id, "users"], parameters: {})
@@ -360,6 +456,22 @@ RSpec.describe Asimov::ApiV1::Organization do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
     let(:user_id) { "user_#{SecureRandom.hex(4)}" }
 
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.retrieve_project_user(project_id: nil, user_id: user_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when user_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.retrieve_project_user(project_id: project_id, user_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_get with the expected arguments" do
       allow(organization).to receive(:rest_get)
         .with(resource: "#{resource}/projects/#{project_id}/users", id: user_id)
@@ -373,6 +485,22 @@ RSpec.describe Asimov::ApiV1::Organization do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
     let(:user_id) { "user_#{SecureRandom.hex(4)}" }
     let(:role) { "admin" }
+
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.update_project_user(project_id: nil, user_id: user_id, role: role)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when user_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.update_project_user(project_id: project_id, user_id: nil, role: role)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     context "when role is present" do
       it "calls rest_create_w_json_params with the expected arguments" do
@@ -400,6 +528,22 @@ RSpec.describe Asimov::ApiV1::Organization do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
     let(:user_id) { "user_#{SecureRandom.hex(4)}" }
 
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.delete_project_user(project_id: nil, user_id: user_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when user_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.delete_project_user(project_id: project_id, user_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_delete with the expected arguments" do
       allow(organization).to receive(:rest_delete)
         .with(resource: "#{resource}/projects/#{project_id}/users", id: user_id)
@@ -414,6 +558,14 @@ RSpec.describe Asimov::ApiV1::Organization do
   describe "#create_project_service_account" do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
     let(:name) { "my-service-account" }
+
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.create_project_service_account(project_id: nil, name: name)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     context "when name is present" do
       it "calls rest_create_w_json_params with the expected arguments" do
@@ -439,6 +591,14 @@ RSpec.describe Asimov::ApiV1::Organization do
   describe "#list_project_service_accounts" do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
 
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.list_project_service_accounts(project_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_index with the expected arguments" do
       allow(organization).to receive(:rest_index)
         .with(resource: [resource, "projects", project_id, "service_accounts"], parameters: {})
@@ -460,6 +620,24 @@ RSpec.describe Asimov::ApiV1::Organization do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
     let(:service_account_id) { "sa_#{SecureRandom.hex(4)}" }
 
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.retrieve_project_service_account(project_id: nil,
+                                                        service_account_id: service_account_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when service_account_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.retrieve_project_service_account(project_id: project_id,
+                                                        service_account_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_get with the expected arguments" do
       allow(organization).to receive(:rest_get)
         .with(resource: "#{resource}/projects/#{project_id}/service_accounts",
@@ -475,6 +653,24 @@ RSpec.describe Asimov::ApiV1::Organization do
   describe "#delete_project_service_account" do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
     let(:service_account_id) { "sa_#{SecureRandom.hex(4)}" }
+
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.delete_project_service_account(project_id: nil,
+                                                      service_account_id: service_account_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when service_account_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.delete_project_service_account(project_id: project_id,
+                                                      service_account_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_delete with the expected arguments" do
       allow(organization).to receive(:rest_delete)
@@ -492,6 +688,14 @@ RSpec.describe Asimov::ApiV1::Organization do
 
   describe "#list_project_api_keys" do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
+
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.list_project_api_keys(project_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_index with the expected arguments" do
       allow(organization).to receive(:rest_index)
@@ -513,6 +717,22 @@ RSpec.describe Asimov::ApiV1::Organization do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
     let(:key_id) { "key_#{SecureRandom.hex(4)}" }
 
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.retrieve_project_api_key(project_id: nil, key_id: key_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when key_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.retrieve_project_api_key(project_id: project_id, key_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_get with the expected arguments" do
       allow(organization).to receive(:rest_get)
         .with(resource: "#{resource}/projects/#{project_id}/api_keys", id: key_id)
@@ -525,6 +745,22 @@ RSpec.describe Asimov::ApiV1::Organization do
   describe "#delete_project_api_key" do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
     let(:key_id) { "key_#{SecureRandom.hex(4)}" }
+
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.delete_project_api_key(project_id: nil, key_id: key_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when key_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.delete_project_api_key(project_id: project_id, key_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_delete with the expected arguments" do
       allow(organization).to receive(:rest_delete)
@@ -539,6 +775,14 @@ RSpec.describe Asimov::ApiV1::Organization do
 
   describe "#list_project_rate_limits" do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
+
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.list_project_rate_limits(project_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_index with the expected arguments" do
       allow(organization).to receive(:rest_index)
@@ -559,6 +803,22 @@ RSpec.describe Asimov::ApiV1::Organization do
   describe "#update_project_rate_limit" do
     let(:project_id) { "proj_#{SecureRandom.hex(4)}" }
     let(:rate_limit_id) { "rl_#{SecureRandom.hex(4)}" }
+
+    context "when project_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.update_project_rate_limit(project_id: nil, rate_limit_id: rate_limit_id)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when rate_limit_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          organization.update_project_rate_limit(project_id: project_id, rate_limit_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_create_w_json_params with the expected arguments" do
       allow(organization).to receive(:rest_create_w_json_params)

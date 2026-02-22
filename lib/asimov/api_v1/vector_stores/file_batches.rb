@@ -32,6 +32,9 @@ module Asimov
         # @return [Hash] the file batch object
         ##
         def retrieve_file_batch(vector_store_id:, file_batch_id:)
+          raise MissingRequiredParameterError.new(:vector_store_id) unless vector_store_id
+          raise MissingRequiredParameterError.new(:file_batch_id) unless file_batch_id
+
           rest_get(
             resource: resource_path(RESOURCE, vector_store_id, "file_batches"),
             id: file_batch_id
@@ -46,6 +49,9 @@ module Asimov
         # @return [Hash] the cancelled file batch object
         ##
         def cancel_file_batch(vector_store_id:, file_batch_id:)
+          raise MissingRequiredParameterError.new(:vector_store_id) unless vector_store_id
+          raise MissingRequiredParameterError.new(:file_batch_id) unless file_batch_id
+
           rest_create_w_json_params(
             resource: [RESOURCE, vector_store_id, "file_batches", file_batch_id, "cancel"],
             parameters: nil
@@ -61,6 +67,9 @@ module Asimov
         # @return [Hash] a list object containing file objects
         ##
         def list_file_batch_files(vector_store_id:, file_batch_id:, parameters: {})
+          raise MissingRequiredParameterError.new(:vector_store_id) unless vector_store_id
+          raise MissingRequiredParameterError.new(:file_batch_id) unless file_batch_id
+
           rest_index(
             resource: [RESOURCE, vector_store_id, "file_batches", file_batch_id, "files"],
             parameters: parameters

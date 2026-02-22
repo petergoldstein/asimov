@@ -71,6 +71,14 @@ RSpec.describe Asimov::ApiV1::Uploads do
     let(:upload_id) { "upload_#{SecureRandom.hex(4)}" }
     let(:data) { instance_double(File) }
 
+    context "when upload_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          uploads.add_part(upload_id: nil, data: data)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     context "when data is present" do
       it "calls rest_create_w_multipart_params with the expected arguments" do
         allow(uploads).to receive(:rest_create_w_multipart_params)
@@ -92,6 +100,14 @@ RSpec.describe Asimov::ApiV1::Uploads do
   describe "#complete" do
     let(:upload_id) { "upload_#{SecureRandom.hex(4)}" }
     let(:part_ids) { ["part_#{SecureRandom.hex(4)}", "part_#{SecureRandom.hex(4)}"] }
+
+    context "when upload_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          uploads.complete(upload_id: nil, part_ids: part_ids)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     context "when part_ids is present" do
       let(:merged_params) { parameters.merge(part_ids: part_ids) }
@@ -116,6 +132,14 @@ RSpec.describe Asimov::ApiV1::Uploads do
 
   describe "#cancel" do
     let(:upload_id) { "upload_#{SecureRandom.hex(4)}" }
+
+    context "when upload_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          uploads.cancel(upload_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_create_w_json_params with the expected arguments" do
       allow(uploads).to receive(:rest_create_w_json_params)

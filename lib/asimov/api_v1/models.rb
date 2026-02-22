@@ -22,6 +22,8 @@ module Asimov
       # @param [String] model_id the id of the model to be retrieved
       ##
       def retrieve(model_id:)
+        raise MissingRequiredParameterError.new(:model_id) unless model_id
+
         rest_get(resource: RESOURCE, id: model_id)
       end
 
@@ -32,6 +34,8 @@ module Asimov
       # @param [String] model_id the id of the model to be deleted
       ##
       def delete(model_id:)
+        raise MissingRequiredParameterError.new(:model_id) unless model_id
+
         rest_delete(resource: RESOURCE, id: model_id)
       end
     end

@@ -38,6 +38,8 @@ module Asimov
       # @return [Hash] the vector store object
       ##
       def retrieve(vector_store_id:)
+        raise MissingRequiredParameterError.new(:vector_store_id) unless vector_store_id
+
         rest_get(resource: RESOURCE, id: vector_store_id)
       end
 
@@ -49,6 +51,8 @@ module Asimov
       # @return [Hash] the updated vector store object
       ##
       def update(vector_store_id:, parameters: {})
+        raise MissingRequiredParameterError.new(:vector_store_id) unless vector_store_id
+
         rest_create_w_json_params(
           resource: [RESOURCE, vector_store_id],
           parameters: parameters
@@ -62,6 +66,8 @@ module Asimov
       # @return [Hash] deletion confirmation
       ##
       def delete(vector_store_id:)
+        raise MissingRequiredParameterError.new(:vector_store_id) unless vector_store_id
+
         rest_delete(resource: RESOURCE, id: vector_store_id)
       end
 
@@ -75,6 +81,7 @@ module Asimov
       # @raise [Asimov::MissingRequiredParameterError] if query is missing
       ##
       def search(vector_store_id:, query:, parameters: {})
+        raise MissingRequiredParameterError.new(:vector_store_id) unless vector_store_id
         raise MissingRequiredParameterError.new(:query) unless query
 
         rest_create_w_json_params(
@@ -93,6 +100,7 @@ module Asimov
       # @raise [Asimov::MissingRequiredParameterError] if file_id is missing
       ##
       def create_file(vector_store_id:, file_id:, parameters: {})
+        raise MissingRequiredParameterError.new(:vector_store_id) unless vector_store_id
         raise MissingRequiredParameterError.new(:file_id) unless file_id
 
         rest_create_w_json_params(
@@ -109,6 +117,8 @@ module Asimov
       # @return [Hash] a list object containing vector store file objects
       ##
       def list_files(vector_store_id:, parameters: {})
+        raise MissingRequiredParameterError.new(:vector_store_id) unless vector_store_id
+
         rest_index(
           resource: [RESOURCE, vector_store_id, "files"],
           parameters: parameters
@@ -123,6 +133,9 @@ module Asimov
       # @return [Hash] the vector store file object
       ##
       def retrieve_file(vector_store_id:, file_id:)
+        raise MissingRequiredParameterError.new(:vector_store_id) unless vector_store_id
+        raise MissingRequiredParameterError.new(:file_id) unless file_id
+
         rest_get(
           resource: resource_path(RESOURCE, vector_store_id, "files"),
           id: file_id
@@ -137,6 +150,9 @@ module Asimov
       # @return [Hash] deletion confirmation
       ##
       def delete_file(vector_store_id:, file_id:)
+        raise MissingRequiredParameterError.new(:vector_store_id) unless vector_store_id
+        raise MissingRequiredParameterError.new(:file_id) unless file_id
+
         rest_delete(
           resource: resource_path(RESOURCE, vector_store_id, "files"),
           id: file_id

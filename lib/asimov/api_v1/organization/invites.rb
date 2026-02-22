@@ -41,6 +41,8 @@ module Asimov
         # @return [Hash] the invite object
         ##
         def retrieve_invite(invite_id:)
+          raise MissingRequiredParameterError.new(:invite_id) unless invite_id
+
           rest_get(resource: resource_path(INVITES_RESOURCE), id: invite_id)
         end
 
@@ -51,6 +53,8 @@ module Asimov
         # @return [Hash] deletion confirmation
         ##
         def delete_invite(invite_id:)
+          raise MissingRequiredParameterError.new(:invite_id) unless invite_id
+
           rest_delete(resource: resource_path(INVITES_RESOURCE), id: invite_id)
         end
       end

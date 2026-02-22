@@ -65,6 +65,14 @@ RSpec.describe Asimov::ApiV1::FineTuning do
   describe "#retrieve" do
     let(:job_id) { "ftjob-#{SecureRandom.hex(4)}" }
 
+    context "when fine_tuning_job_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          fine_tuning.retrieve(fine_tuning_job_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_get with the expected arguments" do
       allow(fine_tuning).to receive(:rest_get)
         .with(resource: "fine_tuning/jobs", id: job_id)
@@ -76,6 +84,14 @@ RSpec.describe Asimov::ApiV1::FineTuning do
   describe "#cancel" do
     let(:job_id) { "ftjob-#{SecureRandom.hex(4)}" }
 
+    context "when fine_tuning_job_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          fine_tuning.cancel(fine_tuning_job_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
     it "calls rest_create_w_json_params with the expected arguments" do
       allow(fine_tuning).to receive(:rest_create_w_json_params)
         .with(resource: %w[fine_tuning jobs] + [job_id, "cancel"], parameters: nil)
@@ -84,8 +100,54 @@ RSpec.describe Asimov::ApiV1::FineTuning do
     end
   end
 
+  describe "#pause" do
+    let(:job_id) { "ftjob-#{SecureRandom.hex(4)}" }
+
+    it "calls rest_create_w_json_params with the expected arguments" do
+      allow(fine_tuning).to receive(:rest_create_w_json_params)
+        .with(resource: %w[fine_tuning jobs] + [job_id, "pause"], parameters: nil)
+        .and_return(ret_val)
+      expect(fine_tuning.pause(fine_tuning_job_id: job_id)).to eq(ret_val)
+    end
+
+    context "when fine_tuning_job_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          fine_tuning.pause(fine_tuning_job_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+  end
+
+  describe "#resume" do
+    let(:job_id) { "ftjob-#{SecureRandom.hex(4)}" }
+
+    it "calls rest_create_w_json_params with the expected arguments" do
+      allow(fine_tuning).to receive(:rest_create_w_json_params)
+        .with(resource: %w[fine_tuning jobs] + [job_id, "resume"], parameters: nil)
+        .and_return(ret_val)
+      expect(fine_tuning.resume(fine_tuning_job_id: job_id)).to eq(ret_val)
+    end
+
+    context "when fine_tuning_job_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          fine_tuning.resume(fine_tuning_job_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+  end
+
   describe "#list_events" do
     let(:job_id) { "ftjob-#{SecureRandom.hex(4)}" }
+
+    context "when fine_tuning_job_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          fine_tuning.list_events(fine_tuning_job_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_index with the expected arguments" do
       allow(fine_tuning).to receive(:rest_index)
@@ -97,6 +159,14 @@ RSpec.describe Asimov::ApiV1::FineTuning do
 
   describe "#list_checkpoints" do
     let(:job_id) { "ftjob-#{SecureRandom.hex(4)}" }
+
+    context "when fine_tuning_job_id is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          fine_tuning.list_checkpoints(fine_tuning_job_id: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
 
     it "calls rest_index with the expected arguments" do
       allow(fine_tuning).to receive(:rest_index)

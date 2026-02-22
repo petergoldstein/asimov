@@ -40,6 +40,8 @@ module Asimov
         # @return [Hash] the project object
         ##
         def retrieve_project(project_id:)
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+
           rest_get(resource: resource_path(PROJECTS_RESOURCE), id: project_id)
         end
 
@@ -51,6 +53,8 @@ module Asimov
         # @return [Hash] the updated project object
         ##
         def update_project(project_id:, parameters: {})
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+
           rest_create_w_json_params(
             resource: PROJECTS_RESOURCE + [project_id],
             parameters: parameters
@@ -64,6 +68,8 @@ module Asimov
         # @return [Hash] the archived project object
         ##
         def archive_project(project_id:)
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+
           rest_create_w_json_params(
             resource: PROJECTS_RESOURCE + [project_id, "archive"],
             parameters: nil
@@ -83,6 +89,7 @@ module Asimov
         # @raise [Asimov::MissingRequiredParameterError] if user_id or role is missing
         ##
         def create_project_user(project_id:, user_id:, role:, parameters: {})
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
           raise MissingRequiredParameterError.new(:user_id) unless user_id
           raise MissingRequiredParameterError.new(:role) unless role
 
@@ -100,6 +107,8 @@ module Asimov
         # @return [Hash] a list object containing project user objects
         ##
         def list_project_users(project_id:, parameters: {})
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+
           rest_index(
             resource: PROJECTS_RESOURCE + [project_id, "users"],
             parameters: parameters
@@ -114,6 +123,9 @@ module Asimov
         # @return [Hash] the project user object
         ##
         def retrieve_project_user(project_id:, user_id:)
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+          raise MissingRequiredParameterError.new(:user_id) unless user_id
+
           rest_get(
             resource: resource_path(PROJECTS_RESOURCE, project_id, "users"),
             id: user_id
@@ -131,6 +143,8 @@ module Asimov
         # @raise [Asimov::MissingRequiredParameterError] if role is missing
         ##
         def update_project_user(project_id:, user_id:, role:, parameters: {})
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+          raise MissingRequiredParameterError.new(:user_id) unless user_id
           raise MissingRequiredParameterError.new(:role) unless role
 
           rest_create_w_json_params(
@@ -147,6 +161,9 @@ module Asimov
         # @return [Hash] deletion confirmation
         ##
         def delete_project_user(project_id:, user_id:)
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+          raise MissingRequiredParameterError.new(:user_id) unless user_id
+
           rest_delete(
             resource: resource_path(PROJECTS_RESOURCE, project_id, "users"),
             id: user_id
@@ -165,6 +182,7 @@ module Asimov
         # @raise [Asimov::MissingRequiredParameterError] if name is missing
         ##
         def create_project_service_account(project_id:, name:, parameters: {})
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
           raise MissingRequiredParameterError.new(:name) unless name
 
           rest_create_w_json_params(
@@ -181,6 +199,8 @@ module Asimov
         # @return [Hash] a list object containing service account objects
         ##
         def list_project_service_accounts(project_id:, parameters: {})
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+
           rest_index(
             resource: PROJECTS_RESOURCE + [project_id, "service_accounts"],
             parameters: parameters
@@ -195,6 +215,9 @@ module Asimov
         # @return [Hash] the service account object
         ##
         def retrieve_project_service_account(project_id:, service_account_id:)
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+          raise MissingRequiredParameterError.new(:service_account_id) unless service_account_id
+
           rest_get(
             resource: resource_path(PROJECTS_RESOURCE, project_id, "service_accounts"),
             id: service_account_id
@@ -209,6 +232,9 @@ module Asimov
         # @return [Hash] deletion confirmation
         ##
         def delete_project_service_account(project_id:, service_account_id:)
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+          raise MissingRequiredParameterError.new(:service_account_id) unless service_account_id
+
           rest_delete(
             resource: resource_path(PROJECTS_RESOURCE, project_id, "service_accounts"),
             id: service_account_id
@@ -225,6 +251,8 @@ module Asimov
         # @return [Hash] a list object containing API key objects
         ##
         def list_project_api_keys(project_id:, parameters: {})
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+
           rest_index(
             resource: PROJECTS_RESOURCE + [project_id, "api_keys"],
             parameters: parameters
@@ -239,6 +267,9 @@ module Asimov
         # @return [Hash] the API key object
         ##
         def retrieve_project_api_key(project_id:, key_id:)
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+          raise MissingRequiredParameterError.new(:key_id) unless key_id
+
           rest_get(
             resource: resource_path(PROJECTS_RESOURCE, project_id, "api_keys"),
             id: key_id
@@ -253,6 +284,9 @@ module Asimov
         # @return [Hash] deletion confirmation
         ##
         def delete_project_api_key(project_id:, key_id:)
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+          raise MissingRequiredParameterError.new(:key_id) unless key_id
+
           rest_delete(
             resource: resource_path(PROJECTS_RESOURCE, project_id, "api_keys"),
             id: key_id
@@ -269,6 +303,8 @@ module Asimov
         # @return [Hash] a list object containing rate limit objects
         ##
         def list_project_rate_limits(project_id:, parameters: {})
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+
           rest_index(
             resource: PROJECTS_RESOURCE + [project_id, "rate_limits"],
             parameters: parameters
@@ -284,6 +320,9 @@ module Asimov
         # @return [Hash] the updated rate limit object
         ##
         def update_project_rate_limit(project_id:, rate_limit_id:, parameters: {})
+          raise MissingRequiredParameterError.new(:project_id) unless project_id
+          raise MissingRequiredParameterError.new(:rate_limit_id) unless rate_limit_id
+
           rest_create_w_json_params(
             resource: PROJECTS_RESOURCE + [project_id, "rate_limits", rate_limit_id],
             parameters: parameters
