@@ -13,7 +13,7 @@ RSpec.describe Asimov::ApiV1::Chat do
 
   it_behaves_like "sends requests to the v1 API"
 
-  describe "#create_completions" do
+  describe "#create" do
     context "when the required model parameter is present" do
       let(:merged_params) do
         parameters.merge(
@@ -24,16 +24,32 @@ RSpec.describe Asimov::ApiV1::Chat do
 
       context "when the required messages parameter is present" do
         context "when the messages parameter is valid" do
-          it "calls rest_create_w_json_params on the client with the expected arguments" do
-            allow(chat).to receive(:rest_create_w_json_params)
-              .with(resource: [resource, "completions"],
-                    parameters: merged_params)
-              .and_return(ret_val)
-            expect(chat.create_completions(model: model, messages: messages,
-                                           parameters: parameters)).to eq(ret_val)
-            expect(chat).to have_received(:rest_create_w_json_params)
-              .with(resource: [resource, "completions"],
-                    parameters: merged_params)
+          context "without a block (non-streaming)" do
+            it "calls rest_create_w_json_params on the client with the expected arguments" do
+              allow(chat).to receive(:rest_create_w_json_params)
+                .with(resource: [resource, "completions"],
+                      parameters: merged_params)
+                .and_return(ret_val)
+              expect(chat.create(model: model, messages: messages,
+                                 parameters: parameters)).to eq(ret_val)
+              expect(chat).to have_received(:rest_create_w_json_params)
+                .with(resource: [resource, "completions"],
+                      parameters: merged_params)
+            end
+          end
+
+          context "with a block (streaming)" do
+            let(:streamed_params) { merged_params.merge(stream: true) }
+
+            it "calls rest_create_w_json_params_streamed with stream: true" do
+              allow(chat).to receive(:rest_create_w_json_params_streamed)
+              block = proc { |_chunk| }
+              chat.create(model: model, messages: messages,
+                          parameters: parameters, &block)
+              expect(chat).to have_received(:rest_create_w_json_params_streamed)
+                .with(resource: [resource, "completions"],
+                      parameters: streamed_params)
+            end
           end
         end
 
@@ -42,7 +58,7 @@ RSpec.describe Asimov::ApiV1::Chat do
 
           it "raises an error" do
             expect do
-              chat.create_completions(model: model, messages: messages, parameters: parameters)
+              chat.create(model: model, messages: messages, parameters: parameters)
             end.to raise_error(Asimov::InvalidChatMessagesError)
           end
         end
@@ -51,11 +67,11 @@ RSpec.describe Asimov::ApiV1::Chat do
       context "when the required messages parameter is missing" do
         it "raises a MissingRequiredParameterError" do
           expect do
-            chat.create_completions(model: model, messages: nil)
+            chat.create(model: model, messages: nil)
           end.to raise_error Asimov::MissingRequiredParameterError
 
           expect do
-            chat.create_completions(model: model, messages: nil, parameters: parameters)
+            chat.create(model: model, messages: nil, parameters: parameters)
           end.to raise_error Asimov::MissingRequiredParameterError
         end
       end
@@ -64,11 +80,11 @@ RSpec.describe Asimov::ApiV1::Chat do
     context "when the required model parameter is missing" do
       it "raises a MissingRequiredParameterError" do
         expect do
-          chat.create_completions(model: nil, messages: messages)
+          chat.create(model: nil, messages: messages)
         end.to raise_error Asimov::MissingRequiredParameterError
 
         expect do
-          chat.create_completions(model: nil, messages: messages, parameters: parameters)
+          chat.create(model: nil, messages: messages, parameters: parameters)
         end.to raise_error Asimov::MissingRequiredParameterError
       end
     end

@@ -28,5 +28,7 @@ Gem::Specification.new do |spec|
 
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "event_stream_parser", "~> 1.0"
   spec.add_dependency "httparty", ">= 0.18.1", "< 0.25.0"
+  spec.add_dependency "websocket-client-simple", "~> 0.8"
 end

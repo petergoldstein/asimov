@@ -1,5 +1,8 @@
 require_relative "api_error_translator"
+require_relative "loggable"
 require_relative "network_error_translator"
+require_relative "retryable"
+require_relative "streaming"
 
 module Asimov
   ##
@@ -14,6 +17,9 @@ module Asimov
     class Base
       extend Forwardable
       include HTTParty
+      include Loggable
+      include Retryable
+      include Streaming
 
       def initialize(client: nil)
         @client = client
@@ -25,12 +31,12 @@ module Asimov
       #
       # @param [String] resource the pluralized resource name
       ##
-      def rest_index(resource:)
+      def rest_index(resource:, parameters: {})
         wrap_response_with_error_handling do
-          self.class.get(
-            absolute_path("/#{Array(resource).join('/')}"),
-            { headers: headers }.merge!(request_options)
-          )
+          opts = { headers: headers }
+          opts[:query] = parameters unless parameters.empty?
+          self.class.get(absolute_path("/#{Array(resource).join('/')}"),
+                         opts.merge!(request_options))
         end
       end
 
@@ -100,33 +106,23 @@ module Asimov
         end
       end
 
-      ##
-      # Executes an REST get on the specified path, streaming the resulting body
-      # to the writer in case of success.
-      #
-      # @param [Array] resource the resource path elements as an array
-      # @param [Writer] writer an object, typically a File, that responds to a `write` method
-      ##
-      def rest_get_streamed_download(resource:, writer:)
-        self.class.get(absolute_path("/#{Array(resource).join('/')}"),
-                       { headers: headers,
-                         stream_body: true }.merge!(request_options)) do |fragment|
-          fragment.code == 200 ? writer.write(fragment) : check_for_api_error(fragment)
-        end
-      rescue StandardError => e
-        # Any error raised by the HTTP call is a network error
-        NetworkErrorTranslator.translate(e)
-      end
-
       private
+
+      def resource_path(*segments)
+        segments.flatten.join("/")
+      end
 
       def absolute_path(path)
         "#{openai_api_base}#{path}"
       end
 
-      def wrap_response_with_error_handling
+      def wrap_response_with_error_handling(&block)
+        with_retries { execute_and_parse(&block) }
+      end
+
+      def execute_and_parse(&)
         resp = begin
-          yield
+          log_request(&)
         rescue StandardError => e
           NetworkErrorTranslator.translate(e)
         end

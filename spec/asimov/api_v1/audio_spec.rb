@@ -166,4 +166,59 @@ RSpec.describe Asimov::ApiV1::Audio do
       end
     end
   end
+
+  describe "#create_speech" do
+    let(:model) { "tts-1" }
+    let(:input) { "Hello world" }
+    let(:voice) { "alloy" }
+    let(:merged_params) { parameters.merge(model: model, input: input, voice: voice) }
+
+    context "when all required parameters are present" do
+      context "without a writer (returns binary)" do
+        it "calls rest_create_w_json_params_binary" do
+          allow(audio).to receive(:rest_create_w_json_params_binary)
+            .with(resource: [resource, "speech"], parameters: merged_params)
+            .and_return(ret_val)
+          expect(audio.create_speech(model: model, input: input, voice: voice,
+                                     parameters: parameters)).to eq(ret_val)
+        end
+      end
+
+      context "with a writer (streams binary)" do
+        let(:writer) { instance_double(File) }
+
+        it "calls rest_create_w_json_params_streamed_download" do
+          allow(audio).to receive(:rest_create_w_json_params_streamed_download)
+            .with(resource: [resource, "speech"], parameters: merged_params, writer: writer)
+            .and_return(ret_val)
+          expect(audio.create_speech(model: model, input: input, voice: voice,
+                                     writer: writer, parameters: parameters)).to eq(ret_val)
+        end
+      end
+    end
+
+    context "when model is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          audio.create_speech(model: nil, input: input, voice: voice)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when input is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          audio.create_speech(model: model, input: nil, voice: voice)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+
+    context "when voice is missing" do
+      it "raises a MissingRequiredParameterError" do
+        expect do
+          audio.create_speech(model: model, input: input, voice: nil)
+        end.to raise_error(Asimov::MissingRequiredParameterError)
+      end
+    end
+  end
 end

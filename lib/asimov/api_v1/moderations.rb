@@ -4,6 +4,9 @@ module Asimov
     # Class interface for API methods in the "/moderations" URI subspace.
     ##
     class Moderations < Base
+      RESOURCE = "moderations".freeze
+      private_constant :RESOURCE
+
       ##
       # Calls the /moderations POST endpoint with the specified parameters.
       #
@@ -13,7 +16,7 @@ module Asimov
       def create(input:, parameters: {})
         raise MissingRequiredParameterError.new(:input) unless input
 
-        rest_create_w_json_params(resource: "moderations",
+        rest_create_w_json_params(resource: RESOURCE,
                                   parameters: parameters.merge({ input: input }))
       end
     end

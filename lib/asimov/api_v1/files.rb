@@ -1,8 +1,5 @@
 require_relative "../utils/file_manager"
 require_relative "../utils/jsonl_validator"
-require_relative "../utils/training_file_validator"
-require_relative "../utils/classifications_file_validator"
-require_relative "../utils/text_entry_file_validator"
 
 module Asimov
   module ApiV1
@@ -71,18 +68,13 @@ module Asimov
       private
 
       def validate(filename, purpose)
-        validator_class(purpose).new.validate(Utils::FileManager.open(filename))
+        klass = validator_class(purpose)
+        klass&.new&.validate(Utils::FileManager.open(filename))
       end
 
       def validator_class(purpose)
         case purpose
-        when "fine-tune"
-          Utils::TrainingFileValidator
-        when "classifications"
-          Utils::ClassificationsFileValidator
-        when "answers", "search"
-          Utils::TextEntryFileValidator
-        else
+        when "fine-tune", "batch"
           Utils::JsonlValidator
         end
       end

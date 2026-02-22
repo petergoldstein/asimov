@@ -12,13 +12,44 @@ RSpec.describe Asimov::Utils::ChatMessagesValidator do
       end
     end
 
+    context "when passed messages with extra keys" do
+      let(:messages) do
+        [{ role: "assistant", content: "hello", tool_calls: [], name: "bot" }]
+      end
+
+      it "does not raise an error" do
+        expect { instance.validate(messages) }.not_to raise_error
+      end
+    end
+
+    context "when passed messages with any role string" do
+      let(:messages) do
+        [
+          { role: "developer", content: "You are helpful." },
+          { role: "tool", content: "result", tool_call_id: "call_123" },
+          { role: "user", content: "Hello" }
+        ]
+      end
+
+      it "does not raise an error" do
+        expect { instance.validate(messages) }.not_to raise_error
+      end
+    end
+
+    context "when passed messages without content" do
+      let(:messages) do
+        [{ role: "assistant", tool_calls: [{ id: "call_1" }] }]
+      end
+
+      it "does not raise an error" do
+        expect { instance.validate(messages) }.not_to raise_error
+      end
+    end
+
     context "when passed set of messages including an invalid message" do
       let(:invalid_chat_message) do
         [
           Utils.missing_role_chat_message,
-          Utils.missing_content_chat_message,
-          Utils.extra_key_chat_message,
-          Utils.invalid_role_chat_message,
           Utils.invalid_json_chat_message
         ].sample
       end

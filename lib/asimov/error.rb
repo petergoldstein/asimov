@@ -125,24 +125,6 @@ module Asimov
   class JsonlFileCannotBeParsedError < FileDataError; end
 
   ##
-  # Error that occurs when an invalid training example
-  # is found in a training file.
-  ##
-  class InvalidTrainingExampleError < FileDataError; end
-
-  ##
-  # Error that occurs when an invalid text entry
-  # is found in a text entry file.
-  ##
-  class InvalidTextEntryError < FileDataError; end
-
-  ##
-  # Error that occurs when an invalid classification
-  # is found in a classifications file.
-  ##
-  class InvalidClassificationError < FileDataError; end
-
-  ##
   # Error that occurs when the provided chat messages
   # parameter is not valid.
   ##
@@ -214,10 +196,14 @@ module Asimov
   class ApiOverloadedError < TooManyRequestsError; end
 
   ##
-  # Raised when a non-false stream parameter is passed
-  # to certain API methods.  Processing of server-side
-  # events using the stream parameter is currently not
-  # supported.
+  # Errors that occur because the OpenAI API returned
+  # an HTTP 500 Internal Server Error.
   ##
-  class StreamingResponseNotSupportedError < RequestError; end
+  class ServerError < RequestError; end
+
+  ##
+  # Error that occurs because the OpenAI API returned
+  # an HTTP 503 Service Unavailable.
+  ##
+  class ServiceUnavailableError < ServerError; end
 end

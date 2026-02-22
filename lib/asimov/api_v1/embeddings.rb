@@ -4,6 +4,9 @@ module Asimov
     # Class interface for API methods in the "/embeddings" URI subspace.
     ##
     class Embeddings < Base
+      RESOURCE = "embeddings".freeze
+      private_constant :RESOURCE
+
       ##
       # Creates an embedding resource with the specified parameters.
       #
@@ -15,7 +18,7 @@ module Asimov
         raise MissingRequiredParameterError.new(:model) unless model
         raise MissingRequiredParameterError.new(:input) unless input
 
-        rest_create_w_json_params(resource: "embeddings",
+        rest_create_w_json_params(resource: RESOURCE,
                                   parameters: parameters.merge({
                                                                  model: model, input: input
                                                                }))
