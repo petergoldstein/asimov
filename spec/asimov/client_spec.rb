@@ -317,6 +317,19 @@ RSpec.describe Asimov::Client do
     end
   end
 
+  describe "#containers" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Containers) }
+
+    it "loads an Asimov::ApiV1::Containers object initialized with the client" do
+      allow(Asimov::ApiV1::Containers).to receive(:new).with(client: client)
+                                                       .and_return(interface)
+      expect(client.containers).to eq(interface)
+      expect(Asimov::ApiV1::Containers).to have_received(:new).with(client: client)
+    end
+  end
+
   describe "#embeddings" do
     let(:api_key) { SecureRandom.hex(4) }
     let(:client) { described_class.new(api_key: api_key) }
@@ -327,6 +340,19 @@ RSpec.describe Asimov::Client do
                                                        .and_return(interface)
       expect(client.embeddings).to eq(interface)
       expect(Asimov::ApiV1::Embeddings).to have_received(:new).with(client: client)
+    end
+  end
+
+  describe "#evals" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Evals) }
+
+    it "loads an Asimov::ApiV1::Evals object initialized with the client" do
+      allow(Asimov::ApiV1::Evals).to receive(:new).with(client: client)
+                                                  .and_return(interface)
+      expect(client.evals).to eq(interface)
+      expect(Asimov::ApiV1::Evals).to have_received(:new).with(client: client)
     end
   end
 
@@ -392,6 +418,19 @@ RSpec.describe Asimov::Client do
     end
   end
 
+  describe "#organization" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Organization) }
+
+    it "loads an Asimov::ApiV1::Organization object initialized with the client" do
+      allow(Asimov::ApiV1::Organization).to receive(:new).with(client: client)
+                                                         .and_return(interface)
+      expect(client.organization).to eq(interface)
+      expect(Asimov::ApiV1::Organization).to have_received(:new).with(client: client)
+    end
+  end
+
   describe "#realtime" do
     let(:api_key) { SecureRandom.hex(4) }
     let(:client) { described_class.new(api_key: api_key) }
@@ -431,6 +470,19 @@ RSpec.describe Asimov::Client do
     end
   end
 
+  describe "#skills" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Skills) }
+
+    it "loads an Asimov::ApiV1::Skills object initialized with the client" do
+      allow(Asimov::ApiV1::Skills).to receive(:new).with(client: client)
+                                                   .and_return(interface)
+      expect(client.skills).to eq(interface)
+      expect(Asimov::ApiV1::Skills).to have_received(:new).with(client: client)
+    end
+  end
+
   describe "#uploads" do
     let(:api_key) { SecureRandom.hex(4) }
     let(:client) { described_class.new(api_key: api_key) }
@@ -441,6 +493,19 @@ RSpec.describe Asimov::Client do
                                                     .and_return(interface)
       expect(client.uploads).to eq(interface)
       expect(Asimov::ApiV1::Uploads).to have_received(:new).with(client: client)
+    end
+  end
+
+  describe "#videos" do
+    let(:api_key) { SecureRandom.hex(4) }
+    let(:client) { described_class.new(api_key: api_key) }
+    let(:interface) { instance_double(Asimov::ApiV1::Videos) }
+
+    it "loads an Asimov::ApiV1::Videos object initialized with the client" do
+      allow(Asimov::ApiV1::Videos).to receive(:new).with(client: client)
+                                                   .and_return(interface)
+      expect(client.videos).to eq(interface)
+      expect(Asimov::ApiV1::Videos).to have_received(:new).with(client: client)
     end
   end
 

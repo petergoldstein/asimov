@@ -6,16 +6,21 @@ require_relative "api_v1/base"
 require_relative "api_v1/audio"
 require_relative "api_v1/batches"
 require_relative "api_v1/chat"
+require_relative "api_v1/containers"
 require_relative "api_v1/conversations"
 require_relative "api_v1/embeddings"
+require_relative "api_v1/evals"
 require_relative "api_v1/files"
 require_relative "api_v1/fine_tuning"
 require_relative "api_v1/images"
 require_relative "api_v1/models"
 require_relative "api_v1/moderations"
+require_relative "api_v1/organization"
 require_relative "api_v1/realtime"
 require_relative "api_v1/responses"
+require_relative "api_v1/skills"
 require_relative "api_v1/uploads"
+require_relative "api_v1/videos"
 require_relative "api_v1/vector_stores"
 
 module Asimov
@@ -75,6 +80,13 @@ module Asimov
     end
 
     ##
+    # Use the containers method to access API calls in the /containers URI space.
+    ##
+    def containers
+      @containers ||= Asimov::ApiV1::Containers.new(client: self)
+    end
+
+    ##
     # Use the conversations method to access API calls in the /conversations URI space.
     ##
     def conversations
@@ -86,6 +98,13 @@ module Asimov
     ##
     def embeddings
       @embeddings ||= Asimov::ApiV1::Embeddings.new(client: self)
+    end
+
+    ##
+    # Use the evals method to access API calls in the /evals URI space.
+    ##
+    def evals
+      @evals ||= Asimov::ApiV1::Evals.new(client: self)
     end
 
     ##
@@ -124,6 +143,13 @@ module Asimov
     end
 
     ##
+    # Use the organization method to access API calls in the /organization URI space.
+    ##
+    def organization
+      @organization ||= Asimov::ApiV1::Organization.new(client: self)
+    end
+
+    ##
     # Use the realtime method to access the WebSocket-based Realtime API.
     ##
     def realtime
@@ -138,10 +164,24 @@ module Asimov
     end
 
     ##
+    # Use the skills method to access API calls in the /skills URI space.
+    ##
+    def skills
+      @skills ||= Asimov::ApiV1::Skills.new(client: self)
+    end
+
+    ##
     # Use the uploads method to access API calls in the /uploads URI space.
     ##
     def uploads
       @uploads ||= Asimov::ApiV1::Uploads.new(client: self)
+    end
+
+    ##
+    # Use the videos method to access API calls in the /videos URI space.
+    ##
+    def videos
+      @videos ||= Asimov::ApiV1::Videos.new(client: self)
     end
 
     ##
